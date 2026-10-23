@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+    <key>CFBundleExecutable</key><string>LocalScribe</string>
+    <key>CFBundleIdentifier</key><string>dev.localscribe.mac</string>
+    <key>CFBundleName</key><string>LocalScribe</string>
+    <key>CFBundleDisplayName</key><string>LocalScribe</string>
+    <key>CFBundlePackageType</key><string>APPL</string>
+    <key>CFBundleIconFile</key><string>LocalScribe.icns</string>
+    <key>CFBundleShortVersionString</key><string>0.7.6</string>
+    <key>CFBundleVersion</key><string>22</string>
+    <key>LSMinimumSystemVersion</key><string>26.4</string>
+    <key>LSUIElement</key><true/>
+    <key>NSHighResolutionCapable</key><true/>
+</dict></plist>

@@ -1,0 +1,1791 @@
+{
+  "metadata_scope": "Grammarly Desktop app-owned metadata; no user content, credentials, preference values, DB rows, cookies, or network payloads retained",
+  "methods": "Python stdlib pathlib/plistlib/sqlite3/hashlib/json; SQLite mode=ro&immutable=1 may omit uncheckpointed WAL changes",
+  "path_redaction": "Numeric account-scoped filename/directory components replaced with {scope}; interpretation UNKNOWN",
+  "observations": [
+    {
+      "id": "OBS-PREF-01",
+      "method": "plistlib; top-level key names and value types only; no values retained",
+      "source": "~/Library/Preferences/com.grammarly.ProjectLlama.plist",
+      "result": {
+        "file_format": "binary-plist",
+        "keys": [
+          {
+            "name": "NSApplicationCrashOnExceptions",
+            "type": "boolean"
+          },
+          {
+            "name": "NSStatusItem Preferred Position Item-0",
+            "type": "real"
+          },
+          {
+            "name": "SUAutomaticallyUpdate",
+            "type": "boolean"
+          },
+          {
+            "name": "SUEnableAutomaticChecks",
+            "type": "boolean"
+          },
+          {
+            "name": "SUFeedURL",
+            "type": "string"
+          },
+          {
+            "name": "SUHasLaunchedBefore",
+            "type": "boolean"
+          },
+          {
+            "name": "SULastCheckTime",
+            "type": "date"
+          },
+          {
+            "name": "SUScheduledCheckInterval",
+            "type": "real"
+          },
+          {
+            "name": "SUSendProfileInfo",
+            "type": "boolean"
+          },
+          {
+            "name": "SUUpdateGroupIdentifier",
+            "type": "integer"
+          },
+          {
+            "name": "SUUpdateRelaunchingMarker",
+            "type": "boolean"
+          },
+          {
+            "name": "YellowUnderlinesDismissedAt",
+            "type": "date"
+          },
+          {
+            "name": "allExperimentGroups",
+            "type": "array"
+          },
+          {
+            "name": "authFlow",
+            "type": "string"
+          },
+          {
+            "name": "authorizedUserType",
+            "type": "string"
+          },
+          {
+            "name": "authorship.isAvailable",
+            "type": "boolean"
+          },
+          {
+            "name": "aviNotetaker.isGoogleCalendarLinked",
+            "type": "boolean"
+          },
+          {
+            "name": "cachedGrammarlyModeEnabled",
+            "type": "boolean"
+          },
+          {
+            "name": "cachedSuperhumanGoHomeEnabled",
+            "type": "boolean"
+          },
+          {
+            "name": "com.grammarly.containerId",
+            "type": "string"
+          },
+          {
+            "name": "didDisableSystemSpellChecking",
+            "type": "boolean"
+          },
+          {
+            "name": "downloadedWithBundleIdentifier",
+            "type": "string"
+          },
+          {
+            "name": "downloadedWithBundleName",
+            "type": "string"
+          },
+          {
+            "name": "enableBrowserExtensionPopupCounter",
+            "type": "integer"
+          },
+          {
+            "name": "g2GlobalAssistantNotchOnboardingState",
+            "type": "string"
+          },
+          {
+            "name": "g2LauncherNormalizedVerticalPosition",
+            "type": "real"
+          },
+          {
+            "name": "g2LockedSignalingVbarsSnoozed",
+            "type": "boolean"
+          },
+          {
+            "name": "g2ShowGlobalAssistantNotchWhileWriting",
+            "type": "boolean"
+          },
+          {
+            "name": "g2UnlockedVbars",
+            "type": "array"
+          },
+          {
+            "name": "g2UnlockedVbarsLastResetTime",
+            "type": "date"
+          },
+          {
+            "name": "gnar.nextPingDate",
+            "type": "date"
+          },
+          {
+            "name": "heartbeatEnabled",
+            "type": "boolean"
+          },
+          {
+            "name": "installerInfo",
+            "type": "string"
+          },
+          {
+            "name": "isFirstLaunch",
+            "type": "boolean"
+          },
+          {
+            "name": "isTouchTypistDisabledByDefault",
+            "type": "boolean"
+          },
+          {
+            "name": "lastAuthTokenRenewalDate",
+            "type": "date"
+          },
+          {
+            "name": "lastCheetahSettingsCheckDate",
+            "type": "date"
+          },
+          {
+            "name": "lastDialectCheckDate",
+            "type": "date"
+          },
+          {
+            "name": "lastExperimentsFetchDate",
+            "type": "date"
+          },
+          {
+            "name": "lastOAuth2TokenRefreshTime",
+            "type": "date"
+          },
+          {
+            "name": "lastSuccessfulAuthorizationRefreshDate",
+            "type": "date"
+          },
+          {
+            "name": "lastSupportedOSVersion",
+            "type": "string"
+          },
+          {
+            "name": "personalizedInsights.onboardingState",
+            "type": "string"
+          },
+          {
+            "name": "preferredVariant",
+            "type": "string"
+          },
+          {
+            "name": "quickApplyNumberOfHotkeyUses",
+            "type": "integer"
+          },
+          {
+            "name": "recentlyLoggedInUserIds",
+            "type": "array"
+          },
+          {
+            "name": "referralContainerId",
+            "type": "string"
+          },
+          {
+            "name": "refreshAlreadyPerformedForSession",
+            "type": "boolean"
+          },
+          {
+            "name": "restartLlamaAfterCrash",
+            "type": "boolean"
+          },
+          {
+            "name": "touchTypistLastAcceptDate",
+            "type": "date"
+          },
+          {
+            "name": "treatments.cachedTreatments",
+            "type": "array"
+          },
+          {
+            "name": "treatments.lastUpdateDate",
+            "type": "date"
+          },
+          {
+            "name": "uninstallerShouldPerformCleanupTasks",
+            "type": "boolean"
+          },
+          {
+            "name": "updateInfo",
+            "type": "string"
+          },
+          {
+            "name": "uphookconfiguration.fallback",
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "type": "string"
+          },
+          {
+            "name": "userDismissedTimeoutWarning",
+            "type": "boolean"
+          },
+          {
+            "name": "userPreferences.Dialect",
+            "type": "string"
+          },
+          {
+            "name": "userPreferences.cheetahSettings",
+            "type": "string"
+          },
+          {
+            "name": "userPreferences.isDialectLocked",
+            "type": "boolean"
+          },
+          {
+            "name": "userPreferences.lastEffectiveAppMode",
+            "type": "string"
+          },
+          {
+            "name": "wasFreePremiumUpsellShown",
+            "type": "boolean"
+          },
+          {
+            "name": "wasGButtonOnboardingShown",
+            "type": "boolean"
+          },
+          {
+            "name": "wasLoggedIn",
+            "type": "boolean"
+          },
+          {
+            "name": "wasLoginButtonClicked",
+            "type": "boolean"
+          },
+          {
+            "name": "wasOnboardingShown",
+            "type": "boolean"
+          },
+          {
+            "name": "wasSessionTimeoutsAlertShown",
+            "type": "boolean"
+          },
+          {
+            "name": "wasSettingsMenuWithScoreShown",
+            "type": "boolean"
+          }
+        ]
+      },
+      "observation_sha256": "2ad8aba782b0393b97822d02a8d404d69e6842b4517b37a2d91a8dba7ea0b83f"
+    },
+    {
+      "id": "OBS-PREF-02",
+      "method": "plistlib; top-level key names and value types only; no values retained",
+      "source": "~/Library/Preferences/com.grammarly.ProjectLlama.UpdateService.plist",
+      "result": {
+        "file_format": "binary-plist",
+        "keys": [
+          {
+            "name": "com.grammarly.ProjectLlama.UpdateService.agentID",
+            "type": "string"
+          }
+        ]
+      },
+      "observation_sha256": "e2a575b67e08880108becce298489ab1d3ef06da5f04574c8a6a312bd94be595"
+    },
+    {
+      "id": "OBS-PATH-01",
+      "method": "directory-entry names and types only; cookies unopened",
+      "source": "~/Library/Application Support",
+      "result": [
+        {
+          "path": "~/Library/Application Support/com.grammarly.ProjectLlama",
+          "type": "directory"
+        }
+      ],
+      "observation_sha256": "072e03797799aac0d7687e663306ea84ab5e86ac68aae4bf2eb5b3cdcd1f8cf3"
+    },
+    {
+      "id": "OBS-PATH-02",
+      "method": "directory-entry names and types only; cookies unopened",
+      "source": "~/Library/Caches",
+      "result": [
+        {
+          "path": "~/Library/Caches/com.grammarly.GRLlamaOnboarding",
+          "type": "directory"
+        },
+        {
+          "path": "~/Library/Caches/com.grammarly.ProjectLlama",
+          "type": "directory"
+        },
+        {
+          "path": "~/Library/Caches/com.grammarly.ProjectLlama.Shepherd",
+          "type": "directory"
+        },
+        {
+          "path": "~/Library/Caches/com.grammarly.ProjectLlama.UpdateService",
+          "type": "directory"
+        },
+        {
+          "path": "~/Library/Caches/com.grammarly.web-client",
+          "type": "directory"
+        }
+      ],
+      "observation_sha256": "7d6f70f3705c02fdceb7948c6f1da3f71298c2183f6e57c81d7bdf6f413a6402"
+    },
+    {
+      "id": "OBS-PATH-03",
+      "method": "directory-entry names and types only; cookies unopened",
+      "source": "~/Library/HTTPStorages",
+      "result": [
+        {
+          "path": "~/Library/HTTPStorages/com.grammarly.GRLlamaOnboarding.binarycookies",
+          "type": "file"
+        },
+        {
+          "path": "~/Library/HTTPStorages/com.grammarly.ProjectLlama",
+          "type": "directory"
+        },
+        {
+          "path": "~/Library/HTTPStorages/com.grammarly.ProjectLlama.Shepherd",
+          "type": "directory"
+        },
+        {
+          "path": "~/Library/HTTPStorages/com.grammarly.ProjectLlama.UpdateService",
+          "type": "directory"
+        },
+        {
+          "path": "~/Library/HTTPStorages/com.grammarly.ProjectLlama.binarycookies",
+          "type": "file"
+        }
+      ],
+      "observation_sha256": "da9f2e8722a60c687e509873dc1a73962a06b6941d09ea21a9210cfa820a2472"
+    },
+    {
+      "id": "OBS-PATH-04",
+      "method": "directory-entry names and types only; cookies unopened",
+      "source": "~/Library/WebKit",
+      "result": [
+        {
+          "path": "~/Library/WebKit/com.grammarly.GRLlamaOnboarding",
+          "type": "directory"
+        },
+        {
+          "path": "~/Library/WebKit/com.grammarly.ProjectLlama",
+          "type": "directory"
+        },
+        {
+          "path": "~/Library/WebKit/com.grammarly.web-client",
+          "type": "directory"
+        }
+      ],
+      "observation_sha256": "7b9e29ae320d62ba9d6624da979358199df3d667c6b42c8c52a765cf705cf62f"
+    },
+    {
+      "id": "OBS-SUPPORT-01",
+      "method": "read-only filesystem names, types, and byte lengths; user data files unopened",
+      "source": "~/Library/Application Support/com.grammarly.ProjectLlama",
+      "result": [
+        {
+          "path": "~/Library/Application Support/com.grammarly.ProjectLlama/.DS_Store",
+          "type": "file",
+          "bytes": 6148
+        },
+        {
+          "path": "~/Library/Application Support/com.grammarly.ProjectLlama/Authorship",
+          "type": "directory"
+        },
+        {
+          "path": "~/Library/Application Support/com.grammarly.ProjectLlama/Authorship/1743978501",
+          "type": "directory"
+        },
+        {
+          "path": "~/Library/Application Support/com.grammarly.ProjectLlama/Authorship/{scope}/store.db",
+          "type": "file",
+          "bytes": 24576
+        },
+        {
+          "path": "~/Library/Application Support/com.grammarly.ProjectLlama/Grammarly Desktop Uninstaller.app",
+          "type": "directory"
+        },
+        {
+          "path": "~/Library/Application Support/com.grammarly.ProjectLlama/Grammarly Desktop Update Service.app",
+          "type": "directory"
+        },
+        {
+          "path": "~/Library/Application Support/com.grammarly.ProjectLlama/LocalStorage",
+          "type": "directory"
+        },
+        {
+          "path": "~/Library/Application Support/com.grammarly.ProjectLlama/LocalStorage/{scope}.db",
+          "type": "file",
+          "bytes": 16384
+        },
+        {
+          "path": "~/Library/Application Support/com.grammarly.ProjectLlama/LocalStorage/{scope}_ChatAssistantHistory.db",
+          "type": "file",
+          "bytes": 8192
+        },
+        {
+          "path": "~/Library/Application Support/com.grammarly.ProjectLlama/LocalStorage/{scope}_WritingStyleData.db",
+          "type": "file",
+          "bytes": 8192
+        },
+        {
+          "path": "~/Library/Application Support/com.grammarly.ProjectLlama/Scripts",
+          "type": "directory"
+        },
+        {
+          "path": "~/Library/Application Support/com.grammarly.ProjectLlama/blockList.json",
+          "type": "file",
+          "bytes": 618
+        },
+        {
+          "path": "~/Library/Application Support/com.grammarly.ProjectLlama/documentIDMap.json",
+          "type": "file",
+          "bytes": 386
+        },
+        {
+          "path": "~/Library/Application Support/com.grammarly.ProjectLlama/integrationPreferences.json",
+          "type": "file",
+          "bytes": 2050
+        },
+        {
+          "path": "~/Library/Application Support/com.grammarly.ProjectLlama/tokenRefreshFileLock",
+          "type": "file",
+          "bytes": 0
+        }
+      ],
+      "observation_sha256": "4e7ee9794c71510d23b2009ce87a4412fff7498a0397a84546ce4bad673b7912"
+    },
+    {
+      "id": "OBS-SQL-01",
+      "method": "sqlite read-only immutable; sqlite_master table names and PRAGMA table_info only; no rows/default values",
+      "source": "~/Library/Application Support/com.grammarly.ProjectLlama/Authorship/{scope}/store.db",
+      "result": [
+        {
+          "name": "entries",
+          "columns": [
+            {
+              "name": "id",
+              "declared_type": "INTEGER",
+              "not_null": true,
+              "primary_key_position": 1
+            },
+            {
+              "name": "documentId",
+              "declared_type": "TEXT",
+              "not_null": true,
+              "primary_key_position": 0
+            },
+            {
+              "name": "data",
+              "declared_type": "BLOB",
+              "not_null": true,
+              "primary_key_position": 0
+            },
+            {
+              "name": "lastSyncedRevision",
+              "declared_type": "INTEGER",
+              "not_null": false,
+              "primary_key_position": 0
+            }
+          ]
+        },
+        {
+          "name": "sqlite_sequence",
+          "columns": [
+            {
+              "name": "name",
+              "declared_type": "",
+              "not_null": false,
+              "primary_key_position": 0
+            },
+            {
+              "name": "seq",
+              "declared_type": "",
+              "not_null": false,
+              "primary_key_position": 0
+            }
+          ]
+        }
+      ],
+      "observation_sha256": "713684240eb51e217f667ff2f7ae656a0264ea369390a696943883cb0bb8608b"
+    },
+    {
+      "id": "OBS-SQL-02",
+      "method": "sqlite read-only immutable; sqlite_master table names and PRAGMA table_info only; no rows/default values",
+      "source": "~/Library/Application Support/com.grammarly.ProjectLlama/LocalStorage/{scope}.db",
+      "result": [
+        {
+          "name": "entries",
+          "columns": [
+            {
+              "name": "id",
+              "declared_type": "INTEGER",
+              "not_null": true,
+              "primary_key_position": 1
+            },
+            {
+              "name": "key",
+              "declared_type": "TEXT",
+              "not_null": true,
+              "primary_key_position": 0
+            },
+            {
+              "name": "data",
+              "declared_type": "TEXT",
+              "not_null": true,
+              "primary_key_position": 0
+            },
+            {
+              "name": "maxAgeSeconds",
+              "declared_type": "INTEGER",
+              "not_null": true,
+              "primary_key_position": 0
+            },
+            {
+              "name": "maxAgeOrigin",
+              "declared_type": "TEXT",
+              "not_null": true,
+              "primary_key_position": 0
+            },
+            {
+              "name": "creationDate",
+              "declared_type": "TEXT",
+              "not_null": true,
+              "primary_key_position": 0
+            },
+            {
+              "name": "expirationDate",
+              "declared_type": "TEXT",
+              "not_null": true,
+              "primary_key_position": 0
+            }
+          ]
+        },
+        {
+          "name": "sqlite_sequence",
+          "columns": [
+            {
+              "name": "name",
+              "declared_type": "",
+              "not_null": false,
+              "primary_key_position": 0
+            },
+            {
+              "name": "seq",
+              "declared_type": "",
+              "not_null": false,
+              "primary_key_position": 0
+            }
+          ]
+        }
+      ],
+      "observation_sha256": "1c87a7cabdeda072e1b2afbcfafa473c8d94af2dd93c3fdcda3f39b28e189807"
+    },
+    {
+      "id": "OBS-SQL-03",
+      "method": "sqlite read-only immutable; sqlite_master table names and PRAGMA table_info only; no rows/default values",
+      "source": "~/Library/Application Support/com.grammarly.ProjectLlama/LocalStorage/{scope}_ChatAssistantHistory.db",
+      "result": [
+        {
+          "name": "entries",
+          "columns": [
+            {
+              "name": "id",
+              "declared_type": "INTEGER",
+              "not_null": true,
+              "primary_key_position": 1
+            },
+            {
+              "name": "content",
+              "declared_type": "BLOB",
+              "not_null": true,
+              "primary_key_position": 0
+            }
+          ]
+        }
+      ],
+      "observation_sha256": "91a03b5f57ba85119f16da0c73af5aa17a9cd65fca2579bc97cc888e65e09843"
+    },
+    {
+      "id": "OBS-SQL-04",
+      "method": "sqlite read-only immutable; sqlite_master table names and PRAGMA table_info only; no rows/default values",
+      "source": "~/Library/Application Support/com.grammarly.ProjectLlama/LocalStorage/{scope}_WritingStyleData.db",
+      "result": [
+        {
+          "name": "entries",
+          "columns": [
+            {
+              "name": "id",
+              "declared_type": "INTEGER",
+              "not_null": true,
+              "primary_key_position": 1
+            },
+            {
+              "name": "content",
+              "declared_type": "BLOB",
+              "not_null": true,
+              "primary_key_position": 0
+            }
+          ]
+        }
+      ],
+      "observation_sha256": "6e63e19c8e1a8131181f1418b26da825b21dec1b4aec34752fed70ef2847ad19"
+    },
+    {
+      "id": "OBS-BUNDLE-01",
+      "method": "plistlib of shipped public bundle metadata; whitelisted fields only",
+      "source": "/Applications/Grammarly Desktop.app/Contents/Info.plist",
+      "result": {
+        "file_sha256": "95c1f762ef3cb1626d0e3e7c79cebdfea7b409cfa0ab9b734cd9525797447dcf",
+        "fields": {
+          "CFBundleIdentifier": "com.grammarly.ProjectLlama",
+          "CFBundleShortVersionString": "1.203.0",
+          "CFBundleVersion": "1.203.0.0",
+          "CFBundleURLTypes": [
+            {
+              "CFBundleURLName": "com.grammarly.ProjectLlama",
+              "CFBundleURLSchemes": [
+                "grammarly.mac-extension"
+              ]
+            },
+            {
+              "CFBundleTypeRole": "Editor",
+              "CFBundleURLName": "com.grammarly.ProjectLlama",
+              "CFBundleURLSchemes": [
+                "grammarly"
+              ]
+            },
+            {
+              "CFBundleTypeRole": "Editor",
+              "CFBundleURLName": "com.grammarly.ProjectLlama",
+              "CFBundleURLSchemes": [
+                "superhuman.mac-extension.all"
+              ]
+            }
+          ],
+          "NSUserActivityTypes": [
+            "com.grammarly.keyboard.document.handoff"
+          ],
+          "LSMinimumSystemVersion": "11.0",
+          "LSUIElement": true
+        },
+        "document_types_declared": false,
+        "permission_description_keys": [
+          "NSAppleEventsUsageDescription",
+          "NSAudioCaptureUsageDescription",
+          "NSMicrophoneUsageDescription"
+        ]
+      },
+      "observation_sha256": "a6d5724e33de7fc778d028596ba507a06798eaf585f5902b4be1f7a2c43f9a48"
+    },
+    {
+      "id": "OBS-CONFIG-01",
+      "method": "shipped config key names, strict JSON parse test, and paraphrased small policy examples; no source/assets copied",
+      "source": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/GRLlamaCore.framework/Versions/A/Resources/IntegrationOptions.json",
+      "result": {
+        "file_sha256": "45f27facb5800502c426f02535d12d8c413c149d147c67ab59cd975178960e1e",
+        "key_names": [
+          "AllowInComboBoxes",
+          "AllowInTextFields",
+          "BundleIdentifier",
+          "CheckAncestors",
+          "Corner",
+          "DefaultPosition",
+          "Domain",
+          "ElementName",
+          "ForbiddenCorners",
+          "IgnoreKeywordBlocklist",
+          "IsEnabled",
+          "IsMailBody",
+          "Note",
+          "Notes",
+          "Offset",
+          "Path",
+          "RequiresBrowserExtension",
+          "Tags"
+        ],
+        "strict_python_json_parse": {
+          "accepted": false,
+          "error": "Expecting property name enclosed in double quotes",
+          "line": 205,
+          "column": 5
+        },
+        "line_count": 471,
+        "paraphrased_entries": [
+          {
+            "lines": [
+              2,
+              7
+            ],
+            "trigger": "ElementName marker grammarly-sdk=(active|available)",
+            "effect": "IsEnabled false; CheckAncestors true",
+            "runtime_effect": "UNKNOWN"
+          },
+          {
+            "lines": [
+              8,
+              13
+            ],
+            "trigger": "ElementName marker grammarly-desktop-enable",
+            "effect": "IsEnabled true; IgnoreKeywordBlocklist true",
+            "runtime_effect": "UNKNOWN"
+          },
+          {
+            "lines": [
+              14,
+              19
+            ],
+            "trigger": "ElementName marker grammarly-desktop-disable",
+            "effect": "IsEnabled false; CheckAncestors true",
+            "runtime_effect": "UNKNOWN"
+          },
+          {
+            "lines": [
+              20,
+              25
+            ],
+            "trigger": "Google Translate domain selector",
+            "effect": "AllowInComboBoxes true",
+            "runtime_effect": "UNKNOWN"
+          },
+          {
+            "lines": [
+              26,
+              39
+            ],
+            "trigger": "Google Sheets domain/path/element selector",
+            "effect": "text fields and combo boxes enabled; position configured",
+            "runtime_effect": "UNKNOWN"
+          }
+        ]
+      },
+      "observation_sha256": "d9a1d238f3c791ec2fb179f5ae3b993ec94a814097b95d7e8cadd170112c85f2"
+    },
+    {
+      "id": "OBS-CONFIG-02",
+      "method": "shipped config key names, strict JSON parse test, and paraphrased small policy examples; no source/assets copied",
+      "source": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/GRLlamaCore.framework/Versions/A/Resources/IntegrationOptionsKeywordBlocklist.json",
+      "result": {
+        "file_sha256": "b6888579c296cb9c7f83447c458bbf5cf10c3160b6ef9faa7b415216c673947b",
+        "key_names": [
+          "CheckAncestors",
+          "ElementName",
+          "IsEnabled",
+          "Language",
+          "Notes"
+        ],
+        "strict_python_json_parse": {
+          "accepted": true,
+          "root_type": "array",
+          "element_count": 20
+        },
+        "line_count": 107,
+        "paraphrased_entries": [
+          {
+            "lines": [
+              2,
+              31
+            ],
+            "behavior": "Email address/navigation fields are listed by localized ElementName patterns",
+            "runtime_effect": "UNKNOWN"
+          },
+          {
+            "lines": [
+              32,
+              66
+            ],
+            "behavior": "Personal-information and search-field keyword patterns are listed",
+            "runtime_effect": "UNKNOWN"
+          },
+          {
+            "lines": [
+              67,
+              106
+            ],
+            "behavior": "Login/account keyword patterns are listed",
+            "runtime_effect": "UNKNOWN"
+          }
+        ]
+      },
+      "observation_sha256": "886a610b2b9c9add1b47ec8f9c94fde300ee159f64614ed178dbb998cb4dc09f"
+    },
+    {
+      "id": "OBS-URL-01",
+      "method": "read-only fat Mach-O section metadata parser; ASCII URL-shaped NUL-terminated __cstring literals; excludes query strings, userinfo, statsig console project path; no disassembly/decompilation",
+      "source": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/ProjectLlamaContent",
+      "result": {
+        "file_sha256": "c80fff86c143971e4b5874afa714ed0fb38f8cd22ba5ae2e7266de41c61276e1",
+        "literals": [
+          {
+            "literal": "https://support.grammarly.com/hc/en-us/articles/40642362241293-About-Superhuman-Go-agents",
+            "section": "__cstring",
+            "file_offset": 20611328,
+            "file_offset_hex": "0x13a8100",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://support.grammarly.com/hc/en-us/articles/45976306096781-A-Guide-to-Using-Grammarly-and-Superhuman-Go-together",
+            "section": "__cstring",
+            "file_offset": 20611424,
+            "file_offset_hex": "0x13a8160",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://download-mac.pp-sh.io/hub/SuperhumanPlatform.dmg",
+            "section": "__cstring",
+            "file_offset": 20614944,
+            "file_offset_hex": "0x13a8f20",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://download-mac.superhuman.com/hub/SuperhumanPlatform.dmg",
+            "section": "__cstring",
+            "file_offset": 20615008,
+            "file_offset_hex": "0x13a8f60",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://www.grammarly.com/service/verify-extension",
+            "section": "__cstring",
+            "file_offset": 20657440,
+            "file_offset_hex": "0x13b3520",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://www.grammarly.com/browser/",
+            "section": "__cstring",
+            "file_offset": 20657504,
+            "file_offset_hex": "0x13b3560",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://grammarly.com/suspended-service-russia-belarus",
+            "section": "__cstring",
+            "file_offset": 20657552,
+            "file_offset_hex": "0x13b3590",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://www.grammarly.com/terms/customer-business-agreement",
+            "section": "__cstring",
+            "file_offset": 20657616,
+            "file_offset_hex": "0x13b35d0",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://experiment.",
+            "section": "__cstring",
+            "file_offset": 20757552,
+            "file_offset_hex": "0x13cbc30",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://rwsgfy.grammarly.com/stand-with-ukraine",
+            "section": "__cstring",
+            "file_offset": 20805024,
+            "file_offset_hex": "0x13d75a0",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://applet-bundles-static.grammarly.com",
+            "section": "__cstring",
+            "file_offset": 20833088,
+            "file_offset_hex": "0x13de340",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://applet-bundles.grammarly.com",
+            "section": "__cstring",
+            "file_offset": 20833136,
+            "file_offset_hex": "0x13de370",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://applet-bundles-static.grammarly.net",
+            "section": "__cstring",
+            "file_offset": 20833184,
+            "file_offset_hex": "0x13de3a0",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://applet-bundles.grammarly.net",
+            "section": "__cstring",
+            "file_offset": 20833232,
+            "file_offset_hex": "0x13de3d0",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "http://localhost",
+            "section": "__cstring",
+            "file_offset": 20833280,
+            "file_offset_hex": "0x13de400",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://cheetah.gpages.io",
+            "section": "__cstring",
+            "file_offset": 20833312,
+            "file_offset_hex": "0x13de420",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://applet-bundles.qa-client-platform.grammarlyaws.com",
+            "section": "__cstring",
+            "file_offset": 20833344,
+            "file_offset_hex": "0x13de440",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://client-platform.gpages.io",
+            "section": "__cstring",
+            "file_offset": 20833408,
+            "file_offset_hex": "0x13de480",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://proofpointisolation.com",
+            "section": "__cstring",
+            "file_offset": 20833680,
+            "file_offset_hex": "0x13de590",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://gateway.zscaler.net",
+            "section": "__cstring",
+            "file_offset": 20833712,
+            "file_offset_hex": "0x13de5b0",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://gateway.zscalertwo.net",
+            "section": "__cstring",
+            "file_offset": 20833744,
+            "file_offset_hex": "0x13de5d0",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://gateway.zscalerthree.net",
+            "section": "__cstring",
+            "file_offset": 20833776,
+            "file_offset_hex": "0x13de5f0",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://gateway.zscloud.net",
+            "section": "__cstring",
+            "file_offset": 20833824,
+            "file_offset_hex": "0x13de620",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://block.opendns.com",
+            "section": "__cstring",
+            "file_offset": 20833856,
+            "file_offset_hex": "0x13de640",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://d3ttvzt45fz9bg.cloudfront.net",
+            "section": "__cstring",
+            "file_offset": 20834128,
+            "file_offset_hex": "0x13de750",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://d3t8vpihgudwtg.cloudfront.net",
+            "section": "__cstring",
+            "file_offset": 20834176,
+            "file_offset_hex": "0x13de780",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://skills-static.prod-partner-platform.grammarlyaws.com",
+            "section": "__cstring",
+            "file_offset": 20834224,
+            "file_offset_hex": "0x13de7b0",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://skills-static.preprod-partner-platform.grammarlyaws.com",
+            "section": "__cstring",
+            "file_offset": 20834288,
+            "file_offset_hex": "0x13de7f0",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://skills-static.qa-partner-platform.grammarlyaws.com",
+            "section": "__cstring",
+            "file_offset": 20834352,
+            "file_offset_hex": "0x13de830",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://applet-bundles.grammarly.net/applets/assistant",
+            "section": "__cstring",
+            "file_offset": 20835136,
+            "file_offset_hex": "0x13deb40",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://help.superhuman.com/hc/en-us/articles/47716615380109-Superhuman-Go-Data-Privacy-FAQ",
+            "section": "__cstring",
+            "file_offset": 20977472,
+            "file_offset_hex": "0x1401740",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://support.grammarly.com/hc/en-us/articles/44209024107533",
+            "section": "__cstring",
+            "file_offset": 21021728,
+            "file_offset_hex": "0x140c420",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://support.grammarly.com/hc/en-us/articles/4403747415821",
+            "section": "__cstring",
+            "file_offset": 21021792,
+            "file_offset_hex": "0x140c460",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://artifactory.grammarly.io/artifactory/desktop-integrations-binaries/macos/builds",
+            "section": "__cstring",
+            "file_offset": 21068736,
+            "file_offset_hex": "0x1417bc0",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://download-mac.ppgr.io",
+            "section": "__cstring",
+            "file_offset": 21068832,
+            "file_offset_hex": "0x1417c20",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://download-mac.ppgr.io/pre-prod",
+            "section": "__cstring",
+            "file_offset": 21068864,
+            "file_offset_hex": "0x1417c40",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://download-mac.grammarly.com",
+            "section": "__cstring",
+            "file_offset": 21068912,
+            "file_offset_hex": "0x1417c70",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://auth.grammarly.com",
+            "section": "__cstring",
+            "file_offset": 21079008,
+            "file_offset_hex": "0x141a3e0",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://www.grammarly.com/privacy-policy",
+            "section": "__cstring",
+            "file_offset": 21115960,
+            "file_offset_hex": "0x1423438",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "http://commonmark.org/xml/1.0\"",
+            "section": "__cstring",
+            "file_offset": 21267429,
+            "file_offset_hex": "0x14483e5",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://support.grammarly.com/hc/en-us/articles/40642362241293-About-Superhuman-Go-agents",
+            "section": "__cstring",
+            "file_offset": 48557536,
+            "file_offset_hex": "0x2e4ede0",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://support.grammarly.com/hc/en-us/articles/45976306096781-A-Guide-to-Using-Grammarly-and-Superhuman-Go-together",
+            "section": "__cstring",
+            "file_offset": 48557632,
+            "file_offset_hex": "0x2e4ee40",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://download-mac.pp-sh.io/hub/SuperhumanPlatform.dmg",
+            "section": "__cstring",
+            "file_offset": 48561152,
+            "file_offset_hex": "0x2e4fc00",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://download-mac.superhuman.com/hub/SuperhumanPlatform.dmg",
+            "section": "__cstring",
+            "file_offset": 48561216,
+            "file_offset_hex": "0x2e4fc40",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://www.grammarly.com/service/verify-extension",
+            "section": "__cstring",
+            "file_offset": 48603648,
+            "file_offset_hex": "0x2e5a200",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://www.grammarly.com/browser/",
+            "section": "__cstring",
+            "file_offset": 48603712,
+            "file_offset_hex": "0x2e5a240",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://grammarly.com/suspended-service-russia-belarus",
+            "section": "__cstring",
+            "file_offset": 48603760,
+            "file_offset_hex": "0x2e5a270",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://www.grammarly.com/terms/customer-business-agreement",
+            "section": "__cstring",
+            "file_offset": 48603824,
+            "file_offset_hex": "0x2e5a2b0",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://experiment.",
+            "section": "__cstring",
+            "file_offset": 48703760,
+            "file_offset_hex": "0x2e72910",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://rwsgfy.grammarly.com/stand-with-ukraine",
+            "section": "__cstring",
+            "file_offset": 48751232,
+            "file_offset_hex": "0x2e7e280",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://applet-bundles-static.grammarly.com",
+            "section": "__cstring",
+            "file_offset": 48779296,
+            "file_offset_hex": "0x2e85020",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://applet-bundles.grammarly.com",
+            "section": "__cstring",
+            "file_offset": 48779344,
+            "file_offset_hex": "0x2e85050",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://applet-bundles-static.grammarly.net",
+            "section": "__cstring",
+            "file_offset": 48779392,
+            "file_offset_hex": "0x2e85080",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://applet-bundles.grammarly.net",
+            "section": "__cstring",
+            "file_offset": 48779440,
+            "file_offset_hex": "0x2e850b0",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "http://localhost",
+            "section": "__cstring",
+            "file_offset": 48779488,
+            "file_offset_hex": "0x2e850e0",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://cheetah.gpages.io",
+            "section": "__cstring",
+            "file_offset": 48779520,
+            "file_offset_hex": "0x2e85100",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://applet-bundles.qa-client-platform.grammarlyaws.com",
+            "section": "__cstring",
+            "file_offset": 48779552,
+            "file_offset_hex": "0x2e85120",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://client-platform.gpages.io",
+            "section": "__cstring",
+            "file_offset": 48779616,
+            "file_offset_hex": "0x2e85160",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://proofpointisolation.com",
+            "section": "__cstring",
+            "file_offset": 48779888,
+            "file_offset_hex": "0x2e85270",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://gateway.zscaler.net",
+            "section": "__cstring",
+            "file_offset": 48779920,
+            "file_offset_hex": "0x2e85290",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://gateway.zscalertwo.net",
+            "section": "__cstring",
+            "file_offset": 48779952,
+            "file_offset_hex": "0x2e852b0",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://gateway.zscalerthree.net",
+            "section": "__cstring",
+            "file_offset": 48779984,
+            "file_offset_hex": "0x2e852d0",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://gateway.zscloud.net",
+            "section": "__cstring",
+            "file_offset": 48780032,
+            "file_offset_hex": "0x2e85300",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://block.opendns.com",
+            "section": "__cstring",
+            "file_offset": 48780064,
+            "file_offset_hex": "0x2e85320",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://d3ttvzt45fz9bg.cloudfront.net",
+            "section": "__cstring",
+            "file_offset": 48780336,
+            "file_offset_hex": "0x2e85430",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://d3t8vpihgudwtg.cloudfront.net",
+            "section": "__cstring",
+            "file_offset": 48780384,
+            "file_offset_hex": "0x2e85460",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://skills-static.prod-partner-platform.grammarlyaws.com",
+            "section": "__cstring",
+            "file_offset": 48780432,
+            "file_offset_hex": "0x2e85490",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://skills-static.preprod-partner-platform.grammarlyaws.com",
+            "section": "__cstring",
+            "file_offset": 48780496,
+            "file_offset_hex": "0x2e854d0",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://skills-static.qa-partner-platform.grammarlyaws.com",
+            "section": "__cstring",
+            "file_offset": 48780560,
+            "file_offset_hex": "0x2e85510",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://applet-bundles.grammarly.net/applets/assistant",
+            "section": "__cstring",
+            "file_offset": 48781344,
+            "file_offset_hex": "0x2e85820",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://help.superhuman.com/hc/en-us/articles/47716615380109-Superhuman-Go-Data-Privacy-FAQ",
+            "section": "__cstring",
+            "file_offset": 48923680,
+            "file_offset_hex": "0x2ea8420",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://support.grammarly.com/hc/en-us/articles/44209024107533",
+            "section": "__cstring",
+            "file_offset": 48967936,
+            "file_offset_hex": "0x2eb3100",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://support.grammarly.com/hc/en-us/articles/4403747415821",
+            "section": "__cstring",
+            "file_offset": 48968000,
+            "file_offset_hex": "0x2eb3140",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://artifactory.grammarly.io/artifactory/desktop-integrations-binaries/macos/builds",
+            "section": "__cstring",
+            "file_offset": 49014944,
+            "file_offset_hex": "0x2ebe8a0",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://download-mac.ppgr.io",
+            "section": "__cstring",
+            "file_offset": 49015040,
+            "file_offset_hex": "0x2ebe900",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://download-mac.ppgr.io/pre-prod",
+            "section": "__cstring",
+            "file_offset": 49015072,
+            "file_offset_hex": "0x2ebe920",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://download-mac.grammarly.com",
+            "section": "__cstring",
+            "file_offset": 49015120,
+            "file_offset_hex": "0x2ebe950",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://auth.grammarly.com",
+            "section": "__cstring",
+            "file_offset": 49025216,
+            "file_offset_hex": "0x2ec10c0",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://www.grammarly.com/privacy-policy",
+            "section": "__cstring",
+            "file_offset": 49062168,
+            "file_offset_hex": "0x2eca118",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "http://commonmark.org/xml/1.0\"",
+            "section": "__cstring",
+            "file_offset": 49215108,
+            "file_offset_hex": "0x2eef684",
+            "architecture": "arm64"
+          }
+        ],
+        "runtime_protocol": "UNKNOWN; literal is not a captured request; missing literals do not establish absence"
+      },
+      "observation_sha256": "271af5185c4858742004bb13bbe0b7d25a2775090e25f871d32fa4bd2136dd49"
+    },
+    {
+      "id": "OBS-URL-02",
+      "method": "read-only fat Mach-O section metadata parser; ASCII URL-shaped NUL-terminated __cstring literals; excludes query strings, userinfo, statsig console project path; no disassembly/decompilation",
+      "source": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/GRNetwork.framework/Versions/A/GRNetwork",
+      "result": {
+        "file_sha256": "d3ded6726d3ab507346b58446c0a12d87618e7a7da939ca11729e2adba858498",
+        "literals": [],
+        "runtime_protocol": "UNKNOWN; literal is not a captured request; missing literals do not establish absence"
+      },
+      "observation_sha256": "7f68eabb047cdfcab834bd35400ee2e4f914c8f1e4608d6376641881e9300a58"
+    },
+    {
+      "id": "OBS-URL-03",
+      "method": "read-only fat Mach-O section metadata parser; ASCII URL-shaped NUL-terminated __cstring literals; excludes query strings, userinfo, statsig console project path; no disassembly/decompilation",
+      "source": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/GRCoreApi.framework/Versions/A/GRCoreApi",
+      "result": {
+        "file_sha256": "967389d0ccfd5f08dbec72a73600aad9b02c0c6c1ddaa9d23395293c84c34035",
+        "literals": [],
+        "runtime_protocol": "UNKNOWN; literal is not a captured request; missing literals do not establish absence"
+      },
+      "observation_sha256": "15d9224367fc5be0804f0c2464f462f322620645afd24ce35f9c44ff121d5641"
+    },
+    {
+      "id": "OBS-URL-04",
+      "method": "read-only fat Mach-O section metadata parser; ASCII URL-shaped NUL-terminated __cstring literals; excludes query strings, userinfo, statsig console project path; no disassembly/decompilation",
+      "source": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/GRServices.framework/Versions/A/GRServices",
+      "result": {
+        "file_sha256": "57be9e64ee6b1d15b680b7ff84c00c8a04bb3991b1c21634c2782a8663b9522e",
+        "literals": [
+          {
+            "literal": "https://gateway.",
+            "section": "__cstring",
+            "file_offset": 507536,
+            "file_offset_hex": "0x7be90",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://account.",
+            "section": "__cstring",
+            "file_offset": 507600,
+            "file_offset_hex": "0x7bed0",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://settings.",
+            "section": "__cstring",
+            "file_offset": 507632,
+            "file_offset_hex": "0x7bef0",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://redirect.",
+            "section": "__cstring",
+            "file_offset": 507664,
+            "file_offset_hex": "0x7bf10",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://itunes.apple.com/app/id1158877342",
+            "section": "__cstring",
+            "file_offset": 507904,
+            "file_offset_hex": "0x7c000",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://authorship.",
+            "section": "__cstring",
+            "file_offset": 508016,
+            "file_offset_hex": "0x7c070",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://apigw.cplane.",
+            "section": "__cstring",
+            "file_offset": 508080,
+            "file_offset_hex": "0x7c0b0",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://mac-extension.",
+            "section": "__cstring",
+            "file_offset": 508176,
+            "file_offset_hex": "0x7c110",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://support.",
+            "section": "__cstring",
+            "file_offset": 508400,
+            "file_offset_hex": "0x7c1f0",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://testflight.apple.com/join/3k9fsD6L",
+            "section": "__cstring",
+            "file_offset": 508672,
+            "file_offset_hex": "0x7c300",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://iosapp-beta.grammarly.com/ddocs/",
+            "section": "__cstring",
+            "file_offset": 508752,
+            "file_offset_hex": "0x7c350",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://denali-local.grammarly.com/ddocs",
+            "section": "__cstring",
+            "file_offset": 508800,
+            "file_offset_hex": "0x7c380",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://f-scratchpad.denali-fb.grammarly.com/ddocs/",
+            "section": "__cstring",
+            "file_offset": 508896,
+            "file_offset_hex": "0x7c3e0",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://master.denali-fb.grammarly.com/ddocs",
+            "section": "__cstring",
+            "file_offset": 508960,
+            "file_offset_hex": "0x7c420",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://denali-local.grammarly.com/ddocs/",
+            "section": "__cstring",
+            "file_offset": 509008,
+            "file_offset_hex": "0x7c450",
+            "architecture": "x86_64"
+          },
+          {
+            "literal": "https://gateway.",
+            "section": "__cstring",
+            "file_offset": 1332416,
+            "file_offset_hex": "0x1454c0",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://account.",
+            "section": "__cstring",
+            "file_offset": 1332480,
+            "file_offset_hex": "0x145500",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://settings.",
+            "section": "__cstring",
+            "file_offset": 1332512,
+            "file_offset_hex": "0x145520",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://redirect.",
+            "section": "__cstring",
+            "file_offset": 1332544,
+            "file_offset_hex": "0x145540",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://itunes.apple.com/app/id1158877342",
+            "section": "__cstring",
+            "file_offset": 1332784,
+            "file_offset_hex": "0x145630",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://authorship.",
+            "section": "__cstring",
+            "file_offset": 1332896,
+            "file_offset_hex": "0x1456a0",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://apigw.cplane.",
+            "section": "__cstring",
+            "file_offset": 1332960,
+            "file_offset_hex": "0x1456e0",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://mac-extension.",
+            "section": "__cstring",
+            "file_offset": 1333056,
+            "file_offset_hex": "0x145740",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://support.",
+            "section": "__cstring",
+            "file_offset": 1333280,
+            "file_offset_hex": "0x145820",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://testflight.apple.com/join/3k9fsD6L",
+            "section": "__cstring",
+            "file_offset": 1333552,
+            "file_offset_hex": "0x145930",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://iosapp-beta.grammarly.com/ddocs/",
+            "section": "__cstring",
+            "file_offset": 1333632,
+            "file_offset_hex": "0x145980",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://denali-local.grammarly.com/ddocs",
+            "section": "__cstring",
+            "file_offset": 1333680,
+            "file_offset_hex": "0x1459b0",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://f-scratchpad.denali-fb.grammarly.com/ddocs/",
+            "section": "__cstring",
+            "file_offset": 1333776,
+            "file_offset_hex": "0x145a10",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://master.denali-fb.grammarly.com/ddocs",
+            "section": "__cstring",
+            "file_offset": 1333840,
+            "file_offset_hex": "0x145a50",
+            "architecture": "arm64"
+          },
+          {
+            "literal": "https://denali-local.grammarly.com/ddocs/",
+            "section": "__cstring",
+            "file_offset": 1333888,
+            "file_offset_hex": "0x145a80",
+            "architecture": "arm64"
+          }
+        ],
+        "runtime_protocol": "UNKNOWN; literal is not a captured request; missing literals do not establish absence"
+      },
+      "observation_sha256": "ca90cac5768b5905fb6efb4a035558e325c037a0f1457d316554a70279b7c60c"
+    }
+  ],
+  "rea_summaries": {
+    "additional_resources": {
+      "R-ONBOARD": {
+        "evidence_id": "ev_e00727132d7491945f75eea3f96d38e9a97871ff7b38072a500870da0857799a",
+        "source_path": "/Applications/Grammarly Desktop.app/Contents/XPCServices/GRLlamaOnboarding.xpc/Contents/Resources/en-US.lproj/Localizable.strings",
+        "key_count": 9
+      },
+      "R-WEB": {
+        "evidence_id": "ev_31b710bea4a8edf953296e9d9493e62834e48a1ceb088116c592b3c837706821",
+        "source_path": "/Applications/Grammarly Desktop.app/Contents/XPCServices/Grammarly Desktop Web Content.xpc/Contents/Resources/en-US.lproj/Localizable.strings",
+        "key_count": 9
+      },
+      "R-CORE": {
+        "evidence_id": "ev_4d3cc1ae49df1892c4de151bf0c7275aa7fd4e5eb4aab13723cfdf77b6225bf6",
+        "source_path": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/GRLlamaCore.framework/Versions/A/Resources/en-US.lproj/Localizable.strings",
+        "key_count": 93
+      },
+      "R-AVI": {
+        "evidence_id": "ev_c399c4efb3dfb4033ec53a3ca6679d55a58383fa293ee6de1268ac558565a622",
+        "source_path": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/AviNotetaker.framework/Versions/A/Resources/en-US.lproj/Localizable.strings",
+        "key_count": 5
+      },
+      "R-NOTEFEATURE": {
+        "evidence_id": "ev_db46257d17d88ed0f755951ada617767c8e9da132cf628d6407db60a70484161",
+        "source_path": "/Applications/Grammarly Desktop.app/Contents/Resources/AVIFeatures_Notetaker.bundle/Contents/Resources/en-US.lproj/Localizable.strings",
+        "key_count": 4
+      },
+      "R-MODELS": {
+        "evidence_id": "ev_698f2d7c8f25c19b8a215c70550cacee550349dbd3c30a47e102e0a632c579c8",
+        "source_path": "/Applications/Grammarly Desktop.app/Contents/Resources/AVIModels_AVIModels.bundle/Contents/Resources/en-US.lproj/Localizable.strings",
+        "key_count": 1
+      },
+      "R-ALERT": {
+        "evidence_id": "ev_74b785626f4fae4ddcbdf1672a696e1c6e0df4b4f5d02a3ab78f1372383e719f",
+        "source_path": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/GRAlertModels.framework/Versions/A/Resources/en-US.lproj/AlertModels.strings",
+        "key_count": 34
+      }
+    },
+    "native_observations": {
+      "nativeUI30295": {
+        "evidence_id": "ev_9d1a8bf8038da0dfc100feecdd99a62448f50f7bc4b945e61ecdf2ac7c61d407",
+        "operation": "observe_native_ui",
+        "target_sha256": "d882a5217ae0bfd9d56605646c95ec1047684b3ea49b8b733539329492edb6cb",
+        "window_id": 30295,
+        "screen": "",
+        "step_outcomes": []
+      },
+      "nativeUI30473": {
+        "evidence_id": "ev_7a5f0ecf952ecd7a9884e5fd64f057fc872266659a92f5a3ca69280517ed19e2",
+        "operation": "observe_native_ui",
+        "target_sha256": "d882a5217ae0bfd9d56605646c95ec1047684b3ea49b8b733539329492edb6cb",
+        "window_id": 30473,
+        "screen": "Grammarly Settings",
+        "step_outcomes": []
+      },
+      "nativeCustom": {
+        "evidence_id": "ev_5863fb2ab434aaee0aed2398e0fa3271ccd9b1f68c5577953d595cd206925767",
+        "operation": "capture_native_ui_scenario",
+        "target_sha256": "d882a5217ae0bfd9d56605646c95ec1047684b3ea49b8b733539329492edb6cb",
+        "window_id": 30473,
+        "screen": "Grammarly Settings",
+        "step_outcomes": [
+          {
+            "kind": "click",
+            "outcome": "failed",
+            "reason": "Provider native-macos cannot execute capture_native_ui_scenario: action-failed: Accessibility action failed with AXError -25205"
+          }
+        ]
+      }
+    },
+    "sqlite_evidence": {
+      "evidence_id": "ev_48039e9070682745366b13da3d1f91e91d5a5acea146f60a67a5142428b89db9",
+      "artifact_sha256": "84773f0f549b76da347e9e4fd26fb3156b0f5a8c133f73a2326e8ecefd865a64",
+      "rows_read": false,
+      "engine": {
+        "name": "SQLite",
+        "version": "3.53.3"
+      },
+      "database_encoding": "UTF-8",
+      "wal_present": false,
+      "tables": [
+        {
+          "name": "entries",
+          "kind": "table",
+          "columns": [
+            {
+              "name": "id",
+              "type": "INTEGER",
+              "not_null": true,
+              "primary_key_position": 1
+            },
+            {
+              "name": "key",
+              "type": "TEXT",
+              "not_null": true,
+              "primary_key_position": 0
+            },
+            {
+              "name": "data",
+              "type": "TEXT",
+              "not_null": true,
+              "primary_key_position": 0
+            },
+            {
+              "name": "maxAgeSeconds",
+              "type": "INTEGER",
+              "not_null": true,
+              "primary_key_position": 0
+            },
+            {
+              "name": "maxAgeOrigin",
+              "type": "TEXT",
+              "not_null": true,
+              "primary_key_position": 0
+            },
+            {
+              "name": "creationDate",
+              "type": "TEXT",
+              "not_null": true,
+              "primary_key_position": 0
+            },
+            {
+              "name": "expirationDate",
+              "type": "TEXT",
+              "not_null": true,
+              "primary_key_position": 0
+            }
+          ]
+        },
+        {
+          "name": "sqlite_sequence",
+          "kind": "table",
+          "columns": [
+            {
+              "name": "name",
+              "type": "",
+              "not_null": false,
+              "primary_key_position": 0
+            },
+            {
+              "name": "seq",
+              "type": "",
+              "not_null": false,
+              "primary_key_position": 0
+            }
+          ]
+        }
+      ],
+      "key_unique": true
+    }
+  }
+}

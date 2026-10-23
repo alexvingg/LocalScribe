@@ -1,0 +1,8 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>LocalScribe browser integration test</title>
+<style>body{font:18px system-ui;max-width:780px;margin:35px auto}textarea,[contenteditable]{font:24px/1.5 system-ui;box-sizing:border-box;width:100%;padding:18px;border:1px solid #bbb;border-radius:12px;min-height:100px;margin-bottom:24px}label{display:block;margin-bottom:8px}output{font:14px monospace;white-space:pre-wrap}</style>
+<h1>LocalScribe · synthetic browser test</h1><p>Local file, no network resources. The editors below have no messaging or submit action.</p>
+<label for="plain">Standard textarea</label><textarea id="plain" spellcheck="false">She go to school every days.</textarea>
+<label id="rich-label">Rich contenteditable (same editor category as chat apps)</label><div id="rich" contenteditable="true" role="textbox" aria-multiline="true" aria-labelledby="rich-label" spellcheck="false" autofocus>hi my frien how are he ?</div>
+<output id="events">No input event yet</output>
+<script>const editor=document.getElementById('rich');editor.focus();editor.addEventListener('input',()=>document.getElementById('events').textContent='input event received; characters: '+editor.innerText.length);</script>
+</html>

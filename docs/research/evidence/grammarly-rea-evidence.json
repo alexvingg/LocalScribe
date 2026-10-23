@@ -1,0 +1,850 @@
+{
+  "scope": "Evidence metadata index; recovered implementation, original resource catalogs, binary payloads and personal runtime data are not redistributed.",
+  "source_file": "grammarly-rea-evidence.json",
+  "source_sha256": "05dcd321134eb182cf9f6341605fcb1e9abfc455e39b98692756a90234f48c7d",
+  "records": [
+    {
+      "evidence_id": "ev_02511de206fbbb2965645181811197676ec765bd3b1435999be545a277f48a31",
+      "operation": "project_apple_application_graph",
+      "predicate_type": "rea.apple-application-graph",
+      "authority": "analyst-inference",
+      "confidence": "inferred",
+      "limitations": [
+        "Symlinks are reported by path only; their targets are not inventoried, so bundles are reported at their real paths.",
+        "Bundle roles follow path conventions. Read each info_plist_path with inspect_plist for CFBundleExecutable, identifiers, and declared services.",
+        "Bundle identifiers and signing claims require dedicated plist and CMS parsing; this projection reports only exact paths and hashes.",
+        "Runtime families are inferred from inventory formats and bounded framework path conventions, not observed runtime loading.",
+        "Generic framework and dylib paths do not establish Swift or Objective-C; this inventory projection does not decode language metadata.",
+        "Bridge candidates are path-based hypotheses, not observed runtime calls.",
+        "A bridge basis is inferred from the native path and is repeated for every managed component."
+      ],
+      "subject": {
+        "name": "Grammarly Desktop.app",
+        "format": "directory",
+        "architecture": null,
+        "digest": {
+          "sha256": "0499426e924d4e5f3f38c0cd096ad692bbf3ab29c858bda7d58420e52727e8de"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app"
+      },
+      "parameters": {},
+      "result_fields": [
+        "application_roots",
+        "bridge_candidate_coverage",
+        "bridge_candidates",
+        "bundles",
+        "components",
+        "coverage",
+        "limitations",
+        "platforms",
+        "projection_id",
+        "root_format",
+        "root_sha256",
+        "runtime_families",
+        "source_evidence_ids",
+        "symlinks"
+      ],
+      "source_locators": {
+        "root_sha256": "0499426e924d4e5f3f38c0cd096ad692bbf3ab29c858bda7d58420e52727e8de"
+      }
+    },
+    {
+      "evidence_id": "ev_47c0708bf6163c3a5a774d57445d94baf75d026df9348a4b0ba09a22d6677679",
+      "operation": "inspect_analysis_view",
+      "predicate_type": "rea.analysis-view",
+      "authority": "shipped-artifact",
+      "confidence": "derived",
+      "limitations": [
+        "Imports and exports combine dyld_info and nm; stripped or toolchain-hidden symbols may be absent.",
+        "dyld_info textual imports may omit chained or toolchain-unsupported metadata.",
+        "vtool output is retained as provenance but only otool build metadata is normalized."
+      ],
+      "subject": {
+        "name": "GRAccessibilityKit",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "19f3aaae3c41c95a90adac4f628ddd01cb2893be5a134a501dac05ea060866a5"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/GRAccessibilityKit.framework/Versions/A/GRAccessibilityKit"
+      },
+      "parameters": {
+        "parent_evidence_id": "ev_6e5ea4070363a9497fe8ca79fc0c581f281fccb8b4bd2f8720d0dec45cb599e3",
+        "view": {
+          "facet": "imports",
+          "kind": "macho",
+          "limit": 220,
+          "offset": 0
+        }
+      },
+      "result_fields": [
+        "artifact",
+        "coverage",
+        "item",
+        "kind",
+        "limitations",
+        "parent_digest",
+        "parent_evidence_id",
+        "parent_operation",
+        "source_exhaustive",
+        "source_total",
+        "unknowns",
+        "view",
+        "view_digest"
+      ],
+      "source_locators": {
+        "parent_digest": "6e5ea4070363a9497fe8ca79fc0c581f281fccb8b4bd2f8720d0dec45cb599e3",
+        "parent_evidence_id": "ev_6e5ea4070363a9497fe8ca79fc0c581f281fccb8b4bd2f8720d0dec45cb599e3"
+      }
+    },
+    {
+      "evidence_id": "ev_4fdde1fa7428c71c7a5da728344de1868de3a9af71273eb84f1b7725c30ee3e1",
+      "operation": "inspect_analysis_view",
+      "predicate_type": "rea.analysis-view",
+      "authority": "shipped-artifact",
+      "confidence": "derived",
+      "limitations": [
+        "Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics."
+      ],
+      "subject": {
+        "name": "Grammarly Desktop.app",
+        "format": "directory",
+        "architecture": null,
+        "digest": {
+          "sha256": "0499426e924d4e5f3f38c0cd096ad692bbf3ab29c858bda7d58420e52727e8de"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app"
+      },
+      "parameters": {
+        "parent_evidence_id": "ev_8ddac9ddf2c43b91767fef0ef0cb99c41793c882281da9c65e3b251d3624539a",
+        "view": {
+          "kind": "summary"
+        }
+      },
+      "result_fields": [
+        "artifact",
+        "coverage",
+        "kind",
+        "limitations",
+        "parent_digest",
+        "parent_evidence_id",
+        "parent_operation",
+        "summary",
+        "unknowns",
+        "view",
+        "view_digest"
+      ],
+      "source_locators": {
+        "parent_digest": "8ddac9ddf2c43b91767fef0ef0cb99c41793c882281da9c65e3b251d3624539a",
+        "parent_evidence_id": "ev_8ddac9ddf2c43b91767fef0ef0cb99c41793c882281da9c65e3b251d3624539a"
+      }
+    },
+    {
+      "evidence_id": "ev_54efd3ed638669cfe7c75ba819a4d06451f0a303824f1b54533beb4e5368e6c7",
+      "operation": "inspect_analysis_view",
+      "predicate_type": "rea.analysis-view",
+      "authority": "shipped-artifact",
+      "confidence": "derived",
+      "limitations": [
+        "Imports and exports combine dyld_info and nm; stripped or toolchain-hidden symbols may be absent.",
+        "Merged nm/dyld_info results may be incomplete for stripped binaries.",
+        "dyld_info textual imports may omit chained or toolchain-unsupported metadata.",
+        "vtool output is retained as provenance but only otool build metadata is normalized."
+      ],
+      "subject": {
+        "name": "Grammarly Desktop",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "d882a5217ae0bfd9d56605646c95ec1047684b3ea49b8b733539329492edb6cb"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/MacOS/Grammarly Desktop"
+      },
+      "parameters": {
+        "parent_evidence_id": "ev_f77c7d64f632ca01c45e0ca3f933cc2667e4c2dfe79512d49c7fbc7ae8a72756",
+        "view": {
+          "kind": "summary"
+        }
+      },
+      "result_fields": [
+        "artifact",
+        "coverage",
+        "kind",
+        "limitations",
+        "parent_digest",
+        "parent_evidence_id",
+        "parent_operation",
+        "summary",
+        "unknowns",
+        "view",
+        "view_digest"
+      ],
+      "source_locators": {
+        "parent_digest": "f77c7d64f632ca01c45e0ca3f933cc2667e4c2dfe79512d49c7fbc7ae8a72756",
+        "parent_evidence_id": "ev_f77c7d64f632ca01c45e0ca3f933cc2667e4c2dfe79512d49c7fbc7ae8a72756"
+      }
+    },
+    {
+      "evidence_id": "ev_55f0953fe2ecff3c7dce4fb65a2eb4fcd8f1d3c29b233fdd1f575413bf571b26",
+      "operation": "trace_dylib_resolution",
+      "predicate_type": "rea.analysis",
+      "authority": "shipped-artifact",
+      "confidence": "observed",
+      "limitations": [
+        "LC_LAZY_LOAD_DYLIB dependencies are resolved but not traversed, because dyld loads them only on first use.",
+        "Slices are matched by dyld's graded architectures (an x86_64h process also loads x86_64). arm64e processes that disable pointer authentication can also load arm64 slices; that fallback is not modeled.",
+        "Absolute install names and rpaths are outside the analyzed root and are not evaluated, including /System and /usr/lib libraries that the dyld shared cache usually provides.",
+        "Leaf and relative install names depend on dyld fallback paths, DYLD_* variables, and the working directory; they are undetermined.",
+        "Load order follows dyld's dependents-first traversal in load-command order. An image reached through several chains is resolved once per process, with the rpath stack and conditionality of the first chain; a later @rpath request whose install name matches an already loaded image reuses it.",
+        "@loader_path uses each image's symlink-resolved path within the analyzed root.",
+        "Code-signing checks that can reject a found image, such as library validation and the hardened runtime, are not evaluated.",
+        "Dylib compatibility versions are not compared. Apple's linker documentation describes a load-time rejection when an image's compatibility version is older than the loader requires, but dyld on macOS 26 was observed to load such an image."
+      ],
+      "subject": {
+        "name": "Grammarly Desktop",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "d882a5217ae0bfd9d56605646c95ec1047684b3ea49b8b733539329492edb6cb"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/MacOS/Grammarly Desktop"
+      },
+      "parameters": {
+        "architecture": "arm64"
+      },
+      "result_fields": [
+        "coverage",
+        "edges",
+        "findings",
+        "images",
+        "limitations",
+        "root_path",
+        "roots",
+        "target_sha256"
+      ],
+      "source_locators": {}
+    },
+    {
+      "evidence_id": "ev_6e5ea4070363a9497fe8ca79fc0c581f281fccb8b4bd2f8720d0dec45cb599e3",
+      "operation": "inspect_macho",
+      "predicate_type": "rea.analysis",
+      "authority": "shipped-artifact",
+      "confidence": "observed",
+      "limitations": [
+        "Imports and exports combine dyld_info and nm; stripped or toolchain-hidden symbols may be absent.",
+        "vtool output is retained as provenance but only otool build metadata is normalized."
+      ],
+      "subject": {
+        "name": "GRAccessibilityKit",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "19f3aaae3c41c95a90adac4f628ddd01cb2893be5a134a501dac05ea060866a5"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/GRAccessibilityKit.framework/Versions/A/GRAccessibilityKit"
+      },
+      "parameters": {},
+      "result_fields": [
+        "architectures",
+        "build_metadata",
+        "dependencies",
+        "endian",
+        "entrypoints",
+        "exports",
+        "file_type",
+        "flags",
+        "format",
+        "imports",
+        "limitations",
+        "load_commands",
+        "provenance",
+        "segments",
+        "selected_architecture",
+        "uuid",
+        "word_size"
+      ],
+      "source_locators": {
+        "format": "mach-o"
+      }
+    },
+    {
+      "evidence_id": "ev_6fbdec0f1ba6308c78ecc080d40b70dd7d4ca6c41027e54cb06901cb5410ca63",
+      "operation": "inspect_plist",
+      "predicate_type": "rea.analysis",
+      "authority": "shipped-artifact",
+      "confidence": "observed",
+      "limitations": [],
+      "subject": {
+        "name": "GRNetwork",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "d3ded6726d3ab507346b58446c0a12d87618e7a7da939ca11729e2adba858498"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/GRNetwork.framework/Versions/A/GRNetwork"
+      },
+      "parameters": {
+        "path": "/Applications/Grammarly Desktop.app/Contents/XPCServices/Grammarly Desktop Web Content.xpc/Contents/Info.plist"
+      },
+      "result_fields": [
+        "bundle",
+        "format",
+        "limitations",
+        "provenance",
+        "source_path",
+        "value"
+      ],
+      "source_locators": {
+        "format": "xml",
+        "source_path": "/Applications/Grammarly Desktop.app/Contents/XPCServices/Grammarly Desktop Web Content.xpc/Contents/Info.plist"
+      }
+    },
+    {
+      "evidence_id": "ev_8354f7b7320bac7c0888be99cd4fd8965e371a85bec57bb7c0fcac0441f1860d",
+      "operation": "inspect_analysis_view",
+      "predicate_type": "rea.analysis-view",
+      "authority": "shipped-artifact",
+      "confidence": "derived",
+      "limitations": [
+        "Imports and exports combine dyld_info and nm; stripped or toolchain-hidden symbols may be absent.",
+        "Merged nm/dyld_info results may be incomplete for stripped binaries.",
+        "dyld_info textual imports may omit chained or toolchain-unsupported metadata.",
+        "vtool output is retained as provenance but only otool build metadata is normalized."
+      ],
+      "subject": {
+        "name": "GRAccessibilityKit",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "19f3aaae3c41c95a90adac4f628ddd01cb2893be5a134a501dac05ea060866a5"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/GRAccessibilityKit.framework/Versions/A/GRAccessibilityKit"
+      },
+      "parameters": {
+        "parent_evidence_id": "ev_6e5ea4070363a9497fe8ca79fc0c581f281fccb8b4bd2f8720d0dec45cb599e3",
+        "view": {
+          "kind": "summary"
+        }
+      },
+      "result_fields": [
+        "artifact",
+        "coverage",
+        "kind",
+        "limitations",
+        "parent_digest",
+        "parent_evidence_id",
+        "parent_operation",
+        "summary",
+        "unknowns",
+        "view",
+        "view_digest"
+      ],
+      "source_locators": {
+        "parent_digest": "6e5ea4070363a9497fe8ca79fc0c581f281fccb8b4bd2f8720d0dec45cb599e3",
+        "parent_evidence_id": "ev_6e5ea4070363a9497fe8ca79fc0c581f281fccb8b4bd2f8720d0dec45cb599e3"
+      }
+    },
+    {
+      "evidence_id": "ev_8b129f2388c6887b517012be4cc4f535a654c204a31cb6fb2ee50d8811f4c5e3",
+      "operation": "inspect_plist",
+      "predicate_type": "rea.analysis",
+      "authority": "shipped-artifact",
+      "confidence": "observed",
+      "limitations": [],
+      "subject": {
+        "name": "Grammarly Desktop",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "d882a5217ae0bfd9d56605646c95ec1047684b3ea49b8b733539329492edb6cb"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/MacOS/Grammarly Desktop"
+      },
+      "parameters": {
+        "path": "/Applications/Grammarly Desktop.app/Contents/Info.plist"
+      },
+      "result_fields": [
+        "bundle",
+        "format",
+        "limitations",
+        "provenance",
+        "source_path",
+        "value"
+      ],
+      "source_locators": {
+        "format": "xml",
+        "source_path": "/Applications/Grammarly Desktop.app/Contents/Info.plist"
+      }
+    },
+    {
+      "evidence_id": "ev_8ddac9ddf2c43b91767fef0ef0cb99c41793c882281da9c65e3b251d3624539a",
+      "operation": "inspect_artifact",
+      "predicate_type": "rea.analysis",
+      "authority": "shipped-artifact",
+      "confidence": "observed",
+      "limitations": [
+        "Inspection derives bounded static hypotheses and next probes; it does not execute the artifact or claim format-specific semantics."
+      ],
+      "subject": {
+        "name": "Grammarly Desktop.app",
+        "format": "directory",
+        "architecture": null,
+        "digest": {
+          "sha256": "0499426e924d4e5f3f38c0cd096ad692bbf3ab29c858bda7d58420e52727e8de"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app"
+      },
+      "parameters": {},
+      "result_fields": [
+        "contradictions",
+        "coverage",
+        "evidence_links",
+        "hypotheses",
+        "inspection_id",
+        "limitations",
+        "next_probes",
+        "observations",
+        "subject",
+        "substeps",
+        "unexplored_branches"
+      ],
+      "source_locators": {}
+    },
+    {
+      "evidence_id": "ev_a3a261538c7ed50e89b55a8cdd719a3c022d6b64d2055bc1a76f3b8c12ef13e6",
+      "operation": "inventory_artifact",
+      "predicate_type": "rea.analysis",
+      "authority": "shipped-artifact",
+      "confidence": "observed",
+      "limitations": [],
+      "subject": {
+        "name": "Grammarly Desktop.app",
+        "format": "directory",
+        "architecture": null,
+        "digest": {
+          "sha256": "0499426e924d4e5f3f38c0cd096ad692bbf3ab29c858bda7d58420e52727e8de"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app"
+      },
+      "parameters": {},
+      "result_fields": [
+        "coverage",
+        "coverage_status",
+        "edges",
+        "integrity_contradictions",
+        "limitations",
+        "manifest",
+        "nodes",
+        "occurrences",
+        "provenance"
+      ],
+      "source_locators": {}
+    },
+    {
+      "evidence_id": "ev_ab0dc338cae9ea1e97ef094b22477db7e925ed728fd7e576e63d248b4130a6aa",
+      "operation": "inspect_plist",
+      "predicate_type": "rea.analysis",
+      "authority": "shipped-artifact",
+      "confidence": "observed",
+      "limitations": [],
+      "subject": {
+        "name": "GRNetwork",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "d3ded6726d3ab507346b58446c0a12d87618e7a7da939ca11729e2adba858498"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/GRNetwork.framework/Versions/A/GRNetwork"
+      },
+      "parameters": {
+        "path": "/Applications/Grammarly Desktop.app/Contents/Library/LaunchAgents/Grammarly Desktop Update Service.app/Contents/Info.plist"
+      },
+      "result_fields": [
+        "bundle",
+        "format",
+        "limitations",
+        "provenance",
+        "source_path",
+        "value"
+      ],
+      "source_locators": {
+        "format": "xml",
+        "source_path": "/Applications/Grammarly Desktop.app/Contents/Library/LaunchAgents/Grammarly Desktop Update Service.app/Contents/Info.plist"
+      }
+    },
+    {
+      "evidence_id": "ev_ac41a53ddc8a4492576944a6a8f6ded87dc815e025b31eef5880f9fdc1fa3077",
+      "operation": "inspect_macho",
+      "predicate_type": "rea.analysis",
+      "authority": "shipped-artifact",
+      "confidence": "observed",
+      "limitations": [
+        "Imports and exports combine dyld_info and nm; stripped or toolchain-hidden symbols may be absent.",
+        "vtool output is retained as provenance but only otool build metadata is normalized."
+      ],
+      "subject": {
+        "name": "GRNetwork",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "d3ded6726d3ab507346b58446c0a12d87618e7a7da939ca11729e2adba858498"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/GRNetwork.framework/Versions/A/GRNetwork"
+      },
+      "parameters": {},
+      "result_fields": [
+        "architectures",
+        "build_metadata",
+        "dependencies",
+        "endian",
+        "entrypoints",
+        "exports",
+        "file_type",
+        "flags",
+        "format",
+        "imports",
+        "limitations",
+        "load_commands",
+        "provenance",
+        "segments",
+        "selected_architecture",
+        "uuid",
+        "word_size"
+      ],
+      "source_locators": {
+        "format": "mach-o"
+      }
+    },
+    {
+      "evidence_id": "ev_b130351875bb3ef03ffd31e7708c8dc03629f6bf5f66f1eec9ced57df8dab556",
+      "operation": "analyze_javascript_application",
+      "predicate_type": "rea.javascript-application-analysis",
+      "authority": "shipped-artifact",
+      "confidence": "derived",
+      "limitations": [
+        "CommonJS and ESM binding relationships were recovered from inert syntax and resolved only within the inventoried artifact container.",
+        "Graph coverage is incomplete; unavailable facts remain explicit and must not be read as absence.",
+        "JavaScript and HTML were parsed as inert text; bundle bootstrap code was never executed.",
+        "Static imports, entrypoints, workers, endpoints, and storage relationships do not prove runtime execution.",
+        "Static paths and relationships may remain unresolved when expressions are dynamic or obfuscated.",
+        "Webpack/Rspack factories were recovered from AST literals; REA did not invoke push handlers or bundle bootstrap code."
+      ],
+      "subject": {
+        "name": "Resources",
+        "format": "directory",
+        "architecture": null,
+        "digest": {
+          "sha256": "56dec89bebfff8afcabe92ea204e5b603fc19b69e73398ff572c862f25ad267e"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Resources"
+      },
+      "parameters": {},
+      "result_fields": [
+        "format",
+        "graph",
+        "input_path",
+        "integrity_contradictions",
+        "inventory_graph_sha256",
+        "inventory_manifest_id",
+        "limitations",
+        "root_artifact_sha256",
+        "semantic_graph",
+        "statistics",
+        "summary"
+      ],
+      "source_locators": {
+        "format": "directory"
+      }
+    },
+    {
+      "evidence_id": "ev_c36c55bdf07f0b560edc828e0821f8952070de02776b312782ba3f803ef8145d",
+      "operation": "demangle_swift",
+      "predicate_type": "rea.analysis",
+      "authority": "shipped-artifact",
+      "confidence": "observed",
+      "limitations": [],
+      "subject": {
+        "name": "GRNetwork",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "d3ded6726d3ab507346b58446c0a12d87618e7a7da939ca11729e2adba858498"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/GRNetwork.framework/Versions/A/GRNetwork"
+      },
+      "parameters": {},
+      "result_fields": [
+        "limitations",
+        "provenance",
+        "symbols"
+      ],
+      "source_locators": {}
+    },
+    {
+      "evidence_id": "ev_cce9cbcf2a4af4cde9a5615a7c1cae1cb976ff74a52688f6777c57ecb21ca8be",
+      "operation": "inspect_signature",
+      "predicate_type": "rea.analysis",
+      "authority": "shipped-artifact",
+      "confidence": "observed",
+      "limitations": [
+        "Entitlements and designated requirements require separate bounded commands.",
+        "Inspected a digest-verified Mach-O byte snapshot; filesystem-bound signing context and trust validation are not examined."
+      ],
+      "subject": {
+        "name": "Grammarly Desktop",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "d882a5217ae0bfd9d56605646c95ec1047684b3ea49b8b733539329492edb6cb"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/MacOS/Grammarly Desktop"
+      },
+      "parameters": {},
+      "result_fields": [
+        "authorities",
+        "cdhashes",
+        "designated_requirement",
+        "entitlements",
+        "format",
+        "hardened_runtime",
+        "hash_algorithms",
+        "identifier",
+        "limitations",
+        "provenance",
+        "signed",
+        "team_identifier",
+        "timestamp"
+      ],
+      "source_locators": {
+        "format": "Mach-O universal (x86_64 arm64)"
+      }
+    },
+    {
+      "evidence_id": "ev_cf0e1e633efd1347c5622372e948eed40f119eb89e96f9cda23046c3cc5d1a5b",
+      "operation": "inspect_analysis_view",
+      "predicate_type": "rea.analysis-view",
+      "authority": "shipped-artifact",
+      "confidence": "derived",
+      "limitations": [
+        "Imports and exports combine dyld_info and nm; stripped or toolchain-hidden symbols may be absent.",
+        "Merged nm/dyld_info results may be incomplete for stripped binaries.",
+        "dyld_info textual imports may omit chained or toolchain-unsupported metadata.",
+        "vtool output is retained as provenance but only otool build metadata is normalized."
+      ],
+      "subject": {
+        "name": "GRNetwork",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "d3ded6726d3ab507346b58446c0a12d87618e7a7da939ca11729e2adba858498"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/GRNetwork.framework/Versions/A/GRNetwork"
+      },
+      "parameters": {
+        "parent_evidence_id": "ev_ac41a53ddc8a4492576944a6a8f6ded87dc815e025b31eef5880f9fdc1fa3077",
+        "view": {
+          "kind": "summary"
+        }
+      },
+      "result_fields": [
+        "artifact",
+        "coverage",
+        "kind",
+        "limitations",
+        "parent_digest",
+        "parent_evidence_id",
+        "parent_operation",
+        "summary",
+        "unknowns",
+        "view",
+        "view_digest"
+      ],
+      "source_locators": {
+        "parent_digest": "ac41a53ddc8a4492576944a6a8f6ded87dc815e025b31eef5880f9fdc1fa3077",
+        "parent_evidence_id": "ev_ac41a53ddc8a4492576944a6a8f6ded87dc815e025b31eef5880f9fdc1fa3077"
+      }
+    },
+    {
+      "evidence_id": "ev_d118a0d695620c8c1c6aeb5e84099ada7ff9da4565eb58a07427abd904c83e75",
+      "operation": "inspect_analysis_view",
+      "predicate_type": "rea.analysis-view",
+      "authority": "shipped-artifact",
+      "confidence": "derived",
+      "limitations": [
+        "Imports and exports combine dyld_info and nm; stripped or toolchain-hidden symbols may be absent.",
+        "vtool output is retained as provenance but only otool build metadata is normalized."
+      ],
+      "subject": {
+        "name": "Grammarly Desktop",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "d882a5217ae0bfd9d56605646c95ec1047684b3ea49b8b733539329492edb6cb"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/MacOS/Grammarly Desktop"
+      },
+      "parameters": {
+        "parent_evidence_id": "ev_f77c7d64f632ca01c45e0ca3f933cc2667e4c2dfe79512d49c7fbc7ae8a72756",
+        "view": {
+          "facet": "dependencies",
+          "kind": "macho",
+          "limit": 40,
+          "offset": 0
+        }
+      },
+      "result_fields": [
+        "artifact",
+        "coverage",
+        "item",
+        "kind",
+        "limitations",
+        "parent_digest",
+        "parent_evidence_id",
+        "parent_operation",
+        "source_exhaustive",
+        "source_total",
+        "unknowns",
+        "view",
+        "view_digest"
+      ],
+      "source_locators": {
+        "parent_digest": "f77c7d64f632ca01c45e0ca3f933cc2667e4c2dfe79512d49c7fbc7ae8a72756",
+        "parent_evidence_id": "ev_f77c7d64f632ca01c45e0ca3f933cc2667e4c2dfe79512d49c7fbc7ae8a72756",
+        "source_total": 32
+      }
+    },
+    {
+      "evidence_id": "ev_d9a694fbf7ab4ee4ca255429386a29644ba1ee5914d12df9e0bcf9090f6c217e",
+      "operation": "inspect_analysis_view",
+      "predicate_type": "rea.analysis-view",
+      "authority": "shipped-artifact",
+      "confidence": "derived",
+      "limitations": [
+        "Boundary extraction covers unshadowed JSON/global coercions plus parse and validation method candidates.",
+        "Child-process extraction covers asynchronous node:child_process creation, literal argv/env/stdio options, exit/error listeners, and kill signals.",
+        "CommonJS and ESM binding relationships were recovered from inert syntax and resolved only within the inventoried artifact container.",
+        "Configuration extraction covers process.env, process.argv, node:fs reads, and direct logical defaults.",
+        "Event extraction covers EventEmitter-style literal registrations, removals, and dispatch candidates; dynamic names remain unknown.",
+        "Function fingerprints are static candidates; equal digests can remain ambiguous and do not prove behavioral equivalence.",
+        "Graph coverage is incomplete; unavailable facts remain explicit and must not be read as absence.",
+        "JavaScript and HTML were parsed as inert text; bundle bootstrap code was never executed.",
+        "Local data flow does not claim control-flow-sensitive reaching definitions or arbitrary dynamic property resolution.",
+        "Promise ownership covers explicit unshadowed Promise construction, static factories, aggregation, chaining, and await syntax only.",
+        "Request extraction covers fetch, WebSocket, node:http/node:https construction, direct option fields, and exact local response consumers.",
+        "Resource extraction covers built-in filesystem/network acquisition and exact local close/destroy/end handles.",
+        "Static imports, entrypoints, workers, endpoints, and storage relationships do not prove runtime execution.",
+        "Static paths and relationships may remain unresolved when expressions are dynamic or obfuscated.",
+        "The semantic graph contains static syntax observations and conservative relationship candidates; it does not claim runtime execution.",
+        "Timer extraction covers global or node:timers scheduling and exact local-handle cancellation.",
+        "Webpack/Rspack factories were recovered from AST literals; REA did not invoke push handlers or bundle bootstrap code."
+      ],
+      "subject": {
+        "name": "Resources",
+        "format": "directory",
+        "architecture": null,
+        "digest": {
+          "sha256": "56dec89bebfff8afcabe92ea204e5b603fc19b69e73398ff572c862f25ad267e"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Resources"
+      },
+      "parameters": {
+        "parent_evidence_id": "ev_b130351875bb3ef03ffd31e7708c8dc03629f6bf5f66f1eec9ced57df8dab556",
+        "view": {
+          "kind": "summary"
+        }
+      },
+      "result_fields": [
+        "artifact",
+        "coverage",
+        "kind",
+        "limitations",
+        "parent_digest",
+        "parent_evidence_id",
+        "parent_operation",
+        "summary",
+        "unknowns",
+        "view",
+        "view_digest"
+      ],
+      "source_locators": {
+        "parent_digest": "b130351875bb3ef03ffd31e7708c8dc03629f6bf5f66f1eec9ced57df8dab556",
+        "parent_evidence_id": "ev_b130351875bb3ef03ffd31e7708c8dc03629f6bf5f66f1eec9ced57df8dab556"
+      }
+    },
+    {
+      "evidence_id": "ev_ea0099d887d85eacadb3ed72c5701aa46863dd41629ffd37d3454c08f9689626",
+      "operation": "inspect_plist",
+      "predicate_type": "rea.analysis",
+      "authority": "shipped-artifact",
+      "confidence": "observed",
+      "limitations": [],
+      "subject": {
+        "name": "GRNetwork",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "d3ded6726d3ab507346b58446c0a12d87618e7a7da939ca11729e2adba858498"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/GRNetwork.framework/Versions/A/GRNetwork"
+      },
+      "parameters": {
+        "path": "/Applications/Grammarly Desktop.app/Contents/Library/LoginItems/GRLoginHelper.app/Contents/Info.plist"
+      },
+      "result_fields": [
+        "bundle",
+        "format",
+        "limitations",
+        "provenance",
+        "source_path",
+        "value"
+      ],
+      "source_locators": {
+        "format": "xml",
+        "source_path": "/Applications/Grammarly Desktop.app/Contents/Library/LoginItems/GRLoginHelper.app/Contents/Info.plist"
+      }
+    },
+    {
+      "evidence_id": "ev_f77c7d64f632ca01c45e0ca3f933cc2667e4c2dfe79512d49c7fbc7ae8a72756",
+      "operation": "inspect_macho",
+      "predicate_type": "rea.analysis",
+      "authority": "shipped-artifact",
+      "confidence": "observed",
+      "limitations": [
+        "Imports and exports combine dyld_info and nm; stripped or toolchain-hidden symbols may be absent.",
+        "vtool output is retained as provenance but only otool build metadata is normalized."
+      ],
+      "subject": {
+        "name": "Grammarly Desktop",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "d882a5217ae0bfd9d56605646c95ec1047684b3ea49b8b733539329492edb6cb"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/MacOS/Grammarly Desktop"
+      },
+      "parameters": {},
+      "result_fields": [
+        "architectures",
+        "build_metadata",
+        "dependencies",
+        "endian",
+        "entrypoints",
+        "exports",
+        "file_type",
+        "flags",
+        "format",
+        "imports",
+        "limitations",
+        "load_commands",
+        "provenance",
+        "segments",
+        "selected_architecture",
+        "uuid",
+        "word_size"
+      ],
+      "source_locators": {
+        "format": "mach-o"
+      }
+    }
+  ]
+}

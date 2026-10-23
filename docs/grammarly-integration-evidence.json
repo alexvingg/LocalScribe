@@ -1,0 +1,50 @@
+{
+  "scope": "Evidence metadata index; recovered implementation, original resource catalogs, binary payloads and personal runtime data are not redistributed.",
+  "source_file": "grammarly-integration-evidence.json",
+  "source_sha256": "b04fab595215e8954c103ada1796e0ea26277973e128aae9f329e771af01ffbf",
+  "records": [
+    {
+      "evidence_id": "ev_6e5ea4070363a9497fe8ca79fc0c581f281fccb8b4bd2f8720d0dec45cb599e3",
+      "operation": "inspect_macho",
+      "predicate_type": "rea.analysis",
+      "authority": "shipped-artifact",
+      "confidence": "observed",
+      "limitations": [
+        "Imports and exports combine dyld_info and nm; stripped or toolchain-hidden symbols may be absent.",
+        "vtool output is retained as provenance but only otool build metadata is normalized."
+      ],
+      "subject": {
+        "name": "GRAccessibilityKit",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "19f3aaae3c41c95a90adac4f628ddd01cb2893be5a134a501dac05ea060866a5"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/GRAccessibilityKit.framework/Versions/A/GRAccessibilityKit"
+      },
+      "parameters": {},
+      "result_fields": [
+        "architectures",
+        "build_metadata",
+        "dependencies",
+        "endian",
+        "entrypoints",
+        "exports",
+        "file_type",
+        "flags",
+        "format",
+        "imports",
+        "limitations",
+        "load_commands",
+        "provenance",
+        "segments",
+        "selected_architecture",
+        "uuid",
+        "word_size"
+      ],
+      "source_locators": {
+        "format": "mach-o"
+      }
+    }
+  ]
+}

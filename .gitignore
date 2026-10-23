@@ -1,0 +1,15 @@
+.build/
+.build-tests/
+dist/
+.swiftpm/
+.DS_Store
+xcuserdata/
+*.xcuserstate
+.env
+.env.*
+!.env.example
+id_ed25519
+id_ed25519.pub
+*.p12
+*.p8
+*.mobileprovision

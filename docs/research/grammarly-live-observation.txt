@@ -1,0 +1,47 @@
+- link "iLoveNote (formerly EditPad) - Online Text Editor (Notepad)":
+  - /url: https://www.ilovenote.net
+  - img "iLoveNote (formerly EditPad) - Online Text Editor (Notepad)"
+- img "search on ilovenote"
+- link "Chat Icon":
+  - /url: "#"
+  - img "Chat Icon"
+- link "Login":
+  - /url: https://www.ilovenote.net/tool/login
+- button "Menu"
+- button "Language Icon":
+  - img "Language Icon"
+- button "Feedback Icon":
+  - img "Feedback Icon"
+- button
+- button
+- button
+- button "Full Screen Icon":
+  - img "Full Screen Icon"
+- button "Copy Icon":
+  - img "Copy Icon"
+- button "Download Icon":
+  - img "Download Icon"
+- button "Clear Icon":
+  - img "Clear Icon"
+- button "Upload Icon Upload File":
+  - img "Upload Icon"
+  - generic: Upload File
+- link "Our Blogs":
+  - /url: https://www.ilovenote.net/tool/blogs
+- img "Download Icon"
+- paragraph: About This Tool
+- generic: 24 Words
+- generic: 127 Characters
+- textbox "Untitled Document": he ho a
+- text: Formatting
+- checkbox
+- button "New File Icon New Note":
+  - img "New File Icon"
+  - generic: New Note
+- img "Sidebar Open Icon"
+- paragraph: ALL NOTES
+- img "Search notes"
+- paragraph: he ho a
+- generic: just now
+- button "Note options":
+- textbox "Type or paste your text here..." [active]: he ho a She go to school every days. I have an important meeting tomorrow, and I would like your advise about my presentation.

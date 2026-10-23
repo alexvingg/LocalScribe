@@ -1,0 +1,135 @@
+{
+  "scope": "Evidence metadata index; recovered implementation, original resource catalogs, binary payloads and personal runtime data are not redistributed.",
+  "source_file": "grammarly-functional-evidence.json",
+  "source_sha256": "da705551d66b0c1c25da03c6867acef78dd73f0fea01a4f1c3429ab4a9d37667",
+  "records": [
+    {
+      "evidence_id": "ev_6733be18d1dc3d8e919d444ddc4facdbdf9013707e01d5f56c426ef84e17d984",
+      "operation": "inspect_plist",
+      "predicate_type": "rea.analysis",
+      "authority": "shipped-artifact",
+      "confidence": "observed",
+      "limitations": [],
+      "subject": {
+        "name": "Grammarly Desktop",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "d882a5217ae0bfd9d56605646c95ec1047684b3ea49b8b733539329492edb6cb"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/MacOS/Grammarly Desktop"
+      },
+      "parameters": {
+        "path": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Resources/en-US.lproj/Localizable.strings"
+      },
+      "result_fields": [
+        "bundle",
+        "format",
+        "limitations",
+        "provenance",
+        "source_path",
+        "value"
+      ],
+      "source_locators": {
+        "format": "xml",
+        "source_path": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Resources/en-US.lproj/Localizable.strings"
+      }
+    },
+    {
+      "evidence_id": "ev_7d7df9cfe1d8b64333deb4348691723b2666f44b6d294a912ba54607d614f511",
+      "operation": "inspect_plist",
+      "predicate_type": "rea.analysis",
+      "authority": "shipped-artifact",
+      "confidence": "observed",
+      "limitations": [],
+      "subject": {
+        "name": "Grammarly Desktop",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "d882a5217ae0bfd9d56605646c95ec1047684b3ea49b8b733539329492edb6cb"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/MacOS/Grammarly Desktop"
+      },
+      "parameters": {
+        "path": "/Applications/Grammarly Desktop.app/Contents/Resources/AVIFeatures_Dictation.bundle/Contents/Resources/en-US.lproj/Localizable.strings"
+      },
+      "result_fields": [
+        "bundle",
+        "format",
+        "limitations",
+        "provenance",
+        "source_path",
+        "value"
+      ],
+      "source_locators": {
+        "format": "xml",
+        "source_path": "/Applications/Grammarly Desktop.app/Contents/Resources/AVIFeatures_Dictation.bundle/Contents/Resources/en-US.lproj/Localizable.strings"
+      }
+    },
+    {
+      "evidence_id": "ev_8cd034bcbc2ccb6a85e6c596742ea0cd99f9a466702eef0342548595c0edb70b",
+      "operation": "inspect_plist",
+      "predicate_type": "rea.analysis",
+      "authority": "shipped-artifact",
+      "confidence": "observed",
+      "limitations": [],
+      "subject": {
+        "name": "Grammarly Desktop",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "d882a5217ae0bfd9d56605646c95ec1047684b3ea49b8b733539329492edb6cb"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/MacOS/Grammarly Desktop"
+      },
+      "parameters": {
+        "path": "/Applications/Grammarly Desktop.app/Contents/Resources/AVIDesign_AVIUI.bundle/Contents/Resources/en-US.lproj/Localizable.strings"
+      },
+      "result_fields": [
+        "bundle",
+        "format",
+        "limitations",
+        "provenance",
+        "source_path",
+        "value"
+      ],
+      "source_locators": {
+        "format": "xml",
+        "source_path": "/Applications/Grammarly Desktop.app/Contents/Resources/AVIDesign_AVIUI.bundle/Contents/Resources/en-US.lproj/Localizable.strings"
+      }
+    },
+    {
+      "evidence_id": "ev_fe2ef7f8230f2aa37ff195db8cbc7959e6cc7acf7e8ab880586dd4ac2c7d3c7c",
+      "operation": "inspect_plist",
+      "predicate_type": "rea.analysis",
+      "authority": "shipped-artifact",
+      "confidence": "observed",
+      "limitations": [],
+      "subject": {
+        "name": "Grammarly Desktop",
+        "format": "mach-o-universal",
+        "architecture": "arm64",
+        "digest": {
+          "sha256": "d882a5217ae0bfd9d56605646c95ec1047684b3ea49b8b733539329492edb6cb"
+        },
+        "local_path": "/Applications/Grammarly Desktop.app/Contents/MacOS/Grammarly Desktop"
+      },
+      "parameters": {
+        "path": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/GRLlamaUI.framework/Versions/A/Resources/en-US.lproj/Localizable.strings"
+      },
+      "result_fields": [
+        "bundle",
+        "format",
+        "limitations",
+        "provenance",
+        "source_path",
+        "value"
+      ],
+      "source_locators": {
+        "format": "xml",
+        "source_path": "/Applications/Grammarly Desktop.app/Contents/Frameworks/ProjectLlamaContent.framework/Versions/A/Frameworks/GRLlamaUI.framework/Versions/A/Resources/en-US.lproj/Localizable.strings"
+      }
+    }
+  ]
+}

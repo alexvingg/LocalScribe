@@ -1,0 +1,37 @@
+LocalScribe 0.7.6 — versão de testes
+
+INSTALAR
+Arraste LocalScribe para a pasta Aplicativos e abra o app de lá.
+O LocalScribe aparece na barra de menus do Mac.
+
+REQUISITOS
+- Mac com Apple Silicon (M1 ou posterior), compatível com Apple Intelligence.
+- macOS 26.4 ou posterior. Esta compilação foi testada no macOS 27.0.1.
+- Apple Intelligence ativada, com o modelo local já baixado e disponível.
+- Permissão de Acessibilidade para LocalScribe, nos Ajustes do Sistema
+  > Privacidade e Segurança > Acessibilidade.
+
+PRIMEIRO USO
+Abra as configurações pelo ícone na barra de menus. Mantenha o idioma do
+texto em Detectar automaticamente e escreva em um campo compatível.
+Passe o ponteiro sobre uma marca para abrir a sugestão. Confira e clique
+para aplicar. A tradução é opcional e só começa quando você clicar.
+Em Onde não revisar, adicione os aplicativos que deseja bloquear.
+Não é necessário login, chave de API nem assinatura do LocalScribe.
+
+ABERTURA NO OUTRO MAC
+Esta versão usa assinatura local de desenvolvimento e NÃO foi notarizada
+pela Apple. O macOS pode impedir a abertura do app recebido pela internet.
+Se você conhece a origem desta cópia, consulte o fluxo oficial de abertura
+de apps em Ajustes do Sistema > Privacidade e Segurança.
+Não é necessário desativar o Gatekeeper nem outras proteções do sistema.
+Ajuda oficial: https://support.apple.com/pt-br/102445
+
+LIMITES DESTE PROTÓTIPO
+Compatibilidade depende do campo de texto de cada app. Chrome/WhatsApp,
+Slack, Teams e TextEdit tiveram testes nesta sessão; isso não certifica
+todos os campos, versões ou máquinas. Safari e Firefox ainda precisam
+de validação real. Confira o texto sugerido antes de aplicar.
+O modelo da Apple pode recusar alguns trechos. Nesses casos, a ortografia
+local disponível pode continuar funcionando, com aviso no aplicativo.
+Textos e sugestões ficam no Mac; o aplicativo não possui backend próprio.
