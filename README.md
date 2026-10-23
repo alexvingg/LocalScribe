@@ -4,11 +4,11 @@
 
 A macOS writing assistant powered by on-device Apple Intelligence. It detects the language of your text, displays corrections and suggestions next to the text field, and applies only the suggestions you accept. No app account, custom backend, or subscription required.
 
-**Source version: 0.8.0 · Apple Silicon · macOS 26.4 or later.**
+**Current version: 0.8.0 · Apple Silicon · macOS 26.4 or later.**
 
 ## Installation
 
-**[Published release 0.7.6](https://github.com/alexvingg/LocalScribe/releases/tag/v0.7.6)** — version 0.8.0 is available by building from source; the earlier installer does not include the changes described below.
+**[Download LocalScribe 0.8.0](https://github.com/alexvingg/LocalScribe/releases/tag/v0.8.0)** — choose the DMG or the ZIP that preserves its Finder icon metadata.
 
 Extract the ZIP, open the DMG, and drag LocalScribe to Applications. The ZIP preserves the green file icon metadata; the mounted volume also includes the icon. SHA-256 checksums are available in the release assets.
 

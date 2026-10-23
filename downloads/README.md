@@ -1,13 +1,13 @@
-# Instalador
+# Downloads
 
-[LocalScribe 0.7.6 para Apple Silicon](LocalScribe-0.7.6-arm64.dmg.zip).
+Download the current installer from [LocalScribe 0.8.0 releases](https://github.com/alexvingg/LocalScribe/releases/tag/v0.8.0).
 
-Extraia no Mac para preservar também o ícone Finder do arquivo DMG. O próprio volume contém o ícone verde embutido. Requisitos e instruções estão no [README principal](../README.md) e em [LEIA-ME.txt](../Support/LEIA-ME.txt).
-
-Confira a integridade nesta pasta:
+Choose `LocalScribe-0.8.0-arm64.dmg.zip` to preserve the DMG file icon metadata, or download the DMG directly. Both include the green mounted-volume icon. The release also includes `SHA256SUMS` to verify the downloaded files:
 
 ```sh
 shasum -a 256 -c SHA256SUMS
 ```
 
-O instalador é uma compilação de testes com assinatura ad hoc, sem Developer ID/notarização. Fontes, recursos e scripts para reproduzir o pacote fazem parte do repositório.
+Requirements and installation instructions are in the [main README](../README.md) and [LEIA-ME.txt](../Support/LEIA-ME.txt). This is an ad hoc signed test build, without Developer ID signing or Apple notarization.
+
+The 0.7.6 ZIP and checksum stored in this folder are retained as an older release archive; they do not contain the 0.8.0 changes.
