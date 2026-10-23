@@ -2,14 +2,26 @@ import Foundation
 import WritingCore
 
 struct WritingCoreChecks {
+    func testTranslationPromptUsesTheSelectedTargetIndependentlyOfTheSource() {
+        for (code, name) in [("pt", "Portuguese"), ("en", "English"), ("es", "Spanish"), ("ja", "Japanese"), ("de", "German")] {
+            let request = TranslationPrompt(text: "The report is ready.", source: "fr", target: code)
+            expectTrue(request.instructions.contains("The user selected \(name) (\(code)) as the translation target."))
+            expectTrue(request.input.hasPrefix("Translate this text from French (fr) to \(name) (\(code)):"))
+            expectTrue(request.input.hasSuffix("<user_text>The report is ready.</user_text>"))
+            expectFalse(request.instructions.contains("The person's locale"))
+        }
+        let retry = TranslationPrompt(text: "Before Friday.", source: "en", target: "es", retryingWeekday: true)
+        expectTrue(retry.instructions.contains("The previous attempt changed a calendar day."))
+        expectTrue(retry.instructions.contains("Friday = viernes"))
+    }
     func testTranslationCannotChangeCalendarWeekdays() {
-        expectTrue(TranslationCalendarGuard.preservesWeekdays("Before Friday.", "Antes da sexta-feira.", source: "en", target: "pt"))
-        expectFalse(TranslationCalendarGuard.preservesWeekdays("Before Friday.", "Antes da quinta-feira.", source: "en", target: "pt"))
-        expectFalse(TranslationCalendarGuard.preservesWeekdays("Friday and Monday.", "Sexta-feira e terça-feira.", source: "en", target: "pt"))
-        expectTrue(TranslationCalendarGuard.preservesWeekdays("Monday and Friday.", "Lunes y viernes.", source: "en", target: "es"))
-        expectTrue(TranslationCalendarGuard.preservesWeekdays("Friday.", "星期五之前。", source: "en", target: "zh-Hans"))
-        expectFalse(TranslationCalendarGuard.preservesWeekdays("Friday.", "星期四之前。", source: "en", target: "zh-Hans"))
-        expectTrue(TranslationCalendarGuard.instruction("Before Friday.", source: "en", target: "pt").contains("sexta-feira"))
+        expectTrue(TranslationCalendarGuard.preservesWeekdays("Before Friday.", LanguageSamples.text("calendar.beforeFriday.portuguese"), source: "en", target: "pt"))
+        expectFalse(TranslationCalendarGuard.preservesWeekdays("Before Friday.", LanguageSamples.text("calendar.beforeThursday.portuguese"), source: "en", target: "pt"))
+        expectFalse(TranslationCalendarGuard.preservesWeekdays("Friday and Monday.", LanguageSamples.text("calendar.fridayTuesday.portuguese"), source: "en", target: "pt"))
+        expectTrue(TranslationCalendarGuard.preservesWeekdays("Monday and Friday.", LanguageSamples.text("calendar.mondayFriday.spanish"), source: "en", target: "es"))
+        expectTrue(TranslationCalendarGuard.preservesWeekdays("Friday.", LanguageSamples.text("calendar.beforeFriday.chinese"), source: "en", target: "zh-Hans"))
+        expectFalse(TranslationCalendarGuard.preservesWeekdays("Friday.", LanguageSamples.text("calendar.beforeThursday.chinese"), source: "en", target: "zh-Hans"))
+        expectTrue(TranslationCalendarGuard.instruction("Before Friday.", source: "en", target: "pt").contains(LanguageSamples.text("calendar.friday.portuguese")))
         expectEqual(TranslationCalendarGuard.instruction("A sunny day.", source: "en", target: "pt"), "")
     }
     func testReviewedPassageConsumesBoundaryPunctuationOnlyForPassages() {
@@ -66,8 +78,8 @@ struct WritingCoreChecks {
     }
     func testWhitespaceRemovalCardExplainsTheTarget() {
         let space = WritingSuggestion(kind: .correction, range: NSRange(location: 3, length: 1), original: " ", replacement: "", language: "en", context: "Hey !")
-        expectEqual(space.correctionSourceLabel, L10n.text("Espaço"))
-        expectEqual(space.correctionActionLabel, L10n.text("Remover espaço extra"))
+        expectEqual(space.correctionSourceLabel, L10n.text("Space"))
+        expectEqual(space.correctionActionLabel, L10n.text("Remove extra space"))
         expectTrue(space.canApply)
     }
     func testIndependentSpellingSurvivesModelProposalAndNoChange() {
@@ -107,12 +119,12 @@ struct WritingCoreChecks {
             valueWritable: true, webContent: true, secure: true), .readOnly)
     }
     func testLanguageFallbackRequiresContextInsteadOfAForcedDefault() {
-        for text in ["ok", "ola", "helo", "12345", "https://example.com"] {
+        for text in ["ok", LanguageSamples.text("greeting.misspelled.portuguese"), "helo", "12345", "https://example.com"] {
             expectFalse(LanguageResolver.hasEnoughContextForModel(text))
         }
         expectTrue(LanguageResolver.hasEnoughContextForModel("hellou miey fryend"))
-        expectTrue(LanguageResolver.hasEnoughContextForModel("ola tudo beem"))
-        expectTrue(LanguageResolver.hasEnoughContextForModel("bonjour mon amii"))
+        expectTrue(LanguageResolver.hasEnoughContextForModel(LanguageSamples.text("greeting.shortMisspelled.portuguese")))
+        expectTrue(LanguageResolver.hasEnoughContextForModel(LanguageSamples.text("greeting.shortMisspelled.french")))
     }
     func testScreenshotRewriteCannotIntroduceRegionalSlang() {
         let source = "hellou miey fryend ! what's up.?"
@@ -129,9 +141,9 @@ struct WritingCoreChecks {
     }
 
     func testPortugueseRewriteDoesNotInventSlang() {
-        expectTrue(AlternativePolicy.introducesSlang("Fala, mano! Tudo certo?", original: "Olá! Tudo bem?", language: "pt"))
-        expectFalse(AlternativePolicy.introducesSlang("O relatório está pronto para envio.", original: "O relatório está pronto para ser enviado.", language: "pt"))
-        expectFalse(AlternativePolicy.introducesSlang("Mano, o relatório está pronto.", original: "Mano, eu terminei o relatório.", language: "pt"))
+        expectTrue(AlternativePolicy.introducesSlang(LanguageSamples.text("greeting.slang.portuguese"), original: LanguageSamples.text("greeting.plain.portuguese"), language: "pt"))
+        expectFalse(AlternativePolicy.introducesSlang(LanguageSamples.text("report.conciseReadyToSend.portuguese"), original: LanguageSamples.text("report.readyToSend.portuguese"), language: "pt"))
+        expectFalse(AlternativePolicy.introducesSlang(LanguageSamples.text("report.slangReady.portuguese"), original: LanguageSamples.text("report.slangFinished.portuguese"), language: "pt"))
     }
     func testCardTranslationUsesDisplayedProposalForWordsAndPhrases() {
         let word = WritingSuggestion(kind: .correction, range: NSRange(location: 0, length: 5),
@@ -186,27 +198,27 @@ struct WritingCoreChecks {
         expectNil(EditorTextSegments.ranges(for: ["changed"], in: "original"))
     }
     func testReplacementsNeverSplitOneTargetWordBetweenCards() {
-        let before = "ola tudo bem com vc mizere"
-        let after = "Olá, tudo bem com você?"
+        let before = LanguageSamples.text("greeting.screenshotOriginal.portuguese")
+        let after = LanguageSamples.text("greeting.screenshotCorrected.portuguese")
         let edits = TextEdits.wordEdits(before, after)
         expectEqual(TextEdits.applying(edits, to: before), after)
         expectEqual(edits.count, 2)
-        expectEqual(edits.last?.original, "vc mizere")
-        expectEqual(edits.last?.replacement, "você?")
-        expectFalse(edits.contains { $0.replacement == "voc" || $0.replacement == "ê?" })
+        expectEqual(edits.last?.original, LanguageSamples.text("greeting.screenshotTailOriginal.portuguese"))
+        expectEqual(edits.last?.replacement, LanguageSamples.text("greeting.screenshotTailCorrected.portuguese"))
+        expectFalse(edits.contains { $0.replacement == LanguageSamples.text("greeting.partialExpansion.portuguese") || $0.replacement == LanguageSamples.text("greeting.invalidSplitTail.portuguese") })
         let joined = TextEdits.wordEdits("an other", "another")
         expectEqual(joined.first?.original, "an other")
         expectEqual(joined.first?.replacement, "another")
     }
     func testScreenshotPortugueseUsesWholeWordsWithPunctuation() {
-        let before = "ola tudo bem com vc mizere"
-        for after in ["Olá, tudo bem com você, mizere?", "Olá, tudo bem com você, miséria?",
-                      "olá, tudo bem com vc mizere", "Olá, tudo bem com você, miséria.",
-                      "Olá, tudo bem com você, Mizere?"] {
+        let before = LanguageSamples.text("greeting.screenshotOriginal.portuguese")
+        for after in [LanguageSamples.text("greeting.screenshotInformal.portuguese"), LanguageSamples.text("greeting.screenshotExpanded.portuguese"),
+                      LanguageSamples.text("greeting.screenshotLowercase.portuguese"), LanguageSamples.text("greeting.screenshotPeriod.portuguese"),
+                      LanguageSamples.text("greeting.screenshotName.portuguese")] {
             let edits = TextEdits.wordEdits(before, after)
             let greeting = edits.first { NSIntersectionRange($0.range, NSRange(location: 0, length: 3)).length > 0 }
-            if greeting?.original != "ola" { print("SCREENSHOT REGRESSION \(after): \(edits)") }
-            expectEqual(greeting?.original, "ola")
+            if greeting?.original != LanguageSamples.text("greeting.misspelled.portuguese") { print("SCREENSHOT REGRESSION \(after): \(edits)") }
+            expectEqual(greeting?.original, LanguageSamples.text("greeting.misspelled.portuguese"))
             expectEqual(TextEdits.applying(edits, to: before), after)
         }
     }
@@ -229,17 +241,17 @@ struct WritingCoreChecks {
     }
 
     func testUnicodeOffsetsAfterEmojiAndCombiningMarks() {
-        let before = "👩🏽‍💻 Cafe\u{301}: ola eu sou Ana."
-        let after = "👩🏽‍💻 Cafe\u{301}: olá eu sou Ana."
+        let before = LanguageSamples.text("unicode.combiningOriginal.portuguese")
+        let after = LanguageSamples.text("unicode.combiningCorrected.portuguese")
         let edits = TextEdits.wordEdits(before, after)
         expectEqual(edits.count, 1)
-        expectEqual(edits.first?.range, (before as NSString).range(of: "ola"))
-        expectEqual(edits.first?.original, "ola")
+        expectEqual(edits.first?.range, (before as NSString).range(of: LanguageSamples.text("greeting.misspelled.portuguese")))
+        expectEqual(edits.first?.original, LanguageSamples.text("greeting.misspelled.portuguese"))
         expectEqual(TextEdits.applying(edits, to: before), after)
     }
 
     func testInsertionsDeletionsAndWholeTextChanges() {
-        for (before, after) in [("", "Olá"), ("Hello", ""), ("Hello world", "Hello, world!"),
+        for (before, after) in [("", LanguageSamples.text("greeting.corrected.portuguese")), ("Hello", ""), ("Hello world", "Hello, world!"),
                                 ("a a a", "a a"), ("wrong", "correct"), ("🇧🇷🙂", "🙂🇧🇷"),
                                 ("one\ntwo", "One\nTwo"), ("a  b", "a b")] {
             expectEqual(TextEdits.applying(TextEdits.between(before, after), to: before), after,
@@ -248,9 +260,9 @@ struct WritingCoreChecks {
     }
 
     func testRejectsStaleTextAndOverlappingReplacements() {
-        let edit = TextEdit(range: NSRange(location: 0, length: 3), original: "ola", replacement: "Olá")
-        expectNil(TextEdits.applying([edit], to: "Ana eu sou"))
-        expectNil(TextEdits.applying([edit, edit], to: "ola eu sou"))
+        let edit = TextEdit(range: NSRange(location: 0, length: 3), original: LanguageSamples.text("greeting.misspelled.portuguese"), replacement: LanguageSamples.text("greeting.corrected.portuguese"))
+        expectNil(TextEdits.applying([edit], to: LanguageSamples.text("greeting.reordered.portuguese")))
+        expectNil(TextEdits.applying([edit, edit], to: LanguageSamples.text("greeting.staleOriginal.portuguese")))
     }
 
     func testRejectsRangeSplittingAnEmoji() {
@@ -272,17 +284,17 @@ struct WritingCoreChecks {
     }
 
     func testFragmentChoosesCurrentParagraphWithoutBreakingUTF16() {
-        let text = "English paragraph.\n👋 ola eu sou Ana.\nAnother one."
-        let target = (text as NSString).range(of: "ola")
+        let text = LanguageSamples.text("paragraph.mixedOriginal.portuguese")
+        let target = (text as NSString).range(of: LanguageSamples.text("greeting.misspelled.portuguese"))
         let fragment = WritingFragment(fieldText: text, caret: target.location + 2)
-        expectEqual(fragment?.text, "👋 ola eu sou Ana.")
+        expectEqual(fragment?.text, LanguageSamples.text("paragraph.selected.portuguese"))
         expectEqual((text as NSString).substring(with: fragment!.range), fragment?.text)
         expectNil(WritingFragment(fieldText: String(repeating: "a", count: 1200), caret: 1200, maximumUTF16: 1100))
     }
 
     func testAutomaticLanguagesAndShortAmbiguity() {
-        expectEqual(LanguageResolver.detect("ola eu sou tesx")?.code, "pt")
-        expectEqual(LanguageResolver.detect("Olá, eu preciso que você revise os documentos enviados ontem.")?.code, "pt")
+        expectEqual(LanguageResolver.detect(LanguageSamples.text("language.shortMisspelled.portuguese"))?.code, "pt")
+        expectEqual(LanguageResolver.detect(LanguageSamples.text("language.documentReview.portuguese"))?.code, "pt")
         expectEqual(LanguageResolver.detect("The meeting starts tomorrow and we need to finish the report.")?.code, "en")
         expectNil(LanguageResolver.detect("a"))
         expectEqual(LanguageResolver.detect("ambiguous", manual: "pt")?.code, "pt")
@@ -326,12 +338,12 @@ struct WritingCoreChecks {
     }
 
     func testAlternativesRejectRepeatedOrCosmeticVersions() {
-        let original = "O relatório está pronto."
-        let previous = ["O relatório já foi concluído.", "Já concluímos o relatório."]
-        expectFalse(AlternativePolicy.isDistinct("  O RELATÓRIO está pronto!  ", original: original, previous: previous))
-        expectFalse(AlternativePolicy.isDistinct("Já concluímos o relatório!", original: original, previous: previous))
+        let original = LanguageSamples.text("report.ready.portuguese")
+        let previous = [LanguageSamples.text("report.alreadyFinished.portuguese"), LanguageSamples.text("report.weFinished.portuguese")]
+        expectFalse(AlternativePolicy.isDistinct(LanguageSamples.text("report.cosmeticReady.portuguese"), original: original, previous: previous))
+        expectFalse(AlternativePolicy.isDistinct(LanguageSamples.text("report.cosmeticFinished.portuguese"), original: original, previous: previous))
         expectFalse(AlternativePolicy.isDistinct("  ... ", original: original, previous: previous))
-        expectTrue(AlternativePolicy.isDistinct("A conclusão do relatório já ocorreu.", original: original, previous: previous))
+        expectTrue(AlternativePolicy.isDistinct(LanguageSamples.text("report.alternativeFinished.portuguese"), original: original, previous: previous))
     }
 
     func testReviewCacheRetainsEmptyAndPositiveResultsAcrossFocusGaps() {
@@ -403,7 +415,7 @@ struct WritingCoreChecks {
     }
 
     func testLongParagraphGetsBoundedFragmentNearCaret() {
-        let text = String(repeating: "Uma frase longa com café e 👩🏽‍💻 para revisar. ", count: 500)
+        let text = String(repeating: LanguageSamples.text("chunk.longSentence.portuguese"), count: 500)
         let caret = text.utf16.count - 100
         let fragment = WritingFragment(fieldText: text, caret: caret)
         expectTrue(fragment != nil)
@@ -414,7 +426,7 @@ struct WritingCoreChecks {
     }
 
     func testLongSentenceChunksPreserveWordsUnicodeAndOffsets() {
-        let text = String(repeating: "Palavras com café e 👩🏽‍💻 precisam de contexto ", count: 80) + "."
+        let text = String(repeating: LanguageSamples.text("chunk.longWords.portuguese"), count: 80) + "."
         let chunks = ReviewChunker.chunks(in: text)
         expectTrue(chunks.count > 4)
         expectEqual(chunks.map(\.text).joined(), text)
@@ -457,7 +469,7 @@ struct WritingCoreChecks {
     func testReviewKeepsSentenceSeparatorsAndIndentation() {
         expectEqual(TextEdits.preservingBoundaryWhitespace(of: "The report is ready. ", in: "The report is ready."), "The report is ready. ")
         expectEqual(TextEdits.preservingBoundaryWhitespace(of: "\tShe go home.\n", in: "She goes home."), "\tShe goes home.\n")
-        expectEqual(TextEdits.preservingBoundaryWhitespace(of: "Olá.", in: "  Olá.\n"), "Olá.")
+        expectEqual(TextEdits.preservingBoundaryWhitespace(of: LanguageSamples.text("whitespace.original.portuguese"), in: LanguageSamples.text("whitespace.padded.portuguese")), LanguageSamples.text("whitespace.original.portuguese"))
         expectTrue(TextEdits.wordEdits("Correct. ", TextEdits.preservingBoundaryWhitespace(of: "Correct. ", in: "Correct.")).isEmpty)
     }
 
@@ -535,16 +547,16 @@ struct WritingCoreChecks {
 
     func testPunctuationInsertionAtChangedWordEndIsAppliedOnce() {
         for (before, after, originalWord, replacementWord) in [
-            ("ola tudo bem com vc mizere", "Olá, tudo bem com você, Mizere?", "mizere", "Mizere?"),
+            (LanguageSamples.text("greeting.screenshotOriginal.portuguese"), LanguageSamples.text("greeting.screenshotName.portuguese"), LanguageSamples.text("greeting.unknownName.portuguese"), LanguageSamples.text("greeting.correctedName.portuguese")),
             ("hello world", "Hello, World!", "world", "World!"),
-            ("ola ana", "Olá, Ana!", "ana", "Ana!"),
-            ("👩🏽‍💻 ola ana", "👩🏽‍💻 Olá, Ana!", "ana", "Ana!")
+            (LanguageSamples.text("greeting.namedOriginal.portuguese"), LanguageSamples.text("greeting.namedCorrected.portuguese"), "ana", "Ana!"),
+            (LanguageSamples.text("greeting.emojiOriginal.portuguese"), LanguageSamples.text("greeting.emojiCorrected.portuguese"), "ana", "Ana!")
         ] {
             let edits = TextEdits.wordEdits(before, after)
             expectEqual(TextEdits.applying(edits, to: before), after)
             expectTrue(edits.contains { $0.original == originalWord && $0.replacement == replacementWord })
             expectEqual(edits.filter { $0.original == originalWord }.count, 1)
-            expectFalse(edits.contains { $0.original == "a" && $0.replacement == "á," })
+            expectFalse(edits.contains { $0.original == "a" && $0.replacement == LanguageSamples.text("greeting.invalidSplitAccent.portuguese") })
         }
     }
 
@@ -617,7 +629,7 @@ private func expectEqual<T: Equatable>(_ left: T, _ right: T, _ message: String 
 
 @main struct CheckMain {
     static func main() {
-        let longPhrase = "Olá, amigo 👩🏽‍💻! Como você está? This is a longer suggestion."
+        let longPhrase = LanguageSamples.text("greeting.mixedLong.portuguese")
         let inputChunks = BrowserTextInputPlan.chunks(for: longPhrase)!
         expectEqual(inputChunks.joined(), longPhrase)
         expectTrue(inputChunks.allSatisfy { !$0.isEmpty && $0.utf16.count <= 16 })
@@ -691,7 +703,8 @@ private func expectEqual<T: Equatable>(_ left: T, _ right: T, _ message: String 
         checks.testWhitespaceRemovalCardExplainsTheTarget(); print("Checked visible whitespace-removal target")
         checks.testReviewedPhraseAcceptanceKeepsIndependentCorrections(); print("Checked reviewed phrase acceptance and independent pending corrections")
         checks.testReviewedPassageConsumesBoundaryPunctuationOnlyForPassages(); print("Checked passage punctuation is consumed while independent word punctuation survives")
-        print("63 checks, \(failures) failures")
+        checks.testTranslationPromptUsesTheSelectedTargetIndependentlyOfTheSource(); print("Checked selected translation target and calendar retry instructions")
+        print("64 checks, \(failures) failures")
         if failures > 0 { exit(1) }
     }
 }

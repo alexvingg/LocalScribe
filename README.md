@@ -4,17 +4,17 @@
 
 A macOS writing assistant powered by on-device Apple Intelligence. It detects the language of your text, displays corrections and suggestions next to the text field, and applies only the suggestions you accept. No app account, custom backend, or subscription required.
 
-**Latest release: 0.8.1 · Apple Silicon · macOS 26.4 or later.**
+**Latest release: 0.8.2 · Apple Silicon · macOS 26.4 or later.**
 
-Version 0.8.1 adds a safeguard against changing named weekdays during translation.
+Version 0.8.2 makes the selected translation target explicit in model instructions and demonstration cards, and uses English throughout the implementation and localization keys. It also includes the safeguard against changing named weekdays during translation.
 
 ## Installation
 
-**[Download LocalScribe 0.8.1](https://github.com/alexvingg/LocalScribe/releases/tag/v0.8.1)** — choose the DMG or the ZIP that preserves its Finder icon metadata.
+**[Download LocalScribe 0.8.2](https://github.com/alexvingg/LocalScribe/releases/tag/v0.8.2)** — choose the DMG or the ZIP that preserves its Finder icon metadata.
 
 Extract the ZIP, open the DMG, and drag LocalScribe to Applications. The ZIP preserves the green file icon metadata; the mounted volume also includes the icon. SHA-256 checksums are available in the release assets.
 
-On first launch, allow **LocalScribe** in System Settings → Privacy & Security → Accessibility. The app lives in the menu bar. The current distribution is ad hoc signed and does not yet have Developer ID signing or Apple notarization; see the [installation instructions](Support/LEIA-ME.txt).
+On first launch, allow **LocalScribe** in System Settings → Privacy & Security → Accessibility. The app lives in the menu bar. The current distribution is ad hoc signed and does not yet have Developer ID signing or Apple notarization; see the [installation instructions](Support/INSTALL.txt).
 
 Your Mac must support Apple Intelligence, with the on-device model enabled and available. In version 0.8.0, translation reuses this model without additional language packs.
 
@@ -100,12 +100,13 @@ The build produces the app and icon resources in `dist/`, with an ad hoc signatu
 ```sh
 .build/release/WritingCoreChecks
 python3 scripts/check-localizations.py
+dist/LocalScribe.app/Contents/MacOS/LocalScribe --translation-configuration-smoke
 dist/LocalScribe.app/Contents/MacOS/LocalScribe --translation-smoke
 dist/LocalScribe.app/Contents/MacOS/LocalScribe --diagnose
 dist/LocalScribe.app/Contents/MacOS/LocalScribe --proposal-stability-smoke
 ```
 
-The core suite contains 63 checks. The last command uses the real on-device model to verify English and Portuguese proposals and review reuse; it does not write to an external editor. Additional checks are documented in [docs/VALIDATION.md](docs/VALIDATION.md).
+The core suite contains 64 checks. The last command uses the real on-device model to verify English and Portuguese proposals and review reuse; it does not write to an external editor. Additional checks are documented in [docs/VALIDATION.md](docs/VALIDATION.md).
 
 To package an existing build:
 
@@ -114,6 +115,10 @@ To package an existing build:
 ```
 
 The script creates and verifies the DMG, the file and volume icons, and the ZIP that preserves Finder metadata.
+
+## Source language and localization
+
+Implementation code, prompts, diagnostics, and localization keys are written in English. Portuguese interface text lives in its localization catalog. Language-specific review words and multilingual regression samples are bundled JSON data. The macOS interface language and the translation target selected in **Translate to** are independent. See [translation and localization](docs/LOCAL_TRANSLATION_AND_LOCALIZATION.md) for the resource layout and validation commands.
 
 ## Project structure
 

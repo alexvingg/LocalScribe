@@ -1,6 +1,6 @@
 # Documentação do LocalScribe
 
-Os documentos preservam a evolução do projeto. Relatos e planos antigos descrevem a versão indicada em cada arquivo; o [README principal](../README.md) resume a versão do código, 0.8.1.
+Os documentos preservam a evolução do projeto. Relatos e planos antigos descrevem a versão indicada em cada arquivo; o [README principal](../README.md) resume a versão do código, 0.8.2.
 
 ## Especificação e planejamento
 
@@ -38,3 +38,7 @@ Os documentos preservam a evolução do projeto. Relatos e planos antigos descre
 - [Experimento inicial com Apple Intelligence](experiments/apple-intelligence-writing-probe.swift).
 
 Os índices conservam identificadores, operações, hashes e localizadores. Os payloads brutos que contêm implementação, catálogos originais ou dados internos da ferramenta não são redistribuídos. Capturas da interface própria ficam em [images/](images/).
+
+## Release notes
+
+- [0.8.2](releases/0.8.2.md): selected translation target, English source keys, packaged resources, and validation.

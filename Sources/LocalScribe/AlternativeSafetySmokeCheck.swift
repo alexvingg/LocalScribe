@@ -10,7 +10,7 @@ enum AlternativeSafetySmokeCheck {
             ("plain-greeting", "Hello, my friend! What's up?", "en"),
             ("ambiguous-english", "I saw her duck.", "en"),
             ("clear-english", "The meeting starts at nine tomorrow.", "en"),
-            ("clear-portuguese", "O relatório está pronto para ser enviado.", "pt")
+            ("clear-portuguese", LanguageSamples.text("report.readyToSend.portuguese"), "pt")
         ] {
             let start = Date()
             let calls = service.generationCount

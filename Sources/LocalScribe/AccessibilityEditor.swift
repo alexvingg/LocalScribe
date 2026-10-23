@@ -4,11 +4,11 @@ import WritingCore
 
 enum AXAccess {
     private static var lastContainerProbe: (pid: pid_t, node: AXUIElement, date: Date, resolved: AXUIElement?)?
-    static var lastFailure = "Nenhuma falha AX registrada"
+    static var lastFailure = "No AX failure recorded"
     static func value(_ element: AXUIElement, _ name: String) -> CFTypeRef? {
         var result: CFTypeRef?
         let error = AXUIElementCopyAttributeValue(element, name as CFString, &result)
-        guard error == .success else { lastFailure = "\(name): erro AX \(error.rawValue)"; return nil }
+        guard error == .success else { lastFailure = "\(name): AX error \(error.rawValue)"; return nil }
         return result
     }
     static func element(_ element: AXUIElement, _ name: String) -> AXUIElement? {
@@ -176,7 +176,7 @@ final class AccessibilityEditor {
     var onStatus: ((String) -> Void)?
     var onTick: (() -> Void)?
     private(set) var lastExternalApplication: NSRunningApplication?
-    private(set) var geometryDiagnostic = L10n.text("Sem propostas posicionadas")
+    private(set) var geometryDiagnostic = L10n.text("No positioned suggestions")
     private var timer: Timer?
     private var activationToken: NSObjectProtocol?
     private var observer: AXObserver?
@@ -214,15 +214,15 @@ final class AccessibilityEditor {
 
     func refresh() {
         guard !writeInProgress else { return }
-        guard !preferences.paused else { unavailable(L10n.text("Revisão pausada")); return }
-        guard AXIsProcessTrusted() else { unavailable(L10n.text("Permita Acessibilidade para revisar em outros aplicativos")); return }
+        guard !preferences.paused else { unavailable(L10n.text("Checking paused")); return }
+        guard AXIsProcessTrusted() else { unavailable(L10n.text("Allow Accessibility to check text in other apps")); return }
         guard let app = NSWorkspace.shared.frontmostApplication, app.processIdentifier != ownPID else {
-            unavailable(L10n.text("Escreva em um aplicativo compatível")); return
+            unavailable(L10n.text("Write in a supported app")); return
         }
         lastExternalApplication = app
-        guard let identifier = app.bundleIdentifier else { unavailable(L10n.text("Aplicativo sem identidade verificável")); return }
+        guard let identifier = app.bundleIdentifier else { unavailable(L10n.text("App without a verifiable identity")); return }
         // Check the exclusion policy before asking AX for any field or text.
-        guard !preferences.isBlocked(identifier) else { unavailable(L10n.format("Revisão desativada em %@", app.localizedName ?? identifier)); return }
+        guard !preferences.isBlocked(identifier) else { unavailable(L10n.format("Checking disabled in %@", app.localizedName ?? identifier)); return }
         let root = AXUIElementCreateApplication(app.processIdentifier)
         AXUIElementSetMessagingTimeout(root, 0.15)
         var focused = AXAccess.focusedElement(root: root, pid: app.processIdentifier)
@@ -248,7 +248,7 @@ final class AccessibilityEditor {
             }
         } else if hasTypedEditor { accessibilityActivation[app.processIdentifier]?.editorObserved = true }
         guard let field = focused else {
-            unavailable(L10n.text("Selecione um campo de escrita")); return
+            unavailable(L10n.text("Select a text field")); return
         }
         AXUIElementSetMessagingTimeout(field, 0.15)
         let role = AXAccess.string(field, kAXRoleAttribute) ?? ""
@@ -257,22 +257,22 @@ final class AccessibilityEditor {
             && (AXAccess.settable(field, kAXSelectedTextAttribute) || AXAccess.settable(field, kAXValueAttribute))
         guard [kAXTextAreaRole, kAXTextFieldRole, kAXComboBoxRole].contains(role) || editableGroup,
               subrole != kAXSecureTextFieldSubrole else {
-            unavailable(L10n.format("Campo sem suporte à revisão em %@", app.localizedName ?? identifier),
-                        detail: L10n.format("Papel: %@; subpapel: %@; %@", role.isEmpty ? L10n.text("indisponível") : role, subrole, AXAccess.lastFailure))
+            unavailable(L10n.format("Field does not support checking in %@", app.localizedName ?? identifier),
+                        detail: L10n.format("Role: %@; subrole: %@; %@", role.isEmpty ? L10n.text("unavailable") : role, subrole, AXAccess.lastFailure))
             return
         }
         if let size = AXAccess.value(field, kAXNumberOfCharactersAttribute) as? NSNumber, size.intValue > ReviewChunker.maximumFieldUTF16 {
-            unavailable(L10n.text("Este campo é grande demais para o protótipo")); return
+            unavailable(L10n.text("This field is too large for the prototype")); return
         }
         guard let text = AXAccess.string(field, kAXValueAttribute), text.utf16.count <= ReviewChunker.maximumFieldUTF16,
               let selection = AXAccess.range(field, kAXSelectedTextRangeAttribute),
               NSMaxRange(selection) <= text.utf16.count else {
-            unavailable(L10n.text("O editor não disponibiliza texto e posição por Acessibilidade")); return
+            unavailable(L10n.text("The editor does not provide text and position through Accessibility")); return
         }
         observe(pid: app.processIdentifier, root: root, field: field)
         guard let fragment = WritingFragment(fieldText: text, caret: selection.location) else {
             onSnapshot?(nil)
-            onStatus?(text.isEmpty ? L10n.text("Aguardando texto") : L10n.text("Trecho vazio ou sem separações suficientes para revisar"))
+            onStatus?(text.isEmpty ? L10n.text("Waiting for text") : L10n.text("Passage empty or without enough word boundaries to review"))
             return
         }
         let units = ReviewChunker.window(in: fragment.text, caret: selection.location - fragment.range.location)
@@ -285,7 +285,7 @@ final class AccessibilityEditor {
     }
 
     private func unavailable(_ message: String, detail: String? = nil) {
-        geometryDiagnostic = detail ?? L10n.text("Sem propostas posicionadas")
+        geometryDiagnostic = detail ?? L10n.text("No positioned suggestions")
         clearObserver()
         onSnapshot?(nil)
         onStatus?(message)
@@ -455,7 +455,7 @@ final class AccessibilityEditor {
     }
 
     func locate(_ suggestions: [WritingSuggestion], in snapshot: EditorSnapshot) -> [LocatedSuggestion] {
-        guard isCurrent(snapshot) else { geometryDiagnostic = L10n.text("Destino fora de foco ou texto alterado"); return [] }
+        guard isCurrent(snapshot) else { geometryDiagnostic = L10n.text("Destination unfocused or text changed"); return [] }
         let fieldFrame = AXAccess.frame(snapshot.element)
         let windowFrame = AXAccess.element(snapshot.element, kAXWindowAttribute).flatMap { AXAccess.frame($0) }
         let source = snapshot.fieldText as NSString
@@ -496,7 +496,7 @@ final class AccessibilityEditor {
                 }
             }
         }
-        geometryDiagnostic = L10n.format("Geometria: %@; retângulos: %ld; fora do campo: %ld; encobertos: %ld; marcas: %ld; sem posição exata: %ld; janelas: %ld", geometry.usedTextLeaves ? L10n.text("texto interno web") : L10n.text("campo"), boundsCount, clippedCount, occludedCount, located.count, located.filter(\.isFieldAnchor).count, windows.count)
+        geometryDiagnostic = L10n.format("Geometry: %@; rectangles: %ld; outside field: %ld; occluded: %ld; marks: %ld; no exact position: %ld; windows: %ld", geometry.usedTextLeaves ? L10n.text("internal web text") : L10n.text("field"), boundsCount, clippedCount, occludedCount, located.count, located.filter(\.isFieldAnchor).count, windows.count)
         return located
     }
 

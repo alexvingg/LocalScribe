@@ -1,5 +1,15 @@
 # Validação do MVP
 
+### Release 0.8.2: selected translation target and English source code
+
+- `TranslationPrompt` now names the user-selected target in English with its code and explicitly separates it from the interface and source languages. Normal translation already used `Preferences.translationLanguage`; standalone and inline demonstration previews and the card gallery now use it too.
+- All 15 targets reported by the installed model passed the isolated configuration check: saved selection, requested target, result label, same-language bypass, and per-target cache separation. The deterministic translator made zero model calls and did not change real user preferences.
+- Real Apple Intelligence translation passed en→pt, pt→en, and en→es, including Friday→sexta-feira, negation, numbers, email, URL, and line-break preservation. Injection-like input was translated as text. Cache, timeout, late-response rejection, unsupported target, and oversize-input checks passed.
+- **64 core checks, zero failures.** English/Portuguese catalogs retain **173 keys** with matching placeholders and English source keys. All **63 multilingual samples** are referenced from bundled data resources. Swift implementation, comments, prompts, diagnostics, and localization keys are English; multilingual linguistic data remains outside Swift literals.
+- Packaged localization checks passed English, pt-BR, and Japanese→English fallback. The same bundled resource loader serves interface strings, language review rules, and synthetic samples.
+- The installed app reported Accessibility authorized and the on-device model ready. A read-only Chrome diagnostic resolved all six checked glyphs in the active seven-position field. The real model corrected `She go to school every days.` to `She goes to school every day.`, and the local spelling smoke check passed. No message was sent.
+- This change did not retest applying corrections in host editors and does not certify translation quality for all 15 supported targets. Installer and source use version 0.8.2 (build 25). Publishing a GitHub release does not certify compatibility with every host editor.
+
 ### Release 0.8.1 e captura com sublinhados
 
 - Captura enviada pelo autor adicionada sem alterações em `docs/images/textedit-review-underlines.png`, agora usada no README para mostrar as marcas vermelhas no TextEdit.

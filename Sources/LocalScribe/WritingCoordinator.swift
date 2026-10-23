@@ -9,11 +9,11 @@ final class WritingCoordinator: ObservableObject {
     let editor: AccessibilityEditor
     let overlay = OverlayPresenter()
     let translation = LocalTranslationService()
-    @Published private(set) var status = L10n.text("Iniciando…")
-    @Published private(set) var detectedLanguage = L10n.text("Automático")
+    @Published private(set) var status = L10n.text("Starting…")
+    @Published private(set) var detectedLanguage = L10n.text("Automatic")
     @Published private(set) var suggestionCount = 0
     @Published private(set) var lastApplicationName = ""
-    @Published private(set) var geometryDiagnostic = L10n.text("Sem propostas posicionadas")
+    @Published private(set) var geometryDiagnostic = L10n.text("No positioned suggestions")
     @Published var keyboardShortcutAvailable = false
     private(set) var snapshot: EditorSnapshot?
     private var suggestions: [WritingSuggestion] = []
@@ -62,8 +62,8 @@ final class WritingCoordinator: ObservableObject {
         overlay.onHideTranslation = { [weak self] in self?.translation.closeInline(for: $0.id) }
         translation.onInlineUpdate = { [weak self] id, state in self?.overlay.setTranslationState(state, for: id) }
         overlay.translationLanguageName = { [weak self] in
-            let code = self?.preferences.translationLanguage ?? "pt"
-            return L10n.languageName(code)
+            guard let self else { return "" }
+            return L10n.languageName(self.preferences.translationLanguage)
         }
         subscription = preferences.objectWillChange.sink { [weak self] _ in
             DispatchQueue.main.async {
@@ -109,9 +109,9 @@ final class WritingCoordinator: ObservableObject {
         activeKey = nil
         alternativeHistory.removeAll()
         if !preservingOverlay { overlay.clear() }
-        geometryDiagnostic = L10n.text("Sem propostas posicionadas")
+        geometryDiagnostic = L10n.text("No positioned suggestions")
         if clearSnapshot {
-            snapshot = nil; detectedLanguage = L10n.text("Automático")
+            snapshot = nil; detectedLanguage = L10n.text("Automatic")
             failedSnapshot = nil
         }
     }
@@ -156,12 +156,12 @@ final class WritingCoordinator: ObservableObject {
             revisionMessage = saved.message
             publish(saved.suggestions, input: incoming)
             if saved.complete {
-                setStatus(L10n.format("Retomado sem nova análise · %@", saved.message))
+                setStatus(L10n.format("Resumed without reanalysis · %@", saved.message))
                 return
             }
         }
         let token = epoch
-        setStatus(L10n.format("Aguardando pausa em %@…", incoming.appName))
+        setStatus(L10n.format("Waiting for a pause in %@…", incoming.appName))
         debounce = Task { [weak self] in
             do { try await Task.sleep(nanoseconds: 400_000_000) } catch { return }
             guard let self, token == self.epoch else { return }
@@ -225,7 +225,7 @@ final class WritingCoordinator: ObservableObject {
                     if let cached = languageCache.value(for: languageKey) {
                         languageCode = cached == "unknown" ? nil : cached
                     } else {
-                        setStatus(L10n.text("Identificando o idioma no seu Mac…"))
+                        setStatus(L10n.text("Identifying the language on your Mac…"))
                         cache.willCallModel()
                         languageCode = try await model.identifyLanguage(text)
                         guard mayCache() else { return }
@@ -235,7 +235,7 @@ final class WritingCoordinator: ObservableObject {
                 }
                 guard let languageCode else { continue }
                 let languageName = L10n.languageName(languageCode)
-                guard model.supports(languageCode) else { setStatus(L10n.format("Idioma sem suporte: %@", languageName)); continue }
+                guard model.supports(languageCode) else { setStatus(L10n.format("Unsupported language: %@", languageName)); continue }
                 knownLanguages.insert(languageName)
                 detectedLanguage = knownLanguages.sorted().joined(separator: ", ")
                 let localEdits = SystemSpellingService.edits(in: text, language: languageCode)
@@ -252,9 +252,9 @@ final class WritingCoordinator: ObservableObject {
                 let assessment: ReviewAssessment
                 if let cached = cache.assessment(text, language: languageCode, bundleID: input.bundleID) {
                     assessment = cached
-                    setStatus(L10n.format("Reutilizando revisão em %@…", languageName))
+                    setStatus(L10n.format("Reusing review in %@…", languageName))
                 } else {
-                    setStatus(L10n.format("Revisando localmente em %@…", languageName))
+                    setStatus(L10n.format("Reviewing on device in %@…", languageName))
                     cache.willCallModel()
                     do {
                         assessment = try await model.assess(text, language: languageCode)
@@ -302,19 +302,19 @@ final class WritingCoordinator: ObservableObject {
             }
             guard valid(token, input) else { return }
             reviewFailures = 0
-            if knownLanguages.isEmpty { finishRevision(skippedChunk ? L10n.text("Um trecho sem separação é grande demais; divida-o para revisar") : L10n.text("Aguardando contexto para identificar o idioma")); return }
+            if knownLanguages.isEmpty { finishRevision(skippedChunk ? L10n.text("An unbroken passage is too large; split it to review") : L10n.text("Waiting for context to identify the language")); return }
             if spellingOnly {
-                finishRevision(L10n.format("Correções ortográficas: %ld · O modelo da Apple recusou a revisão de frases neste trecho", suggestions.count))
+                finishRevision(L10n.format("Spelling corrections: %ld · The Apple model declined sentence review for this passage", suggestions.count))
                 return
             }
-            finishRevision(suggestions.isEmpty ? L10n.text("Nenhuma alteração sugerida nesta revisão") : L10n.format("Sugestões: %ld · %@", suggestions.count, input.appName))
+            finishRevision(suggestions.isEmpty ? L10n.text("No changes suggested in this review") : L10n.format("Suggestions: %ld · %@", suggestions.count, input.appName))
         } catch ReviewFailure.contentReviewUnavailable {
             if valid(token, input) { finishRevision(ReviewFailure.contentReviewUnavailable.localizedDescription) }
         } catch is CancellationError {
             // Results from old revisions never reach the overlay.
         } catch {
             if valid(token, input) {
-                setStatus(L10n.format("Revisão indisponível: %@", error.localizedDescription))
+                setStatus(L10n.format("Review unavailable: %@", error.localizedDescription))
                 // One transient framework failure must not strand this unchanged editor forever.
                 reviewFailures += 1
                 if reviewFailures <= 2 {
@@ -375,7 +375,7 @@ final class WritingCoordinator: ObservableObject {
               chunk.isReviewable, let language = LanguageResolver.detect(chunk.text) else { return }
         overlay.hideCard()
         translation.translate(chunk.text, source: language.code, target: preferences.translationLanguage,
-            bundleID: input.bundleID, label: L10n.text("Tradução do trecho escrito"), anchor: AXAccess.bounds(input.element,
+            bundleID: input.bundleID, label: L10n.text("Translation of the written passage"), anchor: AXAccess.bounds(input.element,
                 range: NSRange(location: input.fragment.range.location + chunk.range.location, length: chunk.range.length)).map { rect in
                     CGRect(x: rect.minX, y: (NSScreen.screens.first?.frame.maxY ?? 0) - rect.maxY, width: rect.width, height: rect.height)
                 })
@@ -385,7 +385,7 @@ final class WritingCoordinator: ObservableObject {
         guard applicationTask == nil, let input = snapshot, editor.isCurrent(input),
               suggestions.contains(where: { $0.id == suggestion.id }), let text = suggestion.translationText else { return }
         translation.translate(text, source: suggestion.language, target: preferences.translationLanguage,
-            bundleID: input.bundleID, label: L10n.text("Tradução da sugestão"), anchor: nil, suggestionID: suggestion.id)
+            bundleID: input.bundleID, label: L10n.text("Translation of the suggestion"), anchor: nil, suggestionID: suggestion.id)
     }
 
     private func accept(_ suggestion: WritingSuggestion) {
@@ -396,7 +396,7 @@ final class WritingCoordinator: ObservableObject {
         epoch = UUID()
         failedSnapshot = nil; errorUntil = .distantPast
         overlay.setApplicationState(.applying, for: suggestion.id)
-        status = L10n.text("Aplicando no editor…")
+        status = L10n.text("Applying in the editor…")
         applicationTask = Task { [weak self] in
             guard let self else { return }
             await self.apply(suggestion, input: input)
@@ -449,15 +449,15 @@ final class WritingCoordinator: ObservableObject {
                                            bundleID: input.bundleID, sentenceIssue: result.sentenceIssue, spellingOnly: result.spellingOnly)
                     }
                 }
-                finishRevision(carried.isEmpty ? L10n.text("Correção aplicada") : L10n.format("Correção aplicada · sugestões mantidas: %ld", carried.count))
+                finishRevision(carried.isEmpty ? L10n.text("Correction applied") : L10n.format("Correction applied · suggestions kept: %ld", carried.count))
                 if oldResult?.spellingOnly == true {
-                    finishRevision(status + L10n.text(" · Revisão de frases indisponível neste trecho"))
+                    finishRevision(status + L10n.text(" · Sentence review unavailable for this passage"))
                 }
                 if reviewedReplacement {
                     FileHandle.standardError.write(Data("editor-review phase=reused-reviewed-proposal bundle=\(input.bundleID) remaining=\(carried.count)\n".utf8))
                 }
             } else {
-                setStatus(L10n.text("Alteração aplicada · conferindo somente os trechos necessários…"))
+                setStatus(L10n.text("Change applied · checking only the necessary passages…"))
                 pending = (next, epoch); pump()
             }
         } catch {
@@ -480,7 +480,7 @@ final class WritingCoordinator: ObservableObject {
         suggestionCount = suggestions.count
         overlay.hideCard()
         refreshGeometry()
-        setStatus(suggestions.isEmpty ? L10n.text("Proposta ignorada nesta revisão") : L10n.format("Sugestões: %ld", suggestions.count))
+        setStatus(suggestions.isEmpty ? L10n.text("Suggestion dismissed in this review") : L10n.format("Suggestions: %ld", suggestions.count))
         revisionMessage = status
         saveCurrentRevision()
     }
@@ -493,27 +493,27 @@ final class WritingCoordinator: ObservableObject {
         }
         if inferenceBusy {
             guard !alternativeLifetime.hasTimedOut else {
-                overlay.setAlternativeState(.failed(L10n.text("O modelo ainda está encerrando o pedido. A correção original está disponível.")), for: suggestion.id)
+                overlay.setAlternativeState(.failed(L10n.text("The model is still finishing the request. The original correction is available.")), for: suggestion.id)
                 return
             }
             // One queued request only; repeated clicks do not start duplicate generations.
             guard deferredAlternative == nil else { return }
             deferredAlternative = suggestion
             overlay.setAlternativeState(.queued, for: suggestion.id)
-            setStatus(L10n.text("Alternativa agendada após a revisão atual"))
+            setStatus(L10n.text("Alternative queued after the current review"))
             let token = epoch
             deferredDeadline = Task { [weak self] in
                 do { try await Task.sleep(nanoseconds: 25_000_000_000) } catch { return }
                 guard let self, self.epoch == token, self.deferredAlternative?.id == suggestion.id else { return }
                 self.deferredAlternative = nil
                 self.deferredDeadline = nil
-                self.overlay.setAlternativeState(.failed(L10n.text("A revisão atual está demorando. A correção original continua disponível.")), for: suggestion.id)
+                self.overlay.setAlternativeState(.failed(L10n.text("The current review is taking a while. The original correction is still available.")), for: suggestion.id)
             }
             return
         }
         let paragraph = input.fragment.text as NSString
         guard let selectedRange = AlternativeContext.range(in: input.fragment.text, anchor: suggestion.range.location) else {
-            overlay.setAlternativeState(.failed(L10n.text("Este trecho precisa ser dividido antes de reformular.")), for: suggestion.id)
+            overlay.setAlternativeState(.failed(L10n.text("Split this passage before rewriting it.")), for: suggestion.id)
             return
         }
         let range = suggestion.kind == .style ? suggestion.range : selectedRange
@@ -531,20 +531,20 @@ final class WritingCoordinator: ObservableObject {
         inferenceBusy = true
         generatingAlternative = true
         overlay.setAlternativeState(.generating, for: suggestion.id)
-        setStatus(L10n.text("Gerando alternativa local…"))
+        setStatus(L10n.text("Generating an alternative on device…"))
         alternativeDeadline = Task { [weak self] in
             do { try await Task.sleep(nanoseconds: 25_000_000_000) } catch { return }
             guard let self, self.epoch == token, self.alternativeLifetime.timeout(requestID) else { return }
             self.worker?.cancel()
             self.presentAlternative(baseline, original: text, range: range, input: input, source: suggestion,
                 historyKey: historyKey, previous: previous,
-                notice: L10n.text("O modelo demorou. Mostrando a versão com as correções já disponíveis."))
+                notice: L10n.text("The model took too long. Showing the version with the corrections already available."))
             if let queued = self.deferredAlternative {
-                self.overlay.setAlternativeState(.failed(L10n.text("O pedido anterior demorou. A correção original continua disponível.")), for: queued.id)
+                self.overlay.setAlternativeState(.failed(L10n.text("The previous request took too long. The original correction is still available.")), for: queued.id)
                 self.deferredAlternative = nil
                 self.deferredDeadline?.cancel(); self.deferredDeadline = nil
             }
-            self.setStatus(L10n.text("Reformulação interrompida por demora do modelo"))
+            self.setStatus(L10n.text("Rewrite stopped because the model took too long"))
         }
         worker = Task { [weak self] in
             guard let self else { return }
@@ -560,15 +560,15 @@ final class WritingCoordinator: ObservableObject {
                       self.suggestions.contains(where: { $0.id == suggestion.id }) else { return }
                 let revised = result.text
                 let notice = result.generatedNewWording ? nil : (revised == text
-                    ? L10n.text("Texto preservado: não encontrei uma melhoria adicional segura.")
-                    : L10n.text("Texto revisado. Mantive sua ideia e a maior parte das palavras."))
+                    ? L10n.text("Text preserved: no further safe improvement was found.")
+                    : L10n.text("Text reviewed. Your idea and most of your wording were preserved."))
                 self.presentAlternative(revised, original: text, range: range, input: input, source: suggestion,
                     historyKey: historyKey, previous: previous, notice: notice, hasReviewedReplacement: true)
             } catch {
                 if self.valid(token, input), self.suggestions.contains(where: { $0.id == suggestion.id }) {
                     self.presentAlternative(baseline, original: text, range: range, input: input, source: suggestion,
                         historyKey: historyKey, previous: previous,
-                        notice: L10n.text("Não foi possível gerar outra versão. Mostrando o texto com as correções disponíveis."))
+                        notice: L10n.text("Could not generate another version. Showing the text with the available corrections."))
                 }
             }
         }
@@ -591,7 +591,7 @@ final class WritingCoordinator: ObservableObject {
         publish(combined, input: input)
         if let notice { overlay.setAlternativeState(.unavailable(notice), for: item.id) }
         if keepOpen { overlay.showSuggestion(id: item.id) }
-        setStatus(revised == original ? L10n.text("Texto preservado no cartão") : L10n.text("Sugestão de texto disponível"))
+        setStatus(revised == original ? L10n.text("Text preserved in the card") : L10n.text("Text suggestion available"))
         revisionMessage = status
         saveCurrentRevision()
     }

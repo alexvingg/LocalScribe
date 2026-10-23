@@ -68,7 +68,7 @@ final class LocalTranslationService: ObservableObject {
         sourceLabel = label
         targetName = L10n.languageName(target)
         if suggestionID == nil { showPanel(near: anchor) }
-        guard source != target else { result = text; message = L10n.text("O texto já está no idioma escolhido."); updateInline(); return }
+        guard source != target else { result = text; message = L10n.text("The text is already in the selected language."); updateInline(); return }
         let key = Key(text: text, source: source, target: target, bundleID: bundleID)
         if let saved = cache.value(for: key) { result = saved; updateInline(); return }
         isLoading = true
@@ -78,7 +78,7 @@ final class LocalTranslationService: ObservableObject {
             do { try await Task.sleep(nanoseconds: self?.timeoutNanoseconds ?? 45_000_000_000) } catch { return }
             guard let self, self.requestID == id else { return }
             self.requestID = UUID(); self.task?.cancel()
-            self.isLoading = false; self.message = L10n.text("A tradução demorou para responder. Você pode fechar e tentar novamente.")
+            self.isLoading = false; self.message = L10n.text("Translation took too long. You can close it and try again.")
             self.updateInline()
         }
         task = Task { [weak self] in
@@ -91,7 +91,7 @@ final class LocalTranslationService: ObservableObject {
             } catch {
                 guard self.requestID == id else { return }
                 if let failure = error as? TranslationFailure { self.message = failure.localizedDescription }
-                else { self.message = L10n.text("Não foi possível traduzir este trecho. Feche e tente novamente.") }
+                else { self.message = L10n.text("Could not translate this passage. Close it and try again.") }
                 let detail = error as NSError
                 print("translation-error domain=\(detail.domain) code=\(detail.code) type=\(type(of: error))")
             }
@@ -133,22 +133,22 @@ private struct TranslationResultView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 13) {
             HStack {
-                Label(L10n.format("Tradução · %@", service.targetName), systemImage: "character.bubble").font(.headline)
+                Label(L10n.format("Translation · %@", service.targetName), systemImage: "character.bubble").font(.headline)
                 Spacer()
-                Button { service.close() } label: { Image(systemName: "xmark") }.buttonStyle(.plain).help(L10n.text("Fechar tradução"))
+                Button { service.close() } label: { Image(systemName: "xmark") }.buttonStyle(.plain).help(L10n.text("Close translation"))
             }
             Text(service.sourceLabel).font(.caption).foregroundStyle(.secondary)
             if service.isLoading {
-                HStack { ProgressView().controlSize(.small); Text(L10n.text("Traduzindo no seu Mac…")).font(.callout) }
+                HStack { ProgressView().controlSize(.small); Text(L10n.text("Translating on your Mac…")).font(.callout) }
             }
             ScrollView {
                 Text(service.result.isEmpty ? service.message : service.result)
                     .font(.system(size: 14)).textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading)
             }
             HStack {
-                Text(L10n.text("Só para leitura · no dispositivo")).font(.caption2).foregroundStyle(.secondary)
+                Text(L10n.text("Read-only · on device")).font(.caption2).foregroundStyle(.secondary)
                 Spacer()
-                Button(L10n.text("Copiar"), systemImage: "doc.on.doc") {
+                Button(L10n.text("Copy"), systemImage: "doc.on.doc") {
                     NSPasteboard.general.clearContents(); NSPasteboard.general.setString(service.result, forType: .string)
                 }.buttonStyle(.borderless).disabled(service.result.isEmpty)
             }

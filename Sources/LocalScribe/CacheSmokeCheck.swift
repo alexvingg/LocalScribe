@@ -28,8 +28,8 @@ enum CacheSmokeCheck {
         }
         guard proposals.count == 2 else { throw Failure(reason: "Expected two synthetic corrections") }
         store.saveSentence(text, revised: revised, language: "en", bundleID: first.bundleID)
-        store.save(CachedFieldRevision(suggestions: proposals, ignored: [], history: [:], language: "Inglês",
-            message: "2 correções", complete: true), for: key)
+        store.save(CachedFieldRevision(suggestions: proposals, ignored: [], history: [:], language: "English",
+            message: "2 corrections", complete: true), for: key)
         // Leaving focus does not mutate the process-local store. A fresh AX reference must identify the same field.
         let returnInput = input(text, element: AXUIElementCreateApplication(ProcessInfo.processInfo.processIdentifier))
         let returnKey = store.key(for: returnInput, languageMode: "automatic")
@@ -40,7 +40,7 @@ enum CacheSmokeCheck {
         let ignored = SuggestionSignature(proposals[0])
         let history = ["synthetic": ["A different phrasing."]]
         store.save(CachedFieldRevision(suggestions: Array(proposals.dropFirst()), ignored: [ignored], history: history,
-            language: "Inglês", message: "1 correção", complete: true), for: key)
+            language: "English", message: "1 correction", complete: true), for: key)
         guard let decision = store.revision(for: returnKey), decision.ignored.contains(ignored), decision.history == history,
               decision.suggestions.count == 1 else { throw Failure(reason: "Ignore/history not retained") }
         let changedKey = store.key(for: input("She goes to school every day.", element: element), languageMode: "automatic")
@@ -53,8 +53,8 @@ enum CacheSmokeCheck {
               store.sentence(text, language: "en", bundleID: "another.app") == nil else {
             throw Failure(reason: "Sentence reuse/app isolation failed")
         }
-        store.save(CachedFieldRevision(suggestions: [], ignored: [], history: [:], language: "Inglês",
-            message: "Sem correções", complete: true), for: changedKey)
+        store.save(CachedFieldRevision(suggestions: [], ignored: [], history: [:], language: "English",
+            message: "No corrections", complete: true), for: changedKey)
         guard store.revision(for: changedKey)?.complete == true else { throw Failure(reason: "Empty result was not cached") }
         store.removeAll()
         guard store.revision(for: key) == nil, store.sentence(text, language: "en", bundleID: first.bundleID) == nil else {

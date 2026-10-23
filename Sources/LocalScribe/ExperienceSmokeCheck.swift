@@ -22,7 +22,7 @@ enum ExperienceSmokeCheck {
             throw Failure(reason: "Accepting one word lost another or needed generation")
         }
         print("incremental-accept remaining=\(carried[0].original) preservedID=\(carried[0].id == pending.last?.id) additionalModelCalls=0")
-        for (text, language, shouldFlag) in [("i could can go to there.?", "en", true), ("I can will attend the meeting.", "en", true), ("I could go there.", "en", false), ("The report is ready.", "en", false), ("Ela pode ir amanhã.", "pt", false)] {
+        for (text, language, shouldFlag) in [("i could can go to there.?", "en", true), ("I can will attend the meeting.", "en", true), ("I could go there.", "en", false), ("The report is ready.", "en", false), (LanguageSamples.text("modal.valid.portuguese"), "pt", false)] {
             let start = Date()
             let assessment = try await service.assess(text, language: language)
             let record: [String: Any] = ["input": text, "output": assessment.revised, "sentenceIssue": assessment.sentenceIssue,

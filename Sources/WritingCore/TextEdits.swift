@@ -93,7 +93,7 @@ public enum TextEdits {
         }
         if applying(expanded, to: original) == revised {
             // Character alignment may reuse letters from a later source word. A card must
-            // not end halfway through a target word (e.g. vc -> voc, mizere -> ê?).
+            // not end halfway through a target word when a correction expands an abbreviation.
             let target = revised as NSString
             var targetWords: [NSRange] = []
             target.enumerateSubstrings(in: NSRange(location: 0, length: target.length), options: [.byWords, .substringNotRequired]) {

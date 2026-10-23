@@ -10,7 +10,7 @@ enum ProposalStabilitySmokeCheck {
         for (language, baseline) in [
             ("en", "hi my friend ! How are you?"),
             ("en", "She goes to school every day."),
-            ("pt", "Olá, meu amigo ! Como você está ?")
+            ("pt", LanguageSamples.text("greeting.spaced.portuguese"))
         ] {
             let prepared = try await model.preparedAlternative(baseline, language: language, excluding: [])
             guard !prepared.text.isEmpty, TextEdits.preservesProtectedContent(baseline, prepared.text),

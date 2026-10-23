@@ -7,8 +7,8 @@
     <key>CFBundleDisplayName</key><string>LocalScribe</string>
     <key>CFBundlePackageType</key><string>APPL</string>
     <key>CFBundleIconFile</key><string>LocalScribe.icns</string>
-    <key>CFBundleShortVersionString</key><string>0.8.1</string>
-    <key>CFBundleVersion</key><string>24</string>
+    <key>CFBundleShortVersionString</key><string>0.8.2</string>
+    <key>CFBundleVersion</key><string>25</string>
     <key>CFBundleDevelopmentRegion</key><string>en</string>
     <key>CFBundleLocalizations</key><array><string>en</string><string>pt</string></array>
     <key>LSMinimumSystemVersion</key><string>26.4</string>

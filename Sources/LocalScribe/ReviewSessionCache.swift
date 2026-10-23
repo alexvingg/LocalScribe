@@ -54,7 +54,7 @@ final class ReviewSessionCache {
     private(set) var sentenceHits = 0
     private(set) var modelCalls = 0
 
-    var diagnostic: String { L10n.format("Cache em memória: retomadas %ld; frases reutilizadas %ld; chamadas para revisão automática %ld", revisionHits, sentenceHits, modelCalls) }
+    var diagnostic: String { L10n.format("Memory cache: resumed %ld; sentences reused %ld; automatic review calls %ld", revisionHits, sentenceHits, modelCalls) }
 
     func key(for input: EditorSnapshot, languageMode: String) -> FieldRevisionKey {
         pruneIfNeeded()

@@ -8,8 +8,8 @@ import WritingCore
 struct LocalScribeMain {
     @MainActor static func main() {
         if CommandLine.arguments.contains("--localization-smoke") {
-            let record: [String: String] = ["language": L10n.language, "settings": L10n.text("Configurações…"),
-                "languageName": L10n.languageName("pt"), "format": L10n.format("Traduzir para %@", "Español"),
+            let record: [String: String] = ["language": L10n.language, "settings": L10n.text("Settings…"),
+                "languageName": L10n.languageName("pt"), "format": L10n.format("Translate to %@", LanguageSamples.text("language.spanishName")),
                 "model": LocalModelService().availabilityDescription]
             print(String(decoding: try! JSONSerialization.data(withJSONObject: record, options: [.sortedKeys]), as: UTF8.self))
             return
@@ -63,7 +63,7 @@ struct LocalScribeMain {
             Task { @MainActor in
                 do {
                     let service = LocalModelService()
-                    for (text, expected) in [("helo wrld", "en"), ("ola tudo beem", "pt"), ("bonjour mon amii", "fr"), ("guten morgn", "de")] {
+                    for (text, expected) in [("helo wrld", "en"), (LanguageSamples.text("greeting.shortMisspelled.portuguese"), "pt"), (LanguageSamples.text("greeting.shortMisspelled.french"), "fr"), (LanguageSamples.text("greeting.shortMisspelled.german"), "de")] {
                         let before = service.generationCount
                         let result = try await service.identifyLanguage(text)
                         let record: [String: Any] = ["input": text, "fastDetection": LanguageResolver.detect(text)?.code ?? "unknown",
@@ -103,6 +103,14 @@ struct LocalScribeMain {
             NSApplication.shared.run()
             return
         }
+        if CommandLine.arguments.contains("--translation-configuration-smoke") {
+            Task { @MainActor in
+                do { try await TranslationSmokeCheck.configuration(); exit(0) }
+                catch { print("translation-configuration=failed reason=\(error)"); exit(1) }
+            }
+            NSApplication.shared.run()
+            return
+        }
         if CommandLine.arguments.contains("--translation-smoke") {
             Task { @MainActor in
                 do { try await TranslationSmokeCheck.run(); exit(0) }
@@ -114,16 +122,16 @@ struct LocalScribeMain {
         if CommandLine.arguments.contains("--word-smoke") {
             Task { @MainActor in
                 do {
-                    let text = "ola tudo bem com vc mizere"
+                    let text = LanguageSamples.text("greeting.screenshotOriginal.portuguese")
                     let revised = try await LocalModelService().revise(text, language: "pt")
                     let edits = TextEdits.wordEdits(text, revised)
                     let greeting = edits.first { NSIntersectionRange($0.range, NSRange(location: 0, length: 3)).length > 0 }
                     let record: [String: Any] = ["input": text, "output": revised,
                         "edits": edits.map { ["original": $0.original, "replacement": $0.replacement, "offset": $0.range.location, "length": $0.range.length] },
-                        "wholeGreeting": greeting?.original == "ola", "roundTrip": TextEdits.applying(edits, to: text) == revised,
+                        "wholeGreeting": greeting?.original == LanguageSamples.text("greeting.misspelled.portuguese"), "roundTrip": TextEdits.applying(edits, to: text) == revised,
                         "hostEditorTested": false]
                     print(String(decoding: try JSONSerialization.data(withJSONObject: record, options: [.sortedKeys]), as: UTF8.self))
-                    exit(greeting?.original == "ola" && TextEdits.applying(edits, to: text) == revised ? 0 : 2)
+                    exit(greeting?.original == LanguageSamples.text("greeting.misspelled.portuguese") && TextEdits.applying(edits, to: text) == revised ? 0 : 2)
                 } catch { print("word-smoke-error=\(error)"); exit(1) }
             }
             NSApplication.shared.run()
@@ -161,10 +169,10 @@ struct LocalScribeMain {
                     ]
                     if CommandLine.arguments.contains("--model-matrix") {
                         cases += [
-                            ("portuguese-errors", "ola, eu sou Ana.", false, false, "Olá, eu sou Ana."),
+                            ("portuguese-errors", LanguageSamples.text("greeting.introductionOriginal.portuguese"), false, false, LanguageSamples.text("greeting.introductionCorrected.portuguese")),
                             ("correct-english", "The meeting starts at nine tomorrow. Please bring the report.", false, false, "The meeting starts at nine tomorrow. Please bring the report."),
-                            ("optional-portuguese", "Eu gostaria de informar que, neste momento, o relatório já se encontra concluído e pronto para ser enviado.", true, false, nil),
-                            ("explicit-alternative", "O atalho para revisar uma seleção e o botão Copiar continuam úteis como recursos complementares.", true, true, nil)
+                            ("optional-portuguese", LanguageSamples.text("report.verboseReady.portuguese"), true, false, nil),
+                            ("explicit-alternative", LanguageSamples.text("rewrite.complementaryTools.portuguese"), true, true, nil)
                         ]
                     }
                     var failures = 0
@@ -222,8 +230,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         mainMenu.addItem(applicationItem)
         let applicationMenu = NSMenu(title: "LocalScribe")
         applicationItem.submenu = applicationMenu
-        add(L10n.text("Configurações…"), to: applicationMenu, action: #selector(showSettings), key: ",")
-        add(L10n.text("Encerrar LocalScribe"), to: applicationMenu, action: #selector(quit), key: "q")
+        add(L10n.text("Settings…"), to: applicationMenu, action: #selector(showSettings), key: ",")
+        add(L10n.text("Quit LocalScribe"), to: applicationMenu, action: #selector(quit), key: "q")
         NSApp.mainMenu = mainMenu
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         statusItem.button?.image = LocalScribeBrand.menuBarIcon
@@ -237,11 +245,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 do {
                     let result = try await coordinator.model.alternative(original, language: "en", excluding: [])
                     showInlineTranslationPreview(original: original, replacement: result ?? original,
-                        notice: result == nil ? L10n.text("Não encontrei uma alternativa fiel que melhore este trecho. A sugestão atual foi mantida.") : nil,
-                        title: L10n.text("LocalScribe · Ensaio de reformulação"))
+                        notice: result == nil ? L10n.text("No faithful alternative that improves this passage was found. The current suggestion was kept.") : nil,
+                        title: L10n.text("LocalScribe · Rewrite example"))
                 } catch {
                     showInlineTranslationPreview(original: original, replacement: original,
-                        notice: error.localizedDescription, title: L10n.text("LocalScribe · Ensaio de reformulação"))
+                        notice: error.localizedDescription, title: L10n.text("LocalScribe · Rewrite example"))
                 }
             }
             return
@@ -249,8 +257,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         if CommandLine.arguments.contains("--preview-inline-translation") { showInlineTranslationPreview(); return }
         if CommandLine.arguments.contains("--preview-cards") { showCardPreview(); return }
         if CommandLine.arguments.contains("--preview-translation") {
-            coordinator.translation.translate("I could go there.", source: "en", target: "pt", bundleID: "dev.localscribe.demo",
-                label: L10n.text("Exemplo artificial · sem capturar outros apps"), anchor: nil)
+            coordinator.translation.translate("I could go there.", source: "en", target: preferences.translationLanguage, bundleID: "dev.localscribe.demo",
+                label: L10n.text("Synthetic example · no access to other apps"), anchor: nil)
             return
         }
         coordinator.start()
@@ -270,21 +278,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     func menuNeedsUpdate(_ menu: NSMenu) {
         menu.removeAllItems()
-        add(L10n.text("LocalScribe · modelo local"), to: menu, action: nil)
+        add(L10n.text("LocalScribe · on-device model"), to: menu, action: nil)
         add(String(coordinator.status.prefix(100)), to: menu, action: nil)
-        add(L10n.format("Idioma: %@", coordinator.detectedLanguage), to: menu, action: nil)
+        add(L10n.format("Language: %@", coordinator.detectedLanguage), to: menu, action: nil)
         menu.addItem(.separator())
-        add(preferences.paused ? L10n.text("Retomar revisão") : L10n.text("Pausar revisão"), to: menu, action: #selector(togglePause))
+        add(preferences.paused ? L10n.text("Resume checking") : L10n.text("Pause checking"), to: menu, action: #selector(togglePause))
         if let app = coordinator.editor.lastExternalApplication, let id = app.bundleIdentifier {
-            let item = add(L10n.format("Desativar em %@", app.localizedName ?? id), to: menu, action: #selector(blockCurrent))
+            let item = add(L10n.format("Disable in %@", app.localizedName ?? id), to: menu, action: #selector(blockCurrent))
             item.isEnabled = !preferences.isBlocked(id)
         }
-        add(L10n.text("Revisar agora"), to: menu, action: #selector(reviewNow))
-        add(L10n.text("Traduzir trecho atual"), to: menu, action: #selector(translateCurrent))
-        add(coordinator.keyboardShortcutAvailable ? L10n.text("Mostrar sugestão (⌃⌥R)") : L10n.text("Mostrar sugestão"), to: menu, action: #selector(showSuggestion))
+        add(L10n.text("Check now"), to: menu, action: #selector(reviewNow))
+        add(L10n.text("Translate current passage"), to: menu, action: #selector(translateCurrent))
+        add(coordinator.keyboardShortcutAvailable ? L10n.text("Show suggestion (⌃⌥R)") : L10n.text("Show suggestion"), to: menu, action: #selector(showSuggestion))
         menu.addItem(.separator())
-        add(L10n.text("Configurações…"), to: menu, action: #selector(showSettings), key: ",")
-        add(L10n.text("Encerrar LocalScribe"), to: menu, action: #selector(quit), key: "q")
+        add(L10n.text("Settings…"), to: menu, action: #selector(showSettings), key: ",")
+        add(L10n.text("Quit LocalScribe"), to: menu, action: #selector(quit), key: "q")
     }
 
     @discardableResult private func add(_ title: String, to menu: NSMenu, action: Selector?, key: String = "") -> NSMenuItem {
@@ -319,10 +327,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     private func showCardPreview() {
         if previewWindow == nil {
-            let view = NSHostingView(rootView: CardGalleryView())
+            let view = NSHostingView(rootView: CardGalleryView(translationTargetName: L10n.languageName(preferences.translationLanguage)))
             let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 734, height: 740),
                                   styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
-            window.title = L10n.text("LocalScribe · Prévia dos cartões")
+            window.title = L10n.text("LocalScribe · Card preview")
             window.isReleasedWhenClosed = false
             window.contentView = view
             window.center()
@@ -334,11 +342,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     /// Production card and real local translation; synthetic text, no external editor access.
     private func showInlineTranslationPreview(original: String = "i could can go to there.?", replacement: String = "I could go there.",
-                                              notice: String? = nil, title: String = L10n.text("LocalScribe · Exemplo de tradução no cartão")) {
+                                              notice: String? = nil, title: String = L10n.text("LocalScribe · Inline translation example")) {
         let suggestion = WritingSuggestion(kind: .style, range: NSRange(location: 0, length: original.utf16.count),
             original: original, replacement: replacement, language: "en", context: "")
         let feedback = CardFeedback()
-        feedback.translationTargetName = L10n.languageName("pt")
+        feedback.translationTargetName = L10n.languageName(preferences.translationLanguage)
         if let notice { feedback.states[suggestion.id] = .unavailable(notice) }
         let service = coordinator.translation
         let window = NSWindow(contentRect: NSRect(origin: .zero, size: SuggestionCardView.size(for: suggestion, state: feedback.state(for: suggestion.id))),
@@ -352,8 +360,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         window.contentView = NSHostingView(rootView: SuggestionCardView(suggestion: suggestion, feedback: feedback,
             accept: {}, dismiss: {}, alternatives: {}, close: { window.orderOut(nil) },
             translate: {
-                service.translate(suggestion.translationText!, source: "en", target: "pt", bundleID: "dev.localscribe.demo",
-                    label: L10n.text("Tradução da sugestão"), anchor: nil, suggestionID: suggestion.id)
+                let target = self.preferences.translationLanguage
+                feedback.translationTargetName = L10n.languageName(target)
+                service.translate(suggestion.translationText!, source: "en", target: target, bundleID: "dev.localscribe.demo",
+                    label: L10n.text("Translation of the suggestion"), anchor: nil, suggestionID: suggestion.id)
             }, hideTranslation: { service.closeInline(for: suggestion.id) }))
         previewWindow = window
         window.center(); NSApp.activate(ignoringOtherApps: true); window.makeKeyAndOrderFront(nil)
@@ -390,10 +400,10 @@ private struct SettingsView: View {
                         .accessibilityLabel("LocalScribe")
                     VStack(alignment: .leading, spacing: 4) {
                         Text("LocalScribe").font(.system(size: 25, weight: .semibold))
-                        Text(L10n.text("Suas palavras, com mais clareza.")).font(.system(size: 13)).foregroundStyle(.secondary)
+                        Text(L10n.text("Your words, with greater clarity.")).font(.system(size: 13)).foregroundStyle(.secondary)
                     }
                     Spacer()
-                    Text(L10n.text("NO SEU MAC")).font(.system(size: 9, weight: .semibold)).tracking(1)
+                    Text(L10n.text("ON YOUR MAC")).font(.system(size: 9, weight: .semibold)).tracking(1)
                         .foregroundStyle(accent).padding(.horizontal, 9).padding(.vertical, 6)
                         .background(accent.opacity(0.07), in: Capsule())
                 }
@@ -406,67 +416,67 @@ private struct SettingsView: View {
                         Image(systemName: "lock.shield").foregroundStyle(.secondary)
                     }
                     if !AXIsProcessTrusted() {
-                        Text(L10n.text("Autorize Acessibilidade para revisar o texto nos seus aplicativos."))
+                        Text(L10n.text("Allow Accessibility to check text in your apps."))
                             .font(.callout).foregroundStyle(.secondary)
-                        Button(L10n.text("Permitir Acessibilidade…")) { coordinator.editor.requestPermission() }.buttonStyle(CardPrimaryStyle())
+                        Button(L10n.text("Allow Accessibility…")) { coordinator.editor.requestPermission() }.buttonStyle(CardPrimaryStyle())
                     }
                     HStack(alignment: .top, spacing: 8) {
                         Label(coordinator.status, systemImage: "text.bubble")
                             .font(.system(size: 11)).foregroundStyle(.secondary).lineLimit(3)
                         Spacer(minLength: 4)
-                        Button(L10n.text("Revisar agora")) { coordinator.reviewNow() }
+                        Button(L10n.text("Check now")) { coordinator.reviewNow() }
                             .buttonStyle(.borderless).font(.system(size: 11)).disabled(coordinator.snapshot == nil)
                     }
                     Rectangle().fill(Color.primary.opacity(0.06)).frame(height: 1)
                     HStack {
                         VStack(alignment: .leading, spacing: 3) {
-                            Text(L10n.text("Revisão durante a escrita")).font(.system(size: 13, weight: .medium))
-                            Text(preferences.paused ? L10n.text("Pausada até você retomar.") : L10n.text("Sugestões discretas nos campos compatíveis."))
+                            Text(L10n.text("Check as you type")).font(.system(size: 13, weight: .medium))
+                            Text(preferences.paused ? L10n.text("Paused until you resume.") : L10n.text("Subtle suggestions in supported text fields."))
                                 .font(.system(size: 11)).foregroundStyle(.secondary)
                         }
                         Spacer()
-                        Toggle(L10n.text("Revisão durante a escrita"), isOn: Binding(
+                        Toggle(L10n.text("Check as you type"), isOn: Binding(
                             get: { !preferences.paused }, set: { preferences.paused = !$0 }
                         )).labelsHidden().toggleStyle(.switch)
                     }
                     HStack {
-                        Text(L10n.text("Idioma do texto")).font(.system(size: 12))
+                        Text(L10n.text("Text language")).font(.system(size: 12))
                         Spacer()
-                        Picker(L10n.text("Idioma do texto"), selection: $preferences.languageMode) {
-                            Text(L10n.text("Detectar automaticamente")).tag("automatic")
+                        Picker(L10n.text("Text language"), selection: $preferences.languageMode) {
+                            Text(L10n.text("Detect automatically")).tag("automatic")
                             ForEach(coordinator.model.supportedLanguageCodes, id: \.self) { code in
                                 Text(L10n.languageName(code)).tag(code)
                             }
                         }.labelsHidden().fixedSize()
                     }
                     HStack {
-                        Text(L10n.text("Traduzir para")).font(.system(size: 12))
+                        Text(L10n.text("Translate to")).font(.system(size: 12))
                         Spacer()
-                        Picker(L10n.text("Idioma da tradução"), selection: $preferences.translationLanguage) {
+                        Picker(L10n.text("Translation language"), selection: $preferences.translationLanguage) {
                             ForEach(coordinator.model.supportedLanguageCodes, id: \.self) { code in
                                 Text(L10n.languageName(code)).tag(code)
                             }
                         }.labelsHidden().fixedSize()
                     }
-                    Text(L10n.text("Tradução pela Apple Intelligence · sem pacotes de idiomas adicionais."))
+                    Text(L10n.text("Translation with Apple Intelligence · no additional language packs."))
                         .font(.system(size: 11)).foregroundStyle(.secondary)
                 }.padding(17).background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 14))
 
                 VStack(alignment: .leading, spacing: 12) {
                     HStack {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(L10n.text("Onde não revisar")).font(.system(size: 14, weight: .semibold))
-                            Text(L10n.text("O texto desses apps não será lido.")).font(.system(size: 11)).foregroundStyle(.secondary)
+                            Text(L10n.text("Where not to check")).font(.system(size: 14, weight: .semibold))
+                            Text(L10n.text("Text in these apps will not be read.")).font(.system(size: 11)).foregroundStyle(.secondary)
                         }
                         Spacer()
                         Button { preferences.chooseApplication() } label: {
-                            Label(L10n.text("Adicionar app"), systemImage: "plus").font(.system(size: 11, weight: .medium))
+                            Label(L10n.text("Add app"), systemImage: "plus").font(.system(size: 11, weight: .medium))
                         }.buttonStyle(.plain).foregroundStyle(accent)
                     }
                     if preferences.blockedApplications.isEmpty {
                         HStack(spacing: 10) {
                             Image(systemName: "app.dashed").font(.system(size: 21)).foregroundStyle(.tertiary)
-                            Text(L10n.text("Nenhum aplicativo bloqueado")).font(.system(size: 12)).foregroundStyle(.secondary)
+                            Text(L10n.text("No blocked apps")).font(.system(size: 12)).foregroundStyle(.secondary)
                             Spacer()
                         }.padding(16).frame(maxWidth: .infinity)
                             .background(Color.primary.opacity(0.025), in: RoundedRectangle(cornerRadius: 11))
@@ -478,8 +488,8 @@ private struct SettingsView: View {
                                     Text(app.name).font(.system(size: 12))
                                     Spacer()
                                     Button { preferences.unblock(app) } label: { Image(systemName: "xmark.circle.fill").foregroundStyle(.tertiary) }
-                                        .buttonStyle(.plain).help(L10n.text("Remover do bloqueio"))
-                                        .accessibilityLabel(L10n.format("Remover %@ do bloqueio", app.name))
+                                        .buttonStyle(.plain).help(L10n.text("Unblock app"))
+                                        .accessibilityLabel(L10n.format("Unblock %@", app.name))
                                 }.padding(12).accessibilityElement(children: .contain)
                             }
                         }.background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 11))
@@ -489,8 +499,8 @@ private struct SettingsView: View {
                 HStack(alignment: .top, spacing: 10) {
                     Image(systemName: "cursorarrow.rays").foregroundStyle(accent).padding(.top, 2)
                     VStack(alignment: .leading, spacing: 5) {
-                        Text(L10n.text("Passe o ponteiro para revisar")).font(.system(size: 12, weight: .medium))
-                        Text(L10n.text("Vermelho para correções. Azul para reformulações. Clique na sugestão para aplicar."))
+                        Text(L10n.text("Hover to review")).font(.system(size: 12, weight: .medium))
+                        Text(L10n.text("Red for corrections. Blue for rewrites. Click a suggestion to apply it."))
                             .font(.system(size: 11)).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
                     }
                     Spacer()
@@ -500,18 +510,18 @@ private struct SettingsView: View {
                     }
                 }
 
-                DisclosureGroup(L10n.text("Exemplos e diagnóstico")) {
+                DisclosureGroup(L10n.text("Examples and diagnostics")) {
                     VStack(alignment: .leading, spacing: 12) {
                         HStack {
                             Button("TextEdit") { openExample(in: "com.apple.TextEdit") }
                             Button("Sublime Text") { openExample(in: "com.sublimetext.4") }
                             Button("Chrome") { openExample(in: "com.google.Chrome") }
-                            Button(L10n.text("Ver cartões"), action: showPreview)
+                            Button(L10n.text("Preview cards"), action: showPreview)
                         }.buttonStyle(.borderless)
-                        Button(L10n.text("Abrir primeira sugestão")) { coordinator.showFirstSuggestion() }
+                        Button(L10n.text("Open first suggestion")) { coordinator.showFirstSuggestion() }
                             .disabled(coordinator.suggestionCount == 0).buttonStyle(.borderless)
                         Text(coordinator.status).font(.caption).foregroundStyle(.secondary)
-                        Button(L10n.text("Diagnóstico do editor")) {
+                        Button(L10n.text("Editor diagnostics")) {
                             let alert = NSAlert()
                             alert.messageText = coordinator.status
                             alert.informativeText = coordinator.geometryDiagnostic
@@ -522,7 +532,7 @@ private struct SettingsView: View {
 
                 HStack(spacing: 5) {
                     Image(systemName: "lock.fill")
-                    Text(L10n.text("Apple Intelligence local · Sem conta ou assinatura"))
+                    Text(L10n.text("On-device Apple Intelligence · No account or subscription"))
                 }.font(.system(size: 10)).foregroundStyle(.tertiary)
             }.padding(28)
         }.frame(width: 610, height: 660).background(Color(nsColor: .windowBackgroundColor)).tint(accent)
@@ -531,12 +541,12 @@ private struct SettingsView: View {
     private func openExample(in bundleID: String) {
         guard let application = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) else { return }
         let browser = bundleID == "com.google.Chrome"
-        let url = FileManager.default.temporaryDirectory.appendingPathComponent("LocalScribe-Exemplo-\(UUID().uuidString.prefix(8))." + (browser ? "html" : "txt"))
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("LocalScribe-Example-\(UUID().uuidString.prefix(8))." + (browser ? "html" : "txt"))
         let content = browser ? """
-        <!doctype html><html lang="\(L10n.language)"><meta charset="utf-8"><title>\(L10n.text("Exemplo LocalScribe"))</title>
-        <body style="font:20px system-ui;max-width:800px;margin:60px auto"><h1>\(L10n.text("Exemplo LocalScribe"))</h1>
-        <p>\(L10n.text("Frase artificial para testar a revisão local. Nenhum recurso externo é carregado por este arquivo."))</p>
-        <textarea autofocus spellcheck="false" aria-label="\(L10n.text("Texto artificial do LocalScribe"))" style="font:26px/1.6 system-ui;width:90%;height:220px;padding:20px">She go to school every days.</textarea></body></html>
+        <!doctype html><html lang="\(L10n.language)"><meta charset="utf-8"><title>\(L10n.text("LocalScribe Example"))</title>
+        <body style="font:20px system-ui;max-width:800px;margin:60px auto"><h1>\(L10n.text("LocalScribe Example"))</h1>
+        <p>\(L10n.text("Synthetic sentence to test local review. This file loads no external resources."))</p>
+        <textarea autofocus spellcheck="false" aria-label="\(L10n.text("LocalScribe synthetic text"))" style="font:26px/1.6 system-ui;width:90%;height:220px;padding:20px">She go to school every days.</textarea></body></html>
         """ : "She go to school every days."
         do {
             try content.write(to: url, atomically: true, encoding: .utf8)
@@ -547,7 +557,7 @@ private struct SettingsView: View {
             }
         } catch {
             let alert = NSAlert()
-            alert.messageText = L10n.text("Não foi possível abrir o exemplo")
+            alert.messageText = L10n.text("Could not open the example")
             alert.informativeText = error.localizedDescription
             alert.runModal()
         }

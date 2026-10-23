@@ -19,7 +19,7 @@ mkdir -p "$DMG_STAGE" "$MOUNT_POINT"
 /usr/bin/codesign --verify --deep --strict "$APP_DIR"
 /usr/bin/ditto "$APP_DIR" "$DMG_STAGE/LocalScribe.app"
 /bin/ln -s /Applications "$DMG_STAGE/Applications"
-/bin/cp "$PROJECT_DIR/Support/LEIA-ME.txt" "$DMG_STAGE/LEIA-ME.txt"
+/bin/cp "$PROJECT_DIR/Support/INSTALL.txt" "$DMG_STAGE/INSTALL.txt"
 /bin/cp "$APP_DIR/Contents/Resources/LocalScribe.icns" "$DMG_STAGE/.VolumeIcon.icns"
 # The mounted volume and the .dmg file have separate Finder icon metadata.
 /usr/bin/hdiutil create -volname LocalScribe -srcfolder "$DMG_STAGE" -fs HFS+ -format UDRW "$DMG_WORK/writable.dmg"

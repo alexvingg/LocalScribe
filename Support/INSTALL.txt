@@ -1,0 +1,37 @@
+LocalScribe 0.8.2 — test build
+
+INSTALL
+Drag LocalScribe to Applications and launch it from there.
+LocalScribe lives in the Mac menu bar.
+
+REQUIREMENTS
+- Apple Silicon Mac (M1 or later) compatible with Apple Intelligence.
+- macOS 26.4 or later. This build was tested on macOS 27.0.1.
+- Apple Intelligence enabled with its on-device model downloaded and ready.
+- Accessibility permission for LocalScribe in System Settings
+  > Privacy & Security > Accessibility.
+
+FIRST USE
+Open Settings from the menu bar icon. Keep Text language set to Detect
+automatically and write in a supported text field. Hover over an underline,
+review the suggestion, and click to apply it. Choose a destination in
+Translate to; translation runs only when requested and follows that choice.
+It uses the same on-device Apple Intelligence model without extra translation
+language packs. The interface follows macOS language preferences with English
+and Portuguese catalogs. Add excluded applications under Where not to check.
+No LocalScribe login, API key, or subscription is required.
+
+OPENING ON ANOTHER MAC
+This build uses an ad hoc development signature and is not Apple notarized.
+macOS may prevent opening an app received from the internet. If you trust its
+origin, follow Apple's official opening flow in System Settings
+> Privacy & Security. Do not disable Gatekeeper or other system protections.
+Official help: https://support.apple.com/en-us/102445
+
+PROTOTYPE LIMITS
+Compatibility depends on each application's text field. Chrome/WhatsApp,
+Slack, Teams, and TextEdit have been exercised; this does not certify every
+field, version, or machine. Safari and Firefox still need real validation.
+Review suggestions and translations before using them. The Apple model may
+decline some passages; available local spelling checks can continue with an
+in-app notice. Text and suggestions stay on the Mac; the app has no backend.

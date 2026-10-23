@@ -15,6 +15,7 @@ for path in sorted((root / 'Sources/WritingCore/Resources').glob('*.lproj/Locali
 
 assert {'en', 'pt'} <= catalogs.keys()
 base = catalogs['en']
+assert all(key == value for key, value in base.items()), 'English source keys must match their English fallback'
 for language, catalog in catalogs.items():
     assert catalog.keys() == base.keys(), f'Missing/extra keys: {language}'
     for key, value in catalog.items():
@@ -26,4 +27,10 @@ for path in (root / 'Sources').rglob('*.swift'):
     for key in re.findall(rf'L10n\.(?:text|format)\(({literal})', path.read_text()):
         used.add(json.loads(key))
 assert used <= base.keys(), f'Missing strings: {used - base.keys()}'
+samples = json.loads((root / 'Sources/WritingCore/Resources/LanguageSamples.json').read_text())
+sample_keys = set()
+for path in list((root / 'Sources').rglob('*.swift')) + list((root / 'Checks').rglob('*.swift')):
+    sample_keys.update(json.loads(key) for key in re.findall(rf'LanguageSamples\.text\(({literal})', path.read_text()))
+assert sample_keys <= samples.keys(), f'Missing language samples: {sample_keys - samples.keys()}'
 print(f'localization-catalogs=passed languages={",".join(catalogs)} keys={len(base)} referenced={len(used)}')
+print(f'language-samples=passed referenced={len(sample_keys)} source-keys=English')

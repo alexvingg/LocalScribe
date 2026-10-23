@@ -12,17 +12,17 @@ enum ReviewFailure: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .unavailable(let reason): return reason
-        case .unsupported(let code): return L10n.format("O modelo local não oferece suporte a %@.", code)
-        case .invalidResponse: return L10n.text("A proposta não passou pela validação. O texto foi preservado.")
-        case .unclearMeaning: return L10n.text("O sentido deste trecho está ambíguo. Acrescente contexto para reformular sem adivinhar; a sugestão atual foi mantida.")
-        case .unsafeAlternative: return L10n.text("A alternativa se afastou do texto original. A sugestão atual foi mantida.")
-        case .contentReviewUnavailable: return L10n.text("O modelo da Apple recusou a revisão deste trecho. As correções ortográficas disponíveis foram mantidas.")
-        case .changedDestination: return L10n.text("O texto ou o destino mudou. Aguarde uma nova revisão.")
-        case .selectionNotVerified: return L10n.text("O editor não confirmou a seleção. Tente aplicar novamente.")
-        case .notWritable: return L10n.text("Este editor não permite substituir o trecho por Acessibilidade. Você pode copiar a proposta.")
-        case .notVerified: return L10n.text("Não foi possível confirmar a alteração no editor. Confira o texto antes de tentar novamente.")
-        case .languageMismatch: return L10n.text("O texto parece estar em outra língua. Use o idioma Automático ou ajuste a escolha manual.")
-        case .segmentTooLarge: return L10n.text("Este trecho excede o orçamento do modelo. Revise uma parte menor; as correções pendentes foram mantidas.")
+        case .unsupported(let code): return L10n.format("The local model does not support %@.", code)
+        case .invalidResponse: return L10n.text("The suggestion did not pass validation. The text was preserved.")
+        case .unclearMeaning: return L10n.text("The meaning of this passage is ambiguous. Add context to rewrite without guessing; the current suggestion was kept.")
+        case .unsafeAlternative: return L10n.text("The alternative changed the original meaning. The current suggestion was kept.")
+        case .contentReviewUnavailable: return L10n.text("The Apple model declined to review this passage. Available spelling corrections were kept.")
+        case .changedDestination: return L10n.text("The text or destination changed. Wait for a new review.")
+        case .selectionNotVerified: return L10n.text("The editor did not confirm the selection. Try applying again.")
+        case .notWritable: return L10n.text("This editor does not allow replacement through Accessibility. You can copy the suggestion.")
+        case .notVerified: return L10n.text("Could not confirm the change in the editor. Check the text before trying again.")
+        case .languageMismatch: return L10n.text("The text appears to be in another language. Use automatic detection or change the manual selection.")
+        case .segmentTooLarge: return L10n.text("This passage exceeds the model budget. Review a smaller part; pending corrections were kept.")
         }
     }
 }
@@ -55,11 +55,11 @@ final class LocalModelService {
 
     var availabilityDescription: String {
         switch model.availability {
-        case .available: return L10n.text("Modelo local pronto")
-        case .unavailable(.deviceNotEligible): return L10n.text("Este Mac não oferece suporte ao modelo local.")
-        case .unavailable(.appleIntelligenceNotEnabled): return L10n.text("Ative Apple Intelligence nos Ajustes do Sistema.")
-        case .unavailable(.modelNotReady): return L10n.text("O modelo da Apple ainda não está pronto. Aguarde seu download.")
-        case .unavailable: return L10n.text("O modelo local está indisponível.")
+        case .available: return L10n.text("On-device model ready")
+        case .unavailable(.deviceNotEligible): return L10n.text("This Mac does not support the on-device model.")
+        case .unavailable(.appleIntelligenceNotEnabled): return L10n.text("Enable Apple Intelligence in System Settings.")
+        case .unavailable(.modelNotReady): return L10n.text("The Apple model is not ready yet. Wait for its download.")
+        case .unavailable: return L10n.text("The on-device model is unavailable.")
         }
     }
 
