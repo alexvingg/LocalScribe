@@ -1,6 +1,6 @@
 # Documentação do LocalScribe
 
-Os documentos preservam a evolução do projeto. Relatos e planos antigos descrevem a versão indicada em cada arquivo; o [README principal](../README.md) resume a versão do código, 0.8.1 (ainda não publicada em release).
+Os documentos preservam a evolução do projeto. Relatos e planos antigos descrevem a versão indicada em cada arquivo; o [README principal](../README.md) resume a versão do código, 0.8.1.
 
 ## Especificação e planejamento
 

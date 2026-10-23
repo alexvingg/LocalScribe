@@ -14,15 +14,17 @@ A targeted shortcut attempt through automation inserted U+0012 into the syntheti
 
 ## Images
 
+- [Red underlines in TextEdit — screenshot provided by the author](images/textedit-review-underlines.png)
+
 - [English passage before accepting](images/textedit-review-before.png)
 - [Word correction card](images/textedit-word-correction.png)
 - [Rewrite loading state](images/textedit-rewrite-loading.png)
 - [Reviewed proposal](images/textedit-rewrite-suggestion.png)
 - [Actual editor result](images/textedit-review-after.png)
 
-These are native per-application captures. The capture API separates the editor and assistant windows; no synthetic overlay or reconstructed screenshot was used. The native `screencapture` command was attempted with authorization but macOS did not permit a display capture. The translation image used in the README is explicitly a separate, previously validated short example.
+The underlined editor screenshot was supplied by the author and is included unchanged. The remaining screenshots are native per-application captures. The capture API separates the editor and assistant windows; no synthetic overlay or reconstructed screenshot was used. The native `screencapture` command was attempted with authorization but macOS did not permit a display capture. The translation image used in the README is explicitly a separate, previously validated short example.
 
-## Weekday safeguard — unreleased 0.8.1
+## Weekday safeguard — 0.8.1
 
 `TranslationCalendarGuard` obtains weekday names from Foundation locale data. When named weekdays appear in the source, the local translation prompt supplies their target-language equivalents, and the returned text must preserve their identities and counts. A mismatch gets one bounded retry; another mismatch produces a validation failure rather than displaying the altered day.
 

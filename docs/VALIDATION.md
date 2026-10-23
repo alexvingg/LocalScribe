@@ -1,5 +1,11 @@
 # Validação do MVP
 
+### Release 0.8.1 e captura com sublinhados
+
+- Captura enviada pelo autor adicionada sem alterações em `docs/images/textedit-review-underlines.png`, agora usada no README para mostrar as marcas vermelhas no TextEdit.
+- A release 0.8.1 inclui a proteção de dias da semana validada abaixo (63 testes do núcleo e ensaio do modelo real aprovados), além do README em inglês com a demonstração. A release anterior 0.8.0 permanece preservada.
+
+
 ### Teste visual do TextEdit e correção 0.8.1 (ainda não publicada)
 
 - Texto inglês artificial de 112 palavras validado no TextEdit: sete sugestões, cartão `has` → `have`, geração da proposta completa e aplicação pelo botão do cartão. Leitura final confirmou o texto esperado em `Fixtures/readme-demo-reviewed.txt`.

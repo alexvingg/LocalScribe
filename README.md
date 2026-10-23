@@ -4,13 +4,13 @@
 
 A macOS writing assistant powered by on-device Apple Intelligence. It detects the language of your text, displays corrections and suggestions next to the text field, and applies only the suggestions you accept. No app account, custom backend, or subscription required.
 
-**Latest release: 0.8.0 · Apple Silicon · macOS 26.4 or later.**
+**Latest release: 0.8.1 · Apple Silicon · macOS 26.4 or later.**
 
-The `main` branch includes an unreleased 0.8.1 safeguard against changing named weekdays during translation.
+Version 0.8.1 adds a safeguard against changing named weekdays during translation.
 
 ## Installation
 
-**[Download LocalScribe 0.8.0](https://github.com/alexvingg/LocalScribe/releases/tag/v0.8.0)** — choose the DMG or the ZIP that preserves its Finder icon metadata.
+**[Download LocalScribe 0.8.1](https://github.com/alexvingg/LocalScribe/releases/tag/v0.8.1)** — choose the DMG or the ZIP that preserves its Finder icon metadata.
 
 Extract the ZIP, open the DMG, and drag LocalScribe to Applications. The ZIP preserves the green file icon metadata; the mounted volume also includes the icon. SHA-256 checksums are available in the release assets.
 
@@ -37,9 +37,9 @@ A real TextEdit walkthrough with a **112-word English passage**, using LocalScri
 
 ### Review a longer passage
 
-LocalScribe detected English automatically and found seven suggestions in this passage.
+LocalScribe detected English automatically and found seven suggestions in this passage. The screenshot below, provided by the author, shows the red underlines in the editor.
 
-<img src="docs/images/textedit-review-before.png" width="650" alt="TextEdit with a longer English passage containing deliberate grammar and spelling errors">
+<img src="docs/images/textedit-review-underlines.png" width="650" alt="LocalScribe marking English grammar and spelling errors with red underlines in TextEdit">
 
 ### Correct individual words
 
