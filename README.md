@@ -4,7 +4,9 @@
 
 A macOS writing assistant powered by on-device Apple Intelligence. It detects the language of your text, displays corrections and suggestions next to the text field, and applies only the suggestions you accept. No app account, custom backend, or subscription required.
 
-**Current version: 0.8.0 · Apple Silicon · macOS 26.4 or later.**
+**Latest release: 0.8.0 · Apple Silicon · macOS 26.4 or later.**
+
+The `main` branch includes an unreleased 0.8.1 safeguard against changing named weekdays during translation.
 
 ## Installation
 
@@ -29,7 +31,48 @@ Your Mac must support Apple Intelligence, with the on-device model enabled and a
 - Temporary text and field caches, with chunked review to stay within the model budget.
 - A green vector app icon and an adaptive monochrome menu bar icon.
 
-<img src="docs/images/localscribe-0.8.0-settings-en.png" width="610" alt="LocalScribe settings">
+## In action
+
+A real TextEdit walkthrough with a **112-word English passage**, using LocalScribe 0.8.0. The text is synthetic; the screenshots show the actual editor and live assistant cards. See the [original passage](Fixtures/readme-demo.txt), [result read back from TextEdit](Fixtures/readme-demo-reviewed.txt), and [validation notes](docs/TEXTEDIT_SHOWCASE.md).
+
+### Review a longer passage
+
+LocalScribe detected English automatically and found seven suggestions in this passage.
+
+<img src="docs/images/textedit-review-before.png" width="650" alt="TextEdit with a longer English passage containing deliberate grammar and spelling errors">
+
+### Correct individual words
+
+A compact card proposes **has → have**. You can apply the correction or request a sentence rewrite.
+
+<img src="docs/images/textedit-word-correction.png" width="292" alt="Live word correction card proposing have instead of has">
+
+### Rewrite while preserving the idea
+
+The card shows progress while the local model works. The resulting proposal keeps the message about the project report, Friday deadline, schedule, and team meeting. Long proposals can be scrolled before applying.
+
+<img src="docs/images/textedit-rewrite-loading.png" width="292" alt="Correction card showing Rewriting on your Mac while the model is processing">
+
+<img src="docs/images/textedit-rewrite-suggestion.png" width="360" alt="Live rewrite card with the reviewed English paragraph and an Apply suggestion button">
+
+### Apply the reviewed proposal
+
+Clicking **Apply suggestion** updated the real TextEdit document. The result was verified by reading the text back from the editor: **have**, **mistakes**, **are**, **includes**, **could**, **advice**, **look**, and **understands** appear in the corrected passage.
+
+<img src="docs/images/textedit-review-after.png" width="650" alt="TextEdit after applying the proposal, with the paragraph corrected and its meaning retained">
+
+### Translate only when requested
+
+A separate short example shows the translation inside the suggestion card: **I could go there. → Eu poderia ir lá.** The translation can be copied or hidden without replacing the English text. This screenshot also demonstrates the Portuguese interface.
+
+<img src="docs/images/localscribe-0.8.0-translation-pt.png" width="360" alt="Suggestion card in Portuguese with an on-demand translation of I could go there">
+
+### Choose languages and block apps
+
+Writing language detection, translation destination, pause, and the app blocklist are configured in one window. The interface below follows the Mac's English language setting.
+
+<img src="docs/images/localscribe-0.8.0-settings-en.png" width="610" alt="LocalScribe settings with automatic source language, Portuguese translation target, and app blocklist">
+
 
 ## Current compatibility
 
@@ -62,7 +105,7 @@ dist/LocalScribe.app/Contents/MacOS/LocalScribe --diagnose
 dist/LocalScribe.app/Contents/MacOS/LocalScribe --proposal-stability-smoke
 ```
 
-The core suite contains 62 checks. The last command uses the real on-device model to verify English and Portuguese proposals and review reuse; it does not write to an external editor. Additional checks are documented in [docs/VALIDATION.md](docs/VALIDATION.md).
+The core suite contains 63 checks. The last command uses the real on-device model to verify English and Portuguese proposals and review reuse; it does not write to an external editor. Additional checks are documented in [docs/VALIDATION.md](docs/VALIDATION.md).
 
 To package an existing build:
 

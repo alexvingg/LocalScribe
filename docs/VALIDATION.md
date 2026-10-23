@@ -1,5 +1,15 @@
 # Validação do MVP
 
+### Teste visual do TextEdit e correção 0.8.1 (ainda não publicada)
+
+- Texto inglês artificial de 112 palavras validado no TextEdit: sete sugestões, cartão `has` → `have`, geração da proposta completa e aplicação pelo botão do cartão. Leitura final confirmou o texto esperado em `Fixtures/readme-demo-reviewed.txt`.
+- Cinco capturas reais adicionadas ao README: documento antes, palavra, carregamento, proposta e documento depois. Editor e cartões foram capturados separadamente, sem composição artificial de camadas. O exemplo curto de tradução é identificado separadamente.
+- O teste maior revelou tradução incorreta de Friday como quinta-feira. `TranslationCalendarGuard` agora usa os dias da semana do locale do Foundation nas instruções e valida identidades/contagens na resposta, com uma tentativa adicional limitada antes de recusar. É uma proteção específica, não garantia de fidelidade semântica geral.
+- **63 testes do núcleo, zero falhas**. Testes de calendário cobrem inglês→português, espanhol e chinês e rejeitam troca de dia.
+- Modelo real após o ajuste: a primeira frase do parágrafo foi traduzida com **sexta-feira**, em 1,90 s. O ensaio completo de tradução passou (cache, falhas, isolamento e respostas tardias incluídos). Os 173 textos localizados continuam cobertos.
+- A release v0.8.0 não foi alterada. Detalhes e limites do walkthrough estão em [TEXTEDIT_SHOWCASE.md](TEXTEDIT_SHOWCASE.md).
+
+
 ### Atualização 0.8.0 — tradução pelo modelo local e interface localizada
 
 - `--translation-smoke`: **passou** com o modelo real da Apple Intelligence, sem importar ou consultar o framework Translation. Exemplos: `The report is ready.` → `O relatório está pronto.` (1,87 s); `Não posso ir à reunião amanhã.` → `I cannot go to the meeting tomorrow.` (1,39 s). Inglês→espanhol preservou `Ana`, `12`, `ana@example.com`, `https://example.com` e quebra de linha (2,59 s). Uma frase que mandava ignorar instruções foi traduzida como conteúdo (1,57 s). Esses tempos são amostras desta máquina, sem promessa de desempenho em outros Macs.
