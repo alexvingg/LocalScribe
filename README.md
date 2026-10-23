@@ -1,58 +1,58 @@
-<img src="Support/Assets/LocalScribe.png" width="96" alt="Ícone do LocalScribe">
+<img src="Support/Assets/LocalScribe.png" width="96" alt="LocalScribe icon">
 
 # LocalScribe
 
-Assistente de escrita para macOS com Apple Intelligence local. Detecta o idioma do texto, mostra correções e sugestões junto ao campo de escrita e aplica somente a proposta que você aceitar. Sem conta do aplicativo, backend próprio ou assinatura.
+A macOS writing assistant powered by on-device Apple Intelligence. It detects the language of your text, displays corrections and suggestions next to the text field, and applies only the suggestions you accept. No app account, custom backend, or subscription required.
 
-**Versão do código: 0.8.0 · Apple Silicon · macOS 26.4 ou posterior.**
+**Source version: 0.8.0 · Apple Silicon · macOS 26.4 or later.**
 
-## Instalar
+## Installation
 
-**[Release publicada 0.7.6](https://github.com/alexvingg/LocalScribe/releases/tag/v0.7.6)** — a versão 0.8.0 está disponível por compilação local; o instalador anterior não contém as mudanças abaixo.
+**[Published release 0.7.6](https://github.com/alexvingg/LocalScribe/releases/tag/v0.7.6)** — version 0.8.0 is available by building from source; the earlier installer does not include the changes described below.
 
-Extraia o ZIP, abra o DMG e arraste o LocalScribe para Aplicativos. O ZIP preserva os metadados do ícone verde do arquivo; o volume montado também contém o ícone. O SHA-256 está nos assets da release.
+Extract the ZIP, open the DMG, and drag LocalScribe to Applications. The ZIP preserves the green file icon metadata; the mounted volume also includes the icon. SHA-256 checksums are available in the release assets.
 
-Na primeira abertura, autorize **LocalScribe** em Ajustes do Sistema → Privacidade e Segurança → Acessibilidade. O app fica na barra de menus. A distribuição atual usa assinatura ad hoc e ainda não tem assinatura Developer ID/notarização; consulte as [instruções de instalação](Support/LEIA-ME.txt).
+On first launch, allow **LocalScribe** in System Settings → Privacy & Security → Accessibility. The app lives in the menu bar. The current distribution is ad hoc signed and does not yet have Developer ID signing or Apple notarization; see the [installation instructions](Support/LEIA-ME.txt).
 
-O Mac precisa ser compatível com Apple Intelligence, com o modelo local habilitado e disponível. Na versão 0.8.0, a tradução reutiliza esse modelo, sem pacotes de idiomas adicionais.
+Your Mac must support Apple Intelligence, with the on-device model enabled and available. In version 0.8.0, translation reuses this model without additional language packs.
 
-## Funcionalidades
+## Features
 
-- Idioma de origem automático, com escolha manual opcional.
-- Ortografia rápida pelo dicionário do macOS e revisão local de gramática e estrutura.
-- Sublinhados e cartões de palavra ou frase em campos que expõem as capacidades necessárias de Acessibilidade.
-- Reformulação conservadora: mantém a ideia e confere a proposta completa antes de mostrá-la.
-- Aplicação verificada no editor, preservando correções independentes e reutilizando a revisão da frase aceita.
-- Tradução da sugestão sob demanda pelo mesmo modelo local, para o idioma configurado.
-- Interface acompanha o idioma do macOS: português e inglês, com fallback para inglês.
-- Lista de aplicativos bloqueados, pausa e atalho **Control + Option + R**.
-- Cache temporário por texto/campo e revisão por blocos para respeitar o orçamento do modelo.
-- Ícone verde vetorial e marca monocromática na barra de menus, adaptada ao sistema.
+- Automatic source language detection, with an optional manual override.
+- Fast spell checking with the macOS dictionary and on-device grammar and sentence structure review.
+- Underlines and word or sentence suggestion cards in text fields that expose the required Accessibility capabilities.
+- Conservative rewriting that preserves your meaning and reviews the complete proposal before displaying it.
+- Verified changes in the editor, preserving independent pending corrections and reusing the review of an accepted sentence.
+- On-demand translation of the displayed suggestion into your chosen language, using the same on-device model.
+- Interface follows the macOS language: Portuguese and English, with English as the fallback.
+- An app blocklist, a pause control, and the **Control + Option + R** shortcut.
+- Temporary text and field caches, with chunked review to stay within the model budget.
+- A green vector app icon and an adaptive monochrome menu bar icon.
 
-<img src="docs/images/localscribe-0.8.0-settings-en.png" width="610" alt="Configurações do LocalScribe">
+<img src="docs/images/localscribe-0.8.0-settings-en.png" width="610" alt="LocalScribe settings">
 
-## Compatibilidade atual
+## Current compatibility
 
-| Aplicativo/campo | Evidência disponível |
+| App or text field | Available evidence |
 | --- | --- |
-| WhatsApp no Chrome | Leitura, cartões e aplicações verificadas no compositor testado. |
-| Slack desktop | Leitura, geometria e aplicações verificadas no compositor testado. |
-| Teams desktop | Leitura, cartões e aplicações verificadas; proposta aceita reutilizada sem nova geração. |
-| TextEdit | Integração nativa e aplicações exercitadas durante o desenvolvimento. |
-| Safari, Firefox e outros campos | Base comum implementada; validação real ainda pendente. |
+| WhatsApp in Chrome | Text reading, suggestion cards, and verified changes in the tested message composer. |
+| Slack desktop | Text reading, text geometry, and verified changes in the tested message composer. |
+| Teams desktop | Text reading, suggestion cards, and verified changes; accepted proposals reused without another generation. |
+| TextEdit | Native integration and changes exercised during development. |
+| Safari, Firefox, and other text fields | Shared integration implemented; real-world validation still pending. |
 
-A compatibilidade depende do campo, das versões e das APIs que ele oferece. Campos protegidos e aplicativos bloqueados não são revisados. O modelo pode errar ou recusar certos trechos; nenhuma proposta é aplicada automaticamente. A cobertura detalhada está em [docs/INTEGRATION_ARCHITECTURE.md](docs/INTEGRATION_ARCHITECTURE.md).
+Compatibility depends on the text field, app version, and available APIs. Secure fields and blocked apps are excluded from review. The model may make mistakes or decline to review some passages; no suggestion is applied automatically. See [docs/INTEGRATION_ARCHITECTURE.md](docs/INTEGRATION_ARCHITECTURE.md) for detailed coverage.
 
-## Compilar e testar
+## Build and test
 
-Requer Swift e Command Line Tools/SDK compatível com FoundationModels. O projeto não usa dependências de terceiros nem macros de geração.
+Requires Swift and Command Line Tools with an SDK that supports FoundationModels. The project has no third-party dependencies and does not use generation macros.
 
 ```sh
 ./scripts/build-app.sh
 open dist/LocalScribe.app
 ```
 
-O build produz o app e os recursos de ícone em `dist/`, com assinatura ad hoc.
+The build produces the app and icon resources in `dist/`, with an ad hoc signature.
 
 ```sh
 .build/release/WritingCoreChecks
@@ -62,31 +62,31 @@ dist/LocalScribe.app/Contents/MacOS/LocalScribe --diagnose
 dist/LocalScribe.app/Contents/MacOS/LocalScribe --proposal-stability-smoke
 ```
 
-Os testes do núcleo têm 62 verificações. O último comando usa o modelo local real para verificar propostas em inglês/português e reutilização da revisão; ele não escreve em um editor externo. Outros ensaios estão documentados em [docs/VALIDATION.md](docs/VALIDATION.md).
+The core suite contains 62 checks. The last command uses the real on-device model to verify English and Portuguese proposals and review reuse; it does not write to an external editor. Additional checks are documented in [docs/VALIDATION.md](docs/VALIDATION.md).
 
-Para empacotar uma compilação já criada:
+To package an existing build:
 
 ```sh
 ./scripts/package-dmg.sh
 ```
 
-O script cria e verifica o DMG, os ícones do arquivo/volume e o ZIP que preserva os metadados Finder.
+The script creates and verifies the DMG, the file and volume icons, and the ZIP that preserves Finder metadata.
 
-## Estrutura
+## Project structure
 
 ```text
-Sources/LocalScribe/  Interface, Acessibilidade e serviços locais da Apple
-Sources/WritingCore/ Intervalos, propostas, segmentação, cache e políticas
-Checks/              Regressões executáveis do núcleo
-Fixtures/            Editores e textos sintéticos de teste
-Support/             Info.plist, instruções e recursos do ícone
-scripts/             Compilação, renderização vetorial e DMG
-docs/                Especificação, planos, análises, evidências e validação
-downloads/           Instalador atual e checksum
+Sources/LocalScribe/  UI, Accessibility, and on-device Apple services
+Sources/WritingCore/ Text ranges, suggestions, chunking, caching, and policies
+Checks/              Executable core regression checks
+Fixtures/            Synthetic editors and test text
+Support/             Info.plist, installation instructions, and icon assets
+scripts/             Build, vector rendering, and DMG packaging
+docs/                Specifications, plans, analysis, evidence, and validation
+downloads/           Published installer and checksum
 ```
 
-## Documentação
+## Documentation
 
-[Tradução local e localização](docs/LOCAL_TRANSLATION_AND_LOCALIZATION.md) · **[Índice completo](docs/README.md)** · [Especificação de referência](docs/CLONE_SPEC.md) · [Plano Apple Intelligence](docs/APPLE_INTELLIGENCE_PLAN.md) · [Implementação](docs/IMPLEMENTATION.md) · [Correção da revisão após aplicar](docs/PROPOSAL_STABILITY.md).
+[On-device translation and localization](docs/LOCAL_TRANSLATION_AND_LOCALIZATION.md) · **[Full documentation index](docs/README.md)** · [Reference specification](docs/CLONE_SPEC.md) · [Apple Intelligence plan](docs/APPLE_INTELLIGENCE_PLAN.md) · [Implementation](docs/IMPLEMENTATION.md) · [Review stability after applying suggestions](docs/PROPOSAL_STABILITY.md).
 
-A pesquisa descreve comportamentos observados e marca o que continua desconhecido. O código e a identidade visual do LocalScribe são próprios; os índices de evidência não redistribuem implementação ou catálogos de recursos do produto estudado.
+The research documents observed behavior and marks what remains unknown. LocalScribe uses its own code and visual identity; the evidence indexes do not redistribute the implementation or resource catalogs of the product studied.
