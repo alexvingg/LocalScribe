@@ -4,7 +4,7 @@ import NaturalLanguage
 public struct DetectedLanguage: Equatable, Sendable {
     public let code: String
     public let probability: Double
-    public var displayName: String { Locale(identifier: "pt_BR").localizedString(forLanguageCode: code) ?? code }
+    public var displayName: String { L10n.languageName(code) }
 }
 
 public enum LanguageResolver {

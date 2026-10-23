@@ -43,8 +43,8 @@ final class Preferences: ObservableObject {
 
     func chooseApplication() {
         let picker = NSOpenPanel()
-        picker.title = "Desativar revisão em um aplicativo"
-        picker.prompt = "Bloquear"
+        picker.title = L10n.text("Desativar revisão em um aplicativo")
+        picker.prompt = L10n.text("Bloquear")
         picker.allowedContentTypes = [.applicationBundle]
         picker.canChooseDirectories = false
         picker.allowsMultipleSelection = false

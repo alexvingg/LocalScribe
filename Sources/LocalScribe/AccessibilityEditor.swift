@@ -176,7 +176,7 @@ final class AccessibilityEditor {
     var onStatus: ((String) -> Void)?
     var onTick: (() -> Void)?
     private(set) var lastExternalApplication: NSRunningApplication?
-    private(set) var geometryDiagnostic = "Sem propostas posicionadas"
+    private(set) var geometryDiagnostic = L10n.text("Sem propostas posicionadas")
     private var timer: Timer?
     private var activationToken: NSObjectProtocol?
     private var observer: AXObserver?
@@ -214,15 +214,15 @@ final class AccessibilityEditor {
 
     func refresh() {
         guard !writeInProgress else { return }
-        guard !preferences.paused else { unavailable("Revisão pausada"); return }
-        guard AXIsProcessTrusted() else { unavailable("Permita Acessibilidade para revisar em outros aplicativos"); return }
+        guard !preferences.paused else { unavailable(L10n.text("Revisão pausada")); return }
+        guard AXIsProcessTrusted() else { unavailable(L10n.text("Permita Acessibilidade para revisar em outros aplicativos")); return }
         guard let app = NSWorkspace.shared.frontmostApplication, app.processIdentifier != ownPID else {
-            unavailable("Escreva em um aplicativo compatível"); return
+            unavailable(L10n.text("Escreva em um aplicativo compatível")); return
         }
         lastExternalApplication = app
-        guard let identifier = app.bundleIdentifier else { unavailable("Aplicativo sem identidade verificável"); return }
+        guard let identifier = app.bundleIdentifier else { unavailable(L10n.text("Aplicativo sem identidade verificável")); return }
         // Check the exclusion policy before asking AX for any field or text.
-        guard !preferences.isBlocked(identifier) else { unavailable("Revisão desativada em \(app.localizedName ?? identifier)"); return }
+        guard !preferences.isBlocked(identifier) else { unavailable(L10n.format("Revisão desativada em %@", app.localizedName ?? identifier)); return }
         let root = AXUIElementCreateApplication(app.processIdentifier)
         AXUIElementSetMessagingTimeout(root, 0.15)
         var focused = AXAccess.focusedElement(root: root, pid: app.processIdentifier)
@@ -248,7 +248,7 @@ final class AccessibilityEditor {
             }
         } else if hasTypedEditor { accessibilityActivation[app.processIdentifier]?.editorObserved = true }
         guard let field = focused else {
-            unavailable("Selecione um campo de escrita"); return
+            unavailable(L10n.text("Selecione um campo de escrita")); return
         }
         AXUIElementSetMessagingTimeout(field, 0.15)
         let role = AXAccess.string(field, kAXRoleAttribute) ?? ""
@@ -257,22 +257,22 @@ final class AccessibilityEditor {
             && (AXAccess.settable(field, kAXSelectedTextAttribute) || AXAccess.settable(field, kAXValueAttribute))
         guard [kAXTextAreaRole, kAXTextFieldRole, kAXComboBoxRole].contains(role) || editableGroup,
               subrole != kAXSecureTextFieldSubrole else {
-            unavailable("Campo sem suporte à revisão em \(app.localizedName ?? identifier)",
-                        detail: "Papel: \(role.isEmpty ? "indisponível" : role); subpapel: \(subrole); \(AXAccess.lastFailure)")
+            unavailable(L10n.format("Campo sem suporte à revisão em %@", app.localizedName ?? identifier),
+                        detail: L10n.format("Papel: %@; subpapel: %@; %@", role.isEmpty ? L10n.text("indisponível") : role, subrole, AXAccess.lastFailure))
             return
         }
         if let size = AXAccess.value(field, kAXNumberOfCharactersAttribute) as? NSNumber, size.intValue > ReviewChunker.maximumFieldUTF16 {
-            unavailable("Este campo é grande demais para o protótipo"); return
+            unavailable(L10n.text("Este campo é grande demais para o protótipo")); return
         }
         guard let text = AXAccess.string(field, kAXValueAttribute), text.utf16.count <= ReviewChunker.maximumFieldUTF16,
               let selection = AXAccess.range(field, kAXSelectedTextRangeAttribute),
               NSMaxRange(selection) <= text.utf16.count else {
-            unavailable("O editor não disponibiliza texto e posição por Acessibilidade"); return
+            unavailable(L10n.text("O editor não disponibiliza texto e posição por Acessibilidade")); return
         }
         observe(pid: app.processIdentifier, root: root, field: field)
         guard let fragment = WritingFragment(fieldText: text, caret: selection.location) else {
             onSnapshot?(nil)
-            onStatus?(text.isEmpty ? "Aguardando texto" : "Trecho vazio ou sem separações suficientes para revisar")
+            onStatus?(text.isEmpty ? L10n.text("Aguardando texto") : L10n.text("Trecho vazio ou sem separações suficientes para revisar"))
             return
         }
         let units = ReviewChunker.window(in: fragment.text, caret: selection.location - fragment.range.location)
@@ -285,7 +285,7 @@ final class AccessibilityEditor {
     }
 
     private func unavailable(_ message: String, detail: String? = nil) {
-        geometryDiagnostic = detail ?? "Sem propostas posicionadas"
+        geometryDiagnostic = detail ?? L10n.text("Sem propostas posicionadas")
         clearObserver()
         onSnapshot?(nil)
         onStatus?(message)
@@ -455,7 +455,7 @@ final class AccessibilityEditor {
     }
 
     func locate(_ suggestions: [WritingSuggestion], in snapshot: EditorSnapshot) -> [LocatedSuggestion] {
-        guard isCurrent(snapshot) else { geometryDiagnostic = "Destino fora de foco ou texto alterado"; return [] }
+        guard isCurrent(snapshot) else { geometryDiagnostic = L10n.text("Destino fora de foco ou texto alterado"); return [] }
         let fieldFrame = AXAccess.frame(snapshot.element)
         let windowFrame = AXAccess.element(snapshot.element, kAXWindowAttribute).flatMap { AXAccess.frame($0) }
         let source = snapshot.fieldText as NSString
@@ -496,7 +496,7 @@ final class AccessibilityEditor {
                 }
             }
         }
-        geometryDiagnostic = "Geometria: \(geometry.usedTextLeaves ? "texto interno web" : "campo"); Retângulos: \(boundsCount); fora do campo: \(clippedCount); encobertos: \(occludedCount); marcas: \(located.count); sem posição exata: \(located.filter(\.isFieldAnchor).count); janelas: \(windows.count)"
+        geometryDiagnostic = L10n.format("Geometria: %@; retângulos: %ld; fora do campo: %ld; encobertos: %ld; marcas: %ld; sem posição exata: %ld; janelas: %ld", geometry.usedTextLeaves ? L10n.text("texto interno web") : L10n.text("campo"), boundsCount, clippedCount, occludedCount, located.count, located.filter(\.isFieldAnchor).count, windows.count)
         return located
     }
 

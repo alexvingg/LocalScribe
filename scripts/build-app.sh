@@ -12,6 +12,7 @@ cp "$PROJECT_DIR/Support/Assets/LocalScribe.png" "$APP_DIR/Contents/Resources/Lo
 cp "$PROJECT_DIR/Support/Assets/LocalScribe.icns" "$APP_DIR/Contents/Resources/LocalScribe.icns"
 cp "$PROJECT_DIR/Support/Assets/LocalScribe.pdf" "$APP_DIR/Contents/Resources/LocalScribe.pdf"
 cp "$PROJECT_DIR/.build/release/LocalScribe" "$APP_DIR/Contents/MacOS/LocalScribe"
+/usr/bin/ditto "$PROJECT_DIR/.build/release/LocalScribe_WritingCore.bundle" "$APP_DIR/Contents/Resources/LocalScribe_WritingCore.bundle"
 cp "$PROJECT_DIR/Support/Info.plist" "$APP_DIR/Contents/Info.plist"
 /usr/bin/codesign --force --sign - --identifier dev.localscribe.mac "$APP_DIR"
 echo "$APP_DIR"

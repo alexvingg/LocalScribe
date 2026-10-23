@@ -1,5 +1,18 @@
 # Validação do MVP
 
+### Atualização 0.8.0 — tradução pelo modelo local e interface localizada
+
+- `--translation-smoke`: **passou** com o modelo real da Apple Intelligence, sem importar ou consultar o framework Translation. Exemplos: `The report is ready.` → `O relatório está pronto.` (1,87 s); `Não posso ir à reunião amanhã.` → `I cannot go to the meeting tomorrow.` (1,39 s). Inglês→espanhol preservou `Ana`, `12`, `ana@example.com`, `https://example.com` e quebra de linha (2,59 s). Uma frase que mandava ignorar instruções foi traduzida como conteúdo (1,57 s). Esses tempos são amostras desta máquina, sem promessa de desempenho em outros Macs.
+- Cache da mesma sugestão: reabertura sem chamada adicional ao modelo. Ensaios com respostas controladas confirmaram separação por texto/destino/app, limpeza do cache e descarte de resposta tardia após timeout. Entrada acima de 6.000 unidades e idioma `zz` foram recusados. Falhas permanecem recuperáveis no cartão; não há fallback de nuvem.
+- **62 verificações do WritingCore, zero falhas**. O teste de rótulos de remoção agora usa o idioma da interface.
+- Catálogos de interface inglês/português: **173 chaves**, cobertura das referências e placeholders verificados por `scripts/check-localizations.py`. `plutil -lint` aprovou ambos.
+- `--localization-smoke -AppleLanguages`: `en` → `Settings…`/`Translate to Español`; `pt-BR` e `pt-PT` → `Configurações…`/`Traduzir para Español`; `ja` sozinho → inglês. As flags afetam apenas o processo de teste.
+- Cartão real de produção, com exemplo artificial `I could go there.`: o clique em Translate exibiu `Eu poderia ir lá.` dentro do mesmo cartão, com copiar, ocultar e Apply suggestion disponível. O botão Apply é inerte no modo de prévia; não é prova de uma nova aplicação em editor externo. Ajustado o espaço vertical para evitar comprimir a proposta ao abrir a tradução.
+- Cópia instalada em `/Applications/LocalScribe.app` atualizada para 0.8.0, `accessibility=true`, e iniciada em modo normal sem forçar idioma. Configurações apareceram em inglês (idioma do macOS), com destino de tradução Português e sem Preparar idiomas. Capturas: [configurações em inglês](images/localscribe-0.8.0-settings-en.png) e [cartão em português](images/localscribe-0.8.0-translation-pt.png).
+- DMG 0.8.0 validado (checksum, assinatura, ícones e catálogos). Execução de `--localization-smoke` diretamente do volume montado retornou português; os dois arquivos `.strings` coincidiram com os do app compilado.
+- As integrações de Acessibilidade não foram reimplementadas nesta mudança. Os ensaios anteriores por editor continuam no histórico abaixo; a tradução e a interface localizadas precisam de avaliação linguística adicional em outros idiomas.
+
+
 Data: 23/10/2026. Ambiente: macOS 27.0.1, ARM64, Swift 6.4/SDK 27.
 
 ## Confirmado

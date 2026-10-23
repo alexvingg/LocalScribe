@@ -1,6 +1,6 @@
 # Documentação do LocalScribe
 
-Os documentos preservam a evolução do projeto. Relatos e planos antigos descrevem a versão indicada em cada arquivo; o [README principal](../README.md) resume a versão atual, 0.7.6.
+Os documentos preservam a evolução do projeto. Relatos e planos antigos descrevem a versão indicada em cada arquivo; o [README principal](../README.md) resume a versão do código, 0.8.0.
 
 ## Especificação e planejamento
 
@@ -10,6 +10,8 @@ Os documentos preservam a evolução do projeto. Relatos e planos antigos descre
 - [IMPLEMENTATION.md](IMPLEMENTATION.md): notas detalhadas de implementação, configuração, testes e limites.
 
 ## Arquitetura e comportamento
+
+- [LOCAL_TRANSLATION_AND_LOCALIZATION.md](LOCAL_TRANSLATION_AND_LOCALIZATION.md): tradução com o modelo geral local e interface no idioma do macOS.
 
 - [INTEGRATION_ARCHITECTURE.md](INTEGRATION_ARCHITECTURE.md): integração comum de Acessibilidade e cobertura por editor.
 - [TEAMS_INTEGRATION.md](TEAMS_INTEGRATION.md): diagnóstico e ativação da ponte de Acessibilidade do Teams.

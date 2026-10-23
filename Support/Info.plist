@@ -7,8 +7,10 @@
     <key>CFBundleDisplayName</key><string>LocalScribe</string>
     <key>CFBundlePackageType</key><string>APPL</string>
     <key>CFBundleIconFile</key><string>LocalScribe.icns</string>
-    <key>CFBundleShortVersionString</key><string>0.7.6</string>
-    <key>CFBundleVersion</key><string>22</string>
+    <key>CFBundleShortVersionString</key><string>0.8.0</string>
+    <key>CFBundleVersion</key><string>23</string>
+    <key>CFBundleDevelopmentRegion</key><string>en</string>
+    <key>CFBundleLocalizations</key><array><string>en</string><string>pt</string></array>
     <key>LSMinimumSystemVersion</key><string>26.4</string>
     <key>LSUIElement</key><true/>
     <key>NSHighResolutionCapable</key><true/>

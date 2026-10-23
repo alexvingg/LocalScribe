@@ -56,8 +56,8 @@ struct WritingCoreChecks {
     }
     func testWhitespaceRemovalCardExplainsTheTarget() {
         let space = WritingSuggestion(kind: .correction, range: NSRange(location: 3, length: 1), original: " ", replacement: "", language: "en", context: "Hey !")
-        expectEqual(space.correctionSourceLabel, "Espaço")
-        expectEqual(space.correctionActionLabel, "Remover espaço extra")
+        expectEqual(space.correctionSourceLabel, L10n.text("Espaço"))
+        expectEqual(space.correctionActionLabel, L10n.text("Remover espaço extra"))
         expectTrue(space.canApply)
     }
     func testIndependentSpellingSurvivesModelProposalAndNoChange() {

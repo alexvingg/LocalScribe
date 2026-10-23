@@ -52,7 +52,7 @@ final class CardFeedback: ObservableObject {
     @Published var interaction = SuggestionInteractionState()
     @Published var applications: [UUID: ApplicationFeedback] = [:]
     @Published var translations: [UUID: SuggestionTranslationState] = [:]
-    @Published var translationTargetName = "Português"
+    @Published var translationTargetName = L10n.languageName("pt")
     func translation(for id: UUID) -> SuggestionTranslationState { translations[id] ?? .hidden }
     func application(for id: UUID) -> ApplicationFeedback { applications[id] ?? .idle }
     var states: [UUID: AlternativeState] {
@@ -69,7 +69,7 @@ final class OverlayPresenter {
     var onAlternatives: ((WritingSuggestion) -> Void)?
     var onTranslate: ((WritingSuggestion) -> Void)?
     var onHideTranslation: ((WritingSuggestion) -> Void)?
-    var translationLanguageName: () -> String = { "Português" }
+    var translationLanguageName: () -> String = { L10n.languageName("pt") }
     private var located: [LocatedSuggestion] = []
     private let feedback = CardFeedback()
     private let canvas = MarkCanvas()
@@ -288,41 +288,42 @@ struct SuggestionCardView: View {
         let extra: Int
         switch state { case .failed, .unavailable: extra = 50 + (suggestion.canApply ? 0 : 40); default: extra = suggestion.canApply ? 0 : 40 }
         let translated = translation.isVisible ? translationHeight(translation) + 12 : 0
-        return CGSize(width: phrase ? 360 : 292, height: (phrase ? 156 + lines * 20 : 190) + max(extra, applicationFailure ? 65 : 0) + translated)
+        // Keep both the source and the proposal legible alongside localized controls.
+        return CGSize(width: phrase ? 360 : 292, height: (phrase ? 180 + lines * 20 : 190) + max(extra, applicationFailure ? 65 : 0) + translated)
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 6) {
                 Image(systemName: suggestion.kind == .style ? "sparkles" : "checkmark.circle.fill").foregroundStyle(tint)
-                Text(suggestion.kind == .coherence ? "Revisar sentido e estrutura" : (suggestion.kind == .style ? "Sugestão de texto" : "Correção"))
+                Text(suggestion.kind == .coherence ? L10n.text("Revisar sentido e estrutura") : (suggestion.kind == .style ? L10n.text("Sugestão de texto") : L10n.text("Correção")))
                     .font(.system(size: 11, weight: .semibold)).foregroundStyle(.secondary)
                 Spacer()
                 Button(action: dismiss) { Image(systemName: "minus.circle") }
-                    .help("Ignorar esta sugestão").accessibilityLabel("Ignorar sugestão").disabled(application.isBusy)
+                    .help(L10n.text("Ignorar esta sugestão")).accessibilityLabel(L10n.text("Ignorar sugestão")).disabled(application.isBusy)
                 Button(action: close) { Image(systemName: "xmark") }
-                    .help("Fechar").accessibilityLabel("Fechar cartão")
+                    .help(L10n.text("Fechar")).accessibilityLabel(L10n.text("Fechar cartão"))
             }.buttonStyle(.plain).font(.system(size: 11)).padding(.bottom, 12)
 
             if isPhrase {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Original: \(suggestion.original)").font(.system(size: 11)).foregroundStyle(.secondary)
+                        Text(L10n.format("Original: %@", suggestion.original)).font(.system(size: 11)).foregroundStyle(.secondary)
                             .lineLimit(2).frame(maxWidth: .infinity, alignment: .leading)
                         Text(suggestion.replacement).font(.system(size: 14, weight: .medium)).lineSpacing(4)
                             .textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading)
                     }.padding(.trailing, 3)
-                }.frame(maxHeight: .infinity)
+                }.frame(minHeight: 56, maxHeight: .infinity)
                 if !suggestion.canApply {
                     Text(suggestion.kind == .coherence
-                         ? "O sentido parece pouco claro. Reformule para esclarecer o que você quer dizer."
-                         : "O texto foi mantido; não há uma nova alteração para aplicar.")
+                         ? L10n.text("O sentido parece pouco claro. Reformule para esclarecer o que você quer dizer.")
+                         : L10n.text("O texto foi mantido; não há uma nova alteração para aplicar."))
                         .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
                 }
                 HStack {
                     Text(language).font(.system(size: 10)).foregroundStyle(.tertiary)
                     Spacer()
-                    Button("Aplicar sugestão", action: accept).buttonStyle(CardPrimaryStyle())
+                    Button(L10n.text("Aplicar sugestão"), action: accept).buttonStyle(CardPrimaryStyle())
                         .keyboardShortcut(.defaultAction).disabled(state.isBusy || !suggestion.canApply || !application.canApply)
                 }.padding(.top, 10)
             } else {
@@ -339,7 +340,7 @@ struct SuggestionCardView: View {
                         Image(systemName: "return").font(.system(size: 12)).foregroundStyle(.tertiary)
                     }.padding(11).background(tint.opacity(0.07), in: RoundedRectangle(cornerRadius: 9))
                 }.buttonStyle(.plain).keyboardShortcut(.defaultAction)
-                    .help("Aplicar correção").accessibilityLabel("Aplicar correção: \(suggestion.correctionActionLabel)")
+                    .help(L10n.text("Aplicar correção")).accessibilityLabel(L10n.format("Aplicar correção: %@", suggestion.correctionActionLabel))
                     .disabled(state.isBusy || !suggestion.canApply || !application.canApply)
                 Spacer(minLength: 8)
             }
@@ -353,17 +354,17 @@ struct SuggestionCardView: View {
                 Text("· \(language)").foregroundStyle(.tertiary)
                 Spacer()
                 Menu {
-                    Button(translation.isVisible ? "Ocultar tradução" : "Traduzir para \(translationTargetName)", systemImage: "character.bubble",
+                    Button(translation.isVisible ? L10n.text("Ocultar tradução") : L10n.format("Traduzir para %@", translationTargetName), systemImage: "character.bubble",
                         action: translation.isVisible ? hideTranslation : translate)
                         .disabled(application.isBusy || suggestion.translationText == nil)
-                    Button("Copiar sugestão", systemImage: "doc.on.doc") {
+                    Button(L10n.text("Copiar sugestão"), systemImage: "doc.on.doc") {
                         NSPasteboard.general.clearContents()
                         NSPasteboard.general.setString(suggestion.replacement, forType: .string)
                     }
-                    Button("Ignorar sugestão", systemImage: "minus.circle", action: dismiss).disabled(application.isBusy)
+                    Button(L10n.text("Ignorar sugestão"), systemImage: "minus.circle", action: dismiss).disabled(application.isBusy)
                 } label: { Image(systemName: "ellipsis") }
-                    .menuStyle(.borderlessButton).menuIndicator(.hidden).fixedSize().help("Mais opções")
-                    .accessibilityLabel("Mais opções da sugestão")
+                    .menuStyle(.borderlessButton).menuIndicator(.hidden).fixedSize().help(L10n.text("Mais opções"))
+                    .accessibilityLabel(L10n.text("Mais opções da sugestão"))
             }.font(.system(size: 10)).foregroundStyle(.secondary)
         }
         .padding(15)
@@ -375,30 +376,30 @@ struct SuggestionCardView: View {
     }
 
     private var language: String {
-        Locale(identifier: "pt_BR").localizedString(forLanguageCode: suggestion.language)?.capitalized ?? suggestion.language
+        L10n.languageName(suggestion.language)
     }
 
     private var translationView: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 5) {
-                Label("Tradução · \(translation.target)", systemImage: "character.bubble")
+                Label(L10n.format("Tradução · %@", translation.target), systemImage: "character.bubble")
                     .font(.system(size: 10, weight: .semibold)).foregroundStyle(.secondary)
                 Spacer(minLength: 4)
                 if case .ready(let text, _) = translation {
                     Button {
                         NSPasteboard.general.clearContents(); NSPasteboard.general.setString(text, forType: .string)
                     } label: { Image(systemName: "doc.on.doc") }
-                        .help("Copiar tradução").accessibilityLabel("Copiar tradução")
+                        .help(L10n.text("Copiar tradução")).accessibilityLabel(L10n.text("Copiar tradução"))
                 }
                 Button(action: hideTranslation) { Image(systemName: "xmark") }
-                    .help("Ocultar tradução").accessibilityLabel("Ocultar tradução")
+                    .help(L10n.text("Ocultar tradução")).accessibilityLabel(L10n.text("Ocultar tradução"))
             }.buttonStyle(.plain).font(.system(size: 10))
             switch translation {
             case .hidden: EmptyView()
             case .loading:
                 HStack(spacing: 7) {
                     ProgressView().controlSize(.small)
-                    Text("Traduzindo no seu Mac…").font(.system(size: 11))
+                    Text(L10n.text("Traduzindo no seu Mac…")).font(.system(size: 11))
                 }.frame(maxWidth: .infinity, alignment: .leading)
             case .ready(let text, _):
                 ScrollView {
@@ -410,7 +411,7 @@ struct SuggestionCardView: View {
                     Text(message).font(.system(size: 11)).foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                Button("Tentar novamente", action: translate).font(.system(size: 11)).buttonStyle(.plain)
+                Button(L10n.text("Tentar novamente"), action: translate).font(.system(size: 11)).buttonStyle(.plain)
                     .foregroundStyle(Color.accentColor).disabled(application.isBusy)
             }
         }.padding(10)
@@ -422,14 +423,14 @@ struct SuggestionCardView: View {
         if application.isBusy {
             HStack(spacing: 8) {
                 ProgressView().controlSize(.small).frame(width: 14, height: 14)
-                Text("Aplicando no editor…").font(.system(size: 11, weight: .medium))
+                Text(L10n.text("Aplicando no editor…")).font(.system(size: 11, weight: .medium))
                 Spacer()
             }.foregroundStyle(Color.accentColor)
         } else if let message = application.message {
             VStack(alignment: .leading, spacing: 7) {
                 Label(message, systemImage: "exclamationmark.circle").font(.system(size: 11)).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
-                Button("Copiar sugestão", systemImage: "doc.on.doc") {
+                Button(L10n.text("Copiar sugestão"), systemImage: "doc.on.doc") {
                     NSPasteboard.general.clearContents(); NSPasteboard.general.setString(suggestion.replacement, forType: .string)
                 }.buttonStyle(.borderless).font(.system(size: 11))
             }
@@ -438,7 +439,7 @@ struct SuggestionCardView: View {
         case .queued, .generating:
             HStack(spacing: 8) {
                 ProgressView().controlSize(.small).scaleEffect(0.8).frame(width: 14, height: 14)
-                Text(state == .queued ? "Aguardando revisão atual…" : "Reformulando no seu Mac…")
+                Text(state == .queued ? L10n.text("Aguardando revisão atual…") : L10n.text("Reformulando no seu Mac…"))
                     .font(.system(size: 11, weight: .medium))
                 Spacer(minLength: 0)
             }.foregroundStyle(Color.accentColor).accessibilityElement(children: .combine)
@@ -455,12 +456,12 @@ struct SuggestionCardView: View {
     private var alternativeButton: some View {
         HStack {
             Button(action: alternatives) {
-                Label(suggestion.kind == .style ? "Outra versão" : "Reformular \(suggestion.scopeLabel)", systemImage: suggestion.kind == .style ? "arrow.trianglehead.2.clockwise.rotate.90" : "sparkles")
+                Label(suggestion.kind == .style ? L10n.text("Outra versão") : L10n.format("Reformular %@", suggestion.scopeLabel), systemImage: suggestion.kind == .style ? "arrow.trianglehead.2.clockwise.rotate.90" : "sparkles")
             }
             Spacer()
-            Button(translation.isVisible ? "Ocultar tradução" : "Traduzir", systemImage: "character.bubble",
+            Button(translation.isVisible ? L10n.text("Ocultar tradução") : L10n.text("Traduzir"), systemImage: "character.bubble",
                    action: translation.isVisible ? hideTranslation : translate)
-                .help("Traduzir a sugestão para \(translationTargetName)").disabled(suggestion.translationText == nil)
+                .help(L10n.format("Traduzir a sugestão para %@", translationTargetName)).disabled(suggestion.translationText == nil)
         }.font(.system(size: 11, weight: .medium)).foregroundStyle(Color.accentColor).buttonStyle(.plain).disabled(application.isBusy)
     }
 }
@@ -482,24 +483,24 @@ struct CardGalleryView: View {
         self.word = word; self.phrase = phrase; self.loading = loading; self.empty = empty
         feedback = CardFeedback()
         feedback.applications[loading.id] = .applying
-        feedback.applications[empty.id] = .failed("Não foi possível confirmar a alteração. Confira o texto antes de tentar novamente.", retryAllowed: false)
+        feedback.applications[empty.id] = .failed(L10n.text("Não foi possível confirmar a alteração. Confira o texto antes de tentar novamente."), retryAllowed: false)
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
-            Text("Uma ajuda discreta, na hora de escrever.").font(.system(size: 23, weight: .semibold))
-            Text("Prévia visual · exemplos artificiais, sem alterar outros aplicativos.").foregroundStyle(.secondary)
+            Text(L10n.text("Uma ajuda discreta, na hora de escrever.")).font(.system(size: 23, weight: .semibold))
+            Text(L10n.text("Prévia visual · exemplos artificiais, sem alterar outros aplicativos.")).foregroundStyle(.secondary)
             HStack(alignment: .top, spacing: 22) {
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("PALAVRA").font(.system(size: 10, weight: .semibold)).foregroundStyle(.secondary)
+                    Text(L10n.text("PALAVRA")).font(.system(size: 10, weight: .semibold)).foregroundStyle(.secondary)
                     sample(word)
-                    Text("PROCESSANDO").font(.system(size: 10, weight: .semibold)).foregroundStyle(.secondary)
+                    Text(L10n.text("PROCESSANDO")).font(.system(size: 10, weight: .semibold)).foregroundStyle(.secondary)
                     sample(loading)
                 }
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("FRASE").font(.system(size: 10, weight: .semibold)).foregroundStyle(.secondary)
+                    Text(L10n.text("FRASE")).font(.system(size: 10, weight: .semibold)).foregroundStyle(.secondary)
                     sample(phrase)
-                    Text("FALHA DE APLICAÇÃO").font(.system(size: 10, weight: .semibold)).foregroundStyle(.secondary)
+                    Text(L10n.text("FALHA DE APLICAÇÃO")).font(.system(size: 10, weight: .semibold)).foregroundStyle(.secondary)
                     sample(empty)
                 }
             }

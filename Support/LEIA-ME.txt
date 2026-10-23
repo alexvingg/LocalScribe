@@ -1,4 +1,4 @@
-LocalScribe 0.7.6 — versão de testes
+LocalScribe 0.8.0 — versão de testes
 
 INSTALAR
 Arraste LocalScribe para a pasta Aplicativos e abra o app de lá.
@@ -15,7 +15,9 @@ PRIMEIRO USO
 Abra as configurações pelo ícone na barra de menus. Mantenha o idioma do
 texto em Detectar automaticamente e escreva em um campo compatível.
 Passe o ponteiro sobre uma marca para abrir a sugestão. Confira e clique
-para aplicar. A tradução é opcional e só começa quando você clicar.
+para aplicar. A tradução é opcional e só começa quando você clicar. Usa o mesmo modelo
+local da Apple Intelligence, sem pacotes de idiomas adicionais. A interface
+acompanha o idioma do macOS: português ou inglês (fallback).
 Em Onde não revisar, adicione os aplicativos que deseja bloquear.
 Não é necessário login, chave de API nem assinatura do LocalScribe.
 

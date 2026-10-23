@@ -4,17 +4,17 @@
 
 Assistente de escrita para macOS com Apple Intelligence local. Detecta o idioma do texto, mostra correções e sugestões junto ao campo de escrita e aplica somente a proposta que você aceitar. Sem conta do aplicativo, backend próprio ou assinatura.
 
-**Versão atual: 0.7.6 · Apple Silicon · macOS 26.4 ou posterior.**
+**Versão do código: 0.8.0 · Apple Silicon · macOS 26.4 ou posterior.**
 
 ## Instalar
 
-**[Baixar o instalador 0.7.6](downloads/LocalScribe-0.7.6-arm64.dmg.zip)**
+**[Release publicada 0.7.6](https://github.com/alexvingg/LocalScribe/releases/tag/v0.7.6)** — a versão 0.8.0 está disponível por compilação local; o instalador anterior não contém as mudanças abaixo.
 
-Extraia o ZIP, abra o DMG e arraste o LocalScribe para Aplicativos. O ZIP preserva os metadados do ícone verde do arquivo; o volume montado também contém o ícone. O SHA-256 está em [downloads/SHA256SUMS](downloads/SHA256SUMS).
+Extraia o ZIP, abra o DMG e arraste o LocalScribe para Aplicativos. O ZIP preserva os metadados do ícone verde do arquivo; o volume montado também contém o ícone. O SHA-256 está nos assets da release.
 
 Na primeira abertura, autorize **LocalScribe** em Ajustes do Sistema → Privacidade e Segurança → Acessibilidade. O app fica na barra de menus. A distribuição atual usa assinatura ad hoc e ainda não tem assinatura Developer ID/notarização; consulte as [instruções de instalação](Support/LEIA-ME.txt).
 
-O Mac precisa ser compatível com Apple Intelligence, com o modelo local habilitado e disponível. Idiomas de tradução podem exigir o download dos pacotes da Apple.
+O Mac precisa ser compatível com Apple Intelligence, com o modelo local habilitado e disponível. Na versão 0.8.0, a tradução reutiliza esse modelo, sem pacotes de idiomas adicionais.
 
 ## Funcionalidades
 
@@ -23,12 +23,13 @@ O Mac precisa ser compatível com Apple Intelligence, com o modelo local habilit
 - Sublinhados e cartões de palavra ou frase em campos que expõem as capacidades necessárias de Acessibilidade.
 - Reformulação conservadora: mantém a ideia e confere a proposta completa antes de mostrá-la.
 - Aplicação verificada no editor, preservando correções independentes e reutilizando a revisão da frase aceita.
-- Tradução da sugestão sob demanda para o idioma configurado.
+- Tradução da sugestão sob demanda pelo mesmo modelo local, para o idioma configurado.
+- Interface acompanha o idioma do macOS: português e inglês, com fallback para inglês.
 - Lista de aplicativos bloqueados, pausa e atalho **Control + Option + R**.
 - Cache temporário por texto/campo e revisão por blocos para respeitar o orçamento do modelo.
 - Ícone verde vetorial e marca monocromática na barra de menus, adaptada ao sistema.
 
-<img src="docs/images/localscribe-0.7.6-vector-icon.png" width="610" alt="Configurações do LocalScribe">
+<img src="docs/images/localscribe-0.8.0-settings-en.png" width="610" alt="Configurações do LocalScribe">
 
 ## Compatibilidade atual
 
@@ -55,6 +56,8 @@ O build produz o app e os recursos de ícone em `dist/`, com assinatura ad hoc.
 
 ```sh
 .build/release/WritingCoreChecks
+python3 scripts/check-localizations.py
+dist/LocalScribe.app/Contents/MacOS/LocalScribe --translation-smoke
 dist/LocalScribe.app/Contents/MacOS/LocalScribe --diagnose
 dist/LocalScribe.app/Contents/MacOS/LocalScribe --proposal-stability-smoke
 ```
@@ -84,6 +87,6 @@ downloads/           Instalador atual e checksum
 
 ## Documentação
 
-**[Índice completo](docs/README.md)** · [Especificação de referência](docs/CLONE_SPEC.md) · [Plano Apple Intelligence](docs/APPLE_INTELLIGENCE_PLAN.md) · [Implementação](docs/IMPLEMENTATION.md) · [Correção da revisão após aplicar](docs/PROPOSAL_STABILITY.md).
+[Tradução local e localização](docs/LOCAL_TRANSLATION_AND_LOCALIZATION.md) · **[Índice completo](docs/README.md)** · [Especificação de referência](docs/CLONE_SPEC.md) · [Plano Apple Intelligence](docs/APPLE_INTELLIGENCE_PLAN.md) · [Implementação](docs/IMPLEMENTATION.md) · [Correção da revisão após aplicar](docs/PROPOSAL_STABILITY.md).
 
 A pesquisa descreve comportamentos observados e marca o que continua desconhecido. O código e a identidade visual do LocalScribe são próprios; os índices de evidência não redistribuem implementação ou catálogos de recursos do produto estudado.

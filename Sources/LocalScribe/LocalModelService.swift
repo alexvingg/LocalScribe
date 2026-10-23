@@ -12,17 +12,17 @@ enum ReviewFailure: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .unavailable(let reason): return reason
-        case .unsupported(let code): return "O modelo local não oferece suporte a \(code)."
-        case .invalidResponse: return "A proposta não passou pela validação. O texto foi preservado."
-        case .unclearMeaning: return "O sentido deste trecho está ambíguo. Acrescente contexto para reformular sem adivinhar; a sugestão atual foi mantida."
-        case .unsafeAlternative: return "A alternativa se afastou do texto original. A sugestão atual foi mantida."
-        case .contentReviewUnavailable: return "O modelo da Apple recusou a revisão deste trecho. As correções ortográficas disponíveis foram mantidas."
-        case .changedDestination: return "O texto ou o destino mudou. Aguarde uma nova revisão."
-        case .selectionNotVerified: return "O editor não confirmou a seleção. Tente aplicar novamente."
-        case .notWritable: return "Este editor não permite substituir o trecho por Acessibilidade. Você pode copiar a proposta."
-        case .notVerified: return "Não foi possível confirmar a alteração no editor. Confira o texto antes de tentar novamente."
-        case .languageMismatch: return "O texto parece estar em outra língua. Use o idioma Automático ou ajuste a escolha manual."
-        case .segmentTooLarge: return "Este trecho excede o orçamento do modelo. Revise uma parte menor; as correções pendentes foram mantidas."
+        case .unsupported(let code): return L10n.format("O modelo local não oferece suporte a %@.", code)
+        case .invalidResponse: return L10n.text("A proposta não passou pela validação. O texto foi preservado.")
+        case .unclearMeaning: return L10n.text("O sentido deste trecho está ambíguo. Acrescente contexto para reformular sem adivinhar; a sugestão atual foi mantida.")
+        case .unsafeAlternative: return L10n.text("A alternativa se afastou do texto original. A sugestão atual foi mantida.")
+        case .contentReviewUnavailable: return L10n.text("O modelo da Apple recusou a revisão deste trecho. As correções ortográficas disponíveis foram mantidas.")
+        case .changedDestination: return L10n.text("O texto ou o destino mudou. Aguarde uma nova revisão.")
+        case .selectionNotVerified: return L10n.text("O editor não confirmou a seleção. Tente aplicar novamente.")
+        case .notWritable: return L10n.text("Este editor não permite substituir o trecho por Acessibilidade. Você pode copiar a proposta.")
+        case .notVerified: return L10n.text("Não foi possível confirmar a alteração no editor. Confira o texto antes de tentar novamente.")
+        case .languageMismatch: return L10n.text("O texto parece estar em outra língua. Use o idioma Automático ou ajuste a escolha manual.")
+        case .segmentTooLarge: return L10n.text("Este trecho excede o orçamento do modelo. Revise uma parte menor; as correções pendentes foram mantidas.")
         }
     }
 }
@@ -55,16 +55,20 @@ final class LocalModelService {
 
     var availabilityDescription: String {
         switch model.availability {
-        case .available: return "Modelo local pronto"
-        case .unavailable(.deviceNotEligible): return "Este Mac não oferece suporte ao modelo local."
-        case .unavailable(.appleIntelligenceNotEnabled): return "Ative Apple Intelligence nos Ajustes do Sistema."
-        case .unavailable(.modelNotReady): return "O modelo da Apple ainda não está pronto. Aguarde seu download."
-        case .unavailable: return "O modelo local está indisponível."
+        case .available: return L10n.text("Modelo local pronto")
+        case .unavailable(.deviceNotEligible): return L10n.text("Este Mac não oferece suporte ao modelo local.")
+        case .unavailable(.appleIntelligenceNotEnabled): return L10n.text("Ative Apple Intelligence nos Ajustes do Sistema.")
+        case .unavailable(.modelNotReady): return L10n.text("O modelo da Apple ainda não está pronto. Aguarde seu download.")
+        case .unavailable: return L10n.text("O modelo local está indisponível.")
         }
     }
 
     var isAvailable: Bool { if case .available = model.availability { return true }; return false }
     func supports(_ language: String) -> Bool { model.supportsLocale(Locale(identifier: language)) }
+    var supportedLanguageCodes: [String] {
+        Set(model.supportedLanguages.compactMap { $0.languageCode?.identifier })
+            .sorted { L10n.languageName($0).localizedStandardCompare(L10n.languageName($1)) == .orderedAscending }
+    }
 
     /// Only used when fast language detection is inconclusive; never picks a fixed default.
     func identifyLanguage(_ text: String) async throws -> String? {

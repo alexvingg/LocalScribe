@@ -23,7 +23,7 @@ public struct WritingSuggestion: Identifiable, Sendable {
     /// The complete replacement passed grammar review before being offered.
     /// Partial/timeout fallbacks must not claim this coverage.
     public let hasReviewedReplacement: Bool
-    public var scopeLabel: String { isFragment ? "trecho" : "frase" }
+    public var scopeLabel: String { isFragment ? L10n.text("trecho") : L10n.text("frase") }
     public init(id: UUID = UUID(), kind: SuggestionKind, range: NSRange, original: String,
                 replacement: String, language: String, context: String, isFragment: Bool = false,
                 hasReviewedReplacement: Bool = false) {
@@ -71,16 +71,16 @@ public extension WritingSuggestion {
     var canApply: Bool { original != replacement }
     var correctionSourceLabel: String {
         if !original.isEmpty, original.allSatisfy({ $0.isWhitespace }) {
-            return original.contains("\n") || original.contains("\r") ? "Quebra de linha" : "Espaço"
+            return original.contains("\n") || original.contains("\r") ? L10n.text("Quebra de linha") : L10n.text("Espaço")
         }
         return original
     }
     var correctionActionLabel: String {
         guard replacement.isEmpty else { return replacement }
         if !original.isEmpty, original.allSatisfy({ $0.isWhitespace }) {
-            return original.contains("\n") || original.contains("\r") ? "Remover quebra de linha" : "Remover espaço extra"
+            return original.contains("\n") || original.contains("\r") ? L10n.text("Remover quebra de linha") : L10n.text("Remover espaço extra")
         }
-        return original.isEmpty ? "Remover" : "Remover “\(original)”"
+        return original.isEmpty ? L10n.text("Remover") : L10n.format("Remover “%@”", original)
     }
     func positioned(at range: NSRange) -> WritingSuggestion {
         WritingSuggestion(id: id, kind: kind, range: range, original: original, replacement: replacement,

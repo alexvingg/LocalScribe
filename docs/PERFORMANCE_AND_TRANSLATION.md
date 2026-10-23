@@ -1,4 +1,6 @@
-# Revisão incremental, estrutura e tradução — 0.5
+# Revisão incremental, estrutura e tradução — histórico 0.5
+
+> A tradução foi substituída na 0.8.0 pelo modelo da Apple Intelligence, sem pacotes por idioma. Veja [LOCAL_TRANSLATION_AND_LOCALIZATION.md](LOCAL_TRANSLATION_AND_LOCALIZATION.md) para o comportamento atual.
 
 ## Aceitar uma palavra
 
