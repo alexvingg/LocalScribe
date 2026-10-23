@@ -103,6 +103,14 @@ struct LocalScribeMain {
             NSApplication.shared.run()
             return
         }
+        if CommandLine.arguments.contains("--translation-japanese-smoke") {
+            Task { @MainActor in
+                do { try await TranslationSmokeCheck.japanese(); exit(0) }
+                catch { print("translation-japanese=failed reason=\(error)"); exit(1) }
+            }
+            NSApplication.shared.run()
+            return
+        }
         if CommandLine.arguments.contains("--translation-configuration-smoke") {
             Task { @MainActor in
                 do { try await TranslationSmokeCheck.configuration(); exit(0) }

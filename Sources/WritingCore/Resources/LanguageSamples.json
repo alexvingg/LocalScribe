@@ -61,5 +61,13 @@
   "modal.valid.portuguese": "Ela pode ir amanhã.",
   "greeting.shortMisspelled.french": "bonjour mon amii",
   "greeting.shortMisspelled.german": "guten morgn",
-  "language.spanishName": "Español"
+  "language.spanishName": "Español",
+  "translation.emailAdjacent.japanese": "Anaに12件のレポートをana@example.comまで送ってください。",
+  "translation.emailSeparated.japanese": "Anaに12件のレポートを ana@example.com まで送ってください。",
+  "translation.urlAdjacent.japanese": "https://example.comは変更しないでください。",
+  "translation.urlSeparated.japanese": "https://example.com は変更しないでください。",
+  "translation.changedAddress.japanese": "Anaに12件のレポートをevilana@example.comまで送ってください。",
+  "translation.changedURL.japanese": "https://example.com.evilは変更しないでください。",
+  "translation.changedCount.japanese": "Anaに13件のレポートをana@example.comまで送ってください。",
+  "translation.duplicateAddress.japanese": "ana@example.comとana@example.comに12件送ってください。"
 }

@@ -1,4 +1,4 @@
-LocalScribe 0.8.2 — test build
+LocalScribe 0.8.3 — test build
 
 INSTALL
 Drag LocalScribe to Applications and launch it from there.

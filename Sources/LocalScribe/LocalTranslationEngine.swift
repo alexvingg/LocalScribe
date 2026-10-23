@@ -48,33 +48,33 @@ final class LocalTranslationEngine {
     }
 
     private func translateChunk(_ text: String, source: String, target: String, retryingWeekday: Bool = false) async throws -> String {
-        let schema = try GenerationSchema(root: DynamicGenerationSchema(name: "Translation", properties: [
-            .init(name: "translatedText", description: "The complete translation in the requested target language, without commentary.",
-                  schema: DynamicGenerationSchema(type: String.self))
-        ]), dependencies: [])
         let request = TranslationPrompt(text: text, source: source, target: target, retryingWeekday: retryingWeekday)
         let instructions = request.instructions
         let prompt = request.input
         let inputTokens = try await model.tokenCount(for: Instructions(instructions))
-            + model.tokenCount(for: prompt) + model.tokenCount(for: schema)
+            + model.tokenCount(for: prompt)
         guard ReviewTokenBudget.fits(inputTokens: inputTokens, contextSize: model.contextSize) else { throw TranslationFailure.tooLarge }
         try Task.checkCancellation()
         let session = LanguageModelSession(model: model, instructions: instructions)
-        let response: LanguageModelSession.Response<GeneratedContent>
+        let responseLimit = TranslationPrompt.responseTokenLimit(for: text)
+        let response: LanguageModelSession.Response<String>
         do {
             modelCallCount += 1
-            response = try await session.respond(to: prompt, schema: schema,
-                options: GenerationOptions(samplingMode: .greedy, maximumResponseTokens: ReviewTokenBudget.responseReserve))
+            response = try await session.respond(to: prompt,
+                options: GenerationOptions(samplingMode: .greedy, maximumResponseTokens: responseLimit))
         } catch {
             if LocalModelService.isContentRefusal(error) { throw TranslationFailure.refused }
             throw error
         }
         try Task.checkCancellation()
-        let value = try response.content.value(String.self, forProperty: "translatedText")
-        let result = TextEdits.preservingBoundaryWhitespace(of: text, in: value)
+        let value = response.content
+        // Do not display a response that may have been cut off at the generation budget.
+        guard try await model.tokenCount(for: value) < responseLimit - 8 else { throw TranslationFailure.invalid }
+        try Task.checkCancellation()
+        let bounded = TextEdits.preservingBoundaryWhitespace(of: text, in: value)
+        guard let result = TranslationProtectedContent.preservingBoundaries(of: text, in: bounded) else { throw TranslationFailure.invalid }
         guard !result.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-              result.utf16.count <= max(text.utf16.count * 4, 200),
-              TextEdits.preservesProtectedContent(text, result) else { throw TranslationFailure.invalid }
+              result.utf16.count <= max(text.utf16.count * 4, 200) else { throw TranslationFailure.invalid }
         if !TranslationCalendarGuard.preservesWeekdays(text, result, source: source, target: target) {
             guard !retryingWeekday else { throw TranslationFailure.invalid }
             return try await translateChunk(text, source: source, target: target, retryingWeekday: true)

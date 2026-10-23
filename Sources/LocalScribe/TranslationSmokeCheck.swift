@@ -6,6 +6,33 @@ import WritingCore
 enum TranslationSmokeCheck {
     struct Failure: Error { let reason: String }
 
+    static func japanese() async throws {
+        let service = LocalTranslationService()
+        for input in ["Hi, my friend, how are you?", "The report is ready.",
+                      "Please send Ana 12 reports to ana@example.com before Friday. Keep https://example.com unchanged."] {
+            let start = Date()
+            let id = UUID()
+            service.onInlineUpdate = { _, state in
+                let record: [String: Any] = ["stage": String(describing: state), "seconds": Date().timeIntervalSince(start)]
+                print(String(decoding: try! JSONSerialization.data(withJSONObject: record, options: [.sortedKeys]), as: UTF8.self))
+                fflush(stdout)
+            }
+            service.translate(input, source: "en", target: "ja", bundleID: "synthetic.japanese", label: "", anchor: nil, suggestionID: id)
+            try await waitUntilFinished(service)
+            guard !service.result.isEmpty else { throw Failure(reason: service.message) }
+            guard service.result.range(of: "[\\p{Hiragana}\\p{Katakana}\\p{Han}]", options: .regularExpression) != nil else {
+                throw Failure(reason: "Japanese translation did not contain Japanese script")
+            }
+            print("japanese-translation=passed seconds=\(Date().timeIntervalSince(start))")
+            let output = service.result, calls = service.modelCallCount
+            service.translate(input, source: "en", target: "ja", bundleID: "synthetic.japanese", label: "", anchor: nil, suggestionID: id)
+            guard !service.isLoading, service.result == output, service.modelCallCount == calls else {
+                throw Failure(reason: "Japanese translation was not reusable from the card cache")
+            }
+            service.reset()
+        }
+    }
+
     static func run() async throws {
         try await configuration()
         let service = LocalTranslationService()

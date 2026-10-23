@@ -1,6 +1,6 @@
 # Documentação do LocalScribe
 
-Os documentos preservam a evolução do projeto. Relatos e planos antigos descrevem a versão indicada em cada arquivo; o [README principal](../README.md) resume a versão do código, 0.8.2.
+Os documentos preservam a evolução do projeto. Relatos e planos antigos descrevem a versão indicada em cada arquivo; o [README principal](../README.md) resume a versão do código, 0.8.3.
 
 ## Especificação e planejamento
 
@@ -42,3 +42,4 @@ Os índices conservam identificadores, operações, hashes e localizadores. Os p
 ## Release notes
 
 - [0.8.2](releases/0.8.2.md): selected translation target, English source keys, packaged resources, and validation.
+- [0.8.3](releases/0.8.3.md): Japanese translation generation, CJK entity boundaries, and bounded output.

@@ -1,5 +1,16 @@
 # Validação do MVP
 
+### 0.8.3: Japanese translation regression
+
+- Reproduced the exact screenshot greeting (`Hi, my friend, how are you?`) with the installed model: structured JSON-field generation took approximately 21 seconds, appended Japanese explanations/repetitions, and was correctly rejected by the output-length guard.
+- Plain-text generation with shorter instructions returned the greeting in Japanese in 1.6–1.8 seconds. The selected target remains independent of interface and source languages. Translation stays on-device and no language packs are requested.
+- A second observed rejection came from the email matcher consuming Japanese prose immediately after `.com`. `TranslationProtectedContent` separates known original URLs/emails from adjacent CJK prose before exact validation. Changed addresses, changed links/numbers, and duplicates remain rejected.
+- Real-model Japanese greeting, short report sentence, and a passage with Ana, 12 reports, an email, a URL, and Friday all passed. Measured generation took approximately 0.8–2.3 seconds in the debug build. Repeating the same card request made no additional model calls.
+- Existing real-model en→pt, pt→en, and en→es suites passed, including weekday fidelity, negation, protected content, cache, timeout, stale responses, and unsupported input. The core suite has **66 checks, zero failures**; 173 localization keys remain valid.
+- Short translations have a bounded output budget; responses approaching the budget are rejected to avoid displaying potentially incomplete text. Temporary raw-model diagnostic logging was removed; only the explicit synthetic smoke checks print their own test results.
+- The installed 0.8.3 production-card preview displayed its Japanese translation successfully. Normal mode was reopened and the user reauthorized Accessibility; the live UI then showed `Waiting for text` with the permission warning removed. No external editor text was changed during this verification.
+- Validation does not prove general semantic fidelity or every language pair. The earlier GitHub upload was declined; the 0.8.2 tag/commit exists, but its binary release was not published.
+
 ### Release 0.8.2: selected translation target and English source code
 
 - `TranslationPrompt` now names the user-selected target in English with its code and explicitly separates it from the interface and source languages. Normal translation already used `Preferences.translationLanguage`; standalone and inline demonstration previews and the card gallery now use it too.

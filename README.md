@@ -4,13 +4,13 @@
 
 A macOS writing assistant powered by on-device Apple Intelligence. It detects the language of your text, displays corrections and suggestions next to the text field, and applies only the suggestions you accept. No app account, custom backend, or subscription required.
 
-**Latest release: 0.8.2 · Apple Silicon · macOS 26.4 or later.**
+**Current build: 0.8.3 · Apple Silicon · macOS 26.4 or later.**
 
-Version 0.8.2 makes the selected translation target explicit in model instructions and demonstration cards, and uses English throughout the implementation and localization keys. It also includes the safeguard against changing named weekdays during translation.
+Version 0.8.3 fixes Japanese translation generation and false rejection of email addresses and URLs next to Japanese text. Translation follows the selected target; implementation and localization keys use English, and the weekday-fidelity safeguard remains enabled.
 
 ## Installation
 
-**[Download LocalScribe 0.8.2](https://github.com/alexvingg/LocalScribe/releases/tag/v0.8.2)** — choose the DMG or the ZIP that preserves its Finder icon metadata.
+**[Download published releases](https://github.com/alexvingg/LocalScribe/releases/latest)** — choose the DMG or the ZIP that preserves its Finder icon metadata.
 
 Extract the ZIP, open the DMG, and drag LocalScribe to Applications. The ZIP preserves the green file icon metadata; the mounted volume also includes the icon. SHA-256 checksums are available in the release assets.
 
@@ -102,11 +102,12 @@ The build produces the app and icon resources in `dist/`, with an ad hoc signatu
 python3 scripts/check-localizations.py
 dist/LocalScribe.app/Contents/MacOS/LocalScribe --translation-configuration-smoke
 dist/LocalScribe.app/Contents/MacOS/LocalScribe --translation-smoke
+dist/LocalScribe.app/Contents/MacOS/LocalScribe --translation-japanese-smoke
 dist/LocalScribe.app/Contents/MacOS/LocalScribe --diagnose
 dist/LocalScribe.app/Contents/MacOS/LocalScribe --proposal-stability-smoke
 ```
 
-The core suite contains 64 checks. The last command uses the real on-device model to verify English and Portuguese proposals and review reuse; it does not write to an external editor. Additional checks are documented in [docs/VALIDATION.md](docs/VALIDATION.md).
+The core suite contains 66 checks. The last command uses the real on-device model to verify English and Portuguese proposals and review reuse; it does not write to an external editor. Additional checks are documented in [docs/VALIDATION.md](docs/VALIDATION.md).
 
 To package an existing build:
 

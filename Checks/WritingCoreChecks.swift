@@ -2,6 +2,24 @@ import Foundation
 import WritingCore
 
 struct WritingCoreChecks {
+    func testTranslationPreservesAddressesNextToJapaneseText() {
+        let source = "Please send Ana 12 reports to ana@example.com."
+        expectEqual(TranslationProtectedContent.preservingBoundaries(of: source,
+            in: LanguageSamples.text("translation.emailAdjacent.japanese")), LanguageSamples.text("translation.emailSeparated.japanese"))
+        expectEqual(TranslationProtectedContent.preservingBoundaries(of: "Keep https://example.com unchanged.",
+            in: LanguageSamples.text("translation.urlAdjacent.japanese")), LanguageSamples.text("translation.urlSeparated.japanese"))
+        for sample in ["translation.changedAddress.japanese", "translation.changedCount.japanese", "translation.duplicateAddress.japanese"] {
+            expectNil(TranslationProtectedContent.preservingBoundaries(of: source, in: LanguageSamples.text(sample)))
+        }
+        expectNil(TranslationProtectedContent.preservingBoundaries(of: "Keep https://example.com unchanged.",
+            in: LanguageSamples.text("translation.changedURL.japanese")))
+        expectEqual(TranslationProtectedContent.preservingBoundaries(of: "The report is ready.", in: "The report is ready."), "The report is ready.")
+    }
+    func testShortTranslationHasABoundedResponseBudget() {
+        expectEqual(TranslationPrompt.responseTokenLimit(for: "Hi, my friend, how are you?"), 128)
+        expectEqual(TranslationPrompt.responseTokenLimit(for: String(repeating: "a", count: 100)), 200)
+        expectEqual(TranslationPrompt.responseTokenLimit(for: String(repeating: "a", count: 800)), ReviewTokenBudget.responseReserve)
+    }
     func testTranslationPromptUsesTheSelectedTargetIndependentlyOfTheSource() {
         for (code, name) in [("pt", "Portuguese"), ("en", "English"), ("es", "Spanish"), ("ja", "Japanese"), ("de", "German")] {
             let request = TranslationPrompt(text: "The report is ready.", source: "fr", target: code)
@@ -704,7 +722,9 @@ private func expectEqual<T: Equatable>(_ left: T, _ right: T, _ message: String 
         checks.testReviewedPhraseAcceptanceKeepsIndependentCorrections(); print("Checked reviewed phrase acceptance and independent pending corrections")
         checks.testReviewedPassageConsumesBoundaryPunctuationOnlyForPassages(); print("Checked passage punctuation is consumed while independent word punctuation survives")
         checks.testTranslationPromptUsesTheSelectedTargetIndependentlyOfTheSource(); print("Checked selected translation target and calendar retry instructions")
-        print("64 checks, \(failures) failures")
+        checks.testTranslationPreservesAddressesNextToJapaneseText(); print("Checked exact protected entities next to CJK prose and changed/duplicate content rejection")
+        checks.testShortTranslationHasABoundedResponseBudget(); print("Checked bounded response generation for short translation requests")
+        print("66 checks, \(failures) failures")
         if failures > 0 { exit(1) }
     }
 }
