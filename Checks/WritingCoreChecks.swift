@@ -2,6 +2,16 @@ import Foundation
 import WritingCore
 
 struct WritingCoreChecks {
+    func testTranslationCannotChangeCalendarWeekdays() {
+        expectTrue(TranslationCalendarGuard.preservesWeekdays("Before Friday.", "Antes da sexta-feira.", source: "en", target: "pt"))
+        expectFalse(TranslationCalendarGuard.preservesWeekdays("Before Friday.", "Antes da quinta-feira.", source: "en", target: "pt"))
+        expectFalse(TranslationCalendarGuard.preservesWeekdays("Friday and Monday.", "Sexta-feira e terça-feira.", source: "en", target: "pt"))
+        expectTrue(TranslationCalendarGuard.preservesWeekdays("Monday and Friday.", "Lunes y viernes.", source: "en", target: "es"))
+        expectTrue(TranslationCalendarGuard.preservesWeekdays("Friday.", "星期五之前。", source: "en", target: "zh-Hans"))
+        expectFalse(TranslationCalendarGuard.preservesWeekdays("Friday.", "星期四之前。", source: "en", target: "zh-Hans"))
+        expectTrue(TranslationCalendarGuard.instruction("Before Friday.", source: "en", target: "pt").contains("sexta-feira"))
+        expectEqual(TranslationCalendarGuard.instruction("A sunny day.", source: "en", target: "pt"), "")
+    }
     func testReviewedPassageConsumesBoundaryPunctuationOnlyForPassages() {
         let original = "hello"
         let punctuation = WritingSuggestion(kind: .correction, range: NSRange(location: 5, length: 0),
@@ -621,6 +631,7 @@ private func expectEqual<T: Equatable>(_ left: T, _ right: T, _ message: String 
         expectNil(BrowserTextInputPlan.chunks(for: "a" + String(repeating: "\u{0301}", count: 20)))
         print("Checked empty replacement and oversized grapheme handling")
         let checks = WritingCoreChecks()
+        checks.testTranslationCannotChangeCalendarWeekdays(); print("Checked calendar weekday fidelity across translation languages")
         checks.testWebEditorUsesVerifiedNativeInputInAnyApplication(); print("Checked web adapter chosen from capabilities, independent of bundle ID")
         checks.testNativeEditorPrefersAccessibilityAndUsesInputWhenNeeded(); print("Checked native editor strategies")
         checks.testReadOnlyAndSecureEditorsNeverGetAnInputFallback(); print("Checked read-only and secure field exclusions")
@@ -680,7 +691,7 @@ private func expectEqual<T: Equatable>(_ left: T, _ right: T, _ message: String 
         checks.testWhitespaceRemovalCardExplainsTheTarget(); print("Checked visible whitespace-removal target")
         checks.testReviewedPhraseAcceptanceKeepsIndependentCorrections(); print("Checked reviewed phrase acceptance and independent pending corrections")
         checks.testReviewedPassageConsumesBoundaryPunctuationOnlyForPassages(); print("Checked passage punctuation is consumed while independent word punctuation survives")
-        print("62 checks, \(failures) failures")
+        print("63 checks, \(failures) failures")
         if failures > 0 { exit(1) }
     }
 }

@@ -1,4 +1,4 @@
-LocalScribe 0.8.0 — versão de testes
+LocalScribe 0.8.1 — versão de testes
 
 INSTALAR
 Arraste LocalScribe para a pasta Aplicativos e abra o app de lá.
